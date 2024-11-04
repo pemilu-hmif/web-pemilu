@@ -1,9 +1,30 @@
 import "~/styles/globals.css";
-
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
-
+import { Playfair_Display } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
+import localFont from "next/font/local";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  style: "italic",
+});
+
+const sloop = localFont({
+  src: "./fonts/sloop.ttf", 
+  variable: "--font-sloop",
+})
+
+const satoshi = localFont({
+  src: "./fonts/satoshi.otf", 
+  variable: "--font-satoshi",
+})
+
+const neuething = localFont({
+  src: "./fonts/neuething.otf",
+  variable: "--font-neuething",
+})
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -15,7 +36,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${playfair.variable} ${sloop.variable} ${satoshi.variable} ${neuething.variable}`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
