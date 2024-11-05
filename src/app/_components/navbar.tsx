@@ -9,7 +9,7 @@ const navLinks = [
     { name: "Coblos", href:"/Coblos" },
     { name: "Tata Cara", href:"/TataCara" },
     { name: "Peraturan", href:"/Peraturan" },
-    { name: "Profile", href:"/Profile" },
+    { name: "Profil", href:"/Profil" },
 ];
 
 export default function NavBar() {
