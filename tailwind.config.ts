@@ -7,7 +7,14 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+        playfair: ["var(--font-playfair)"],
+        sloop: ["var(--font-sloop)"],
+        satoshi: ["var(--font-satoshi)"],
+        neuething: ["var(--font-neuething)"],
       },
+      boxShadow: {
+        'custom': '0 4px 6px rgba(0, 0, 0, 0.3)',
+      }
     },
   },
   plugins: [],
