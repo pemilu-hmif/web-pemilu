@@ -6,22 +6,32 @@
   .text-shadow {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
-  
+
   .text-shadow-lg {
     text-shadow: 5px 5px 8px rgba(0, 0, 0, 0.5);
   }
 }
 
 body {
-  background-image: url('/bg-desktop.svg');
+  background-color: #156e3c;
+  background-image: url("/bg-desktop.svg");
   background-size: cover;
   background-attachment: fixed;
   background-position-x: center;
-  background-position-y: top;
+  background-position-y: 45%;
+  background-repeat: no-repeat;
+}
+
+@media (max-aspect-ratio: 3/4) and (min-width: 768px) {
+  body {
+    background-size: cover;
+    background-position-x: center;
+    background-position-y: top;
+  }
 }
 
 @media (max-width: 768px) {
   body {
-    background-image: url('/bg-mobile.svg');
+    background-image: url("/bg-mobile.svg");
   }
 }
