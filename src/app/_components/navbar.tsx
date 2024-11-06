@@ -62,7 +62,7 @@ export default function NavBar() {
             </div>
             {/*drop down menu*/}
                 {isOpen && (
-                    <div className="self-stretch h-[360.75px] flex-col justify-start items-start flex mt-3">
+                    <div className="lg:hidden self-stretch h-[360.75px] flex-col justify-start items-start flex mt-3">
                             {navLinks.map((navLink) => (
                             <Link 
                                 key={navLink.name}
