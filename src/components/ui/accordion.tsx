@@ -7,6 +7,7 @@ import { Plus, X } from "lucide-react";
 import { cn } from "~/lib/utils";
 
 const Accordion = AccordionPrimitive.Root;
+Accordion.displayName = AccordionPrimitive.Accordion.displayName;
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
