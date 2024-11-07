@@ -14,6 +14,7 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item ref={ref} className={className} {...props} />
 ));
+AccordionItem.displayName = "AccordionItem";
 
 const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
@@ -30,7 +31,7 @@ const AccordionTrigger = React.forwardRef<
           className,
         )}
         {...props}
-        onClick={() => setIsOpen(!isOpen)} 
+        onClick={() => setIsOpen(!isOpen)}
       >
         {children}
         {isOpen ? (
