@@ -24,3 +24,9 @@ body {
     background-image: url('/bg-mobile.png');
   }
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
