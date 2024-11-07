@@ -1,0 +1,37 @@
+[
+  {
+    "logoType": "addPerson",
+    "title": "1. Pendaftaran",
+    "textContent": "This is the content for rule 1."
+  },
+  {
+    "logoType": "clipboard",
+    "title": "2. Pengembalian Berkas, Verifikasi, dan Pengumuman Calon Terpilih",
+    "textContent": "This is the content for rule 2."
+  },
+  {
+    "logoType": "announcement",
+    "title": "3. Kampanye",
+    "textContent": "This is the content for rule 3."
+  },
+  {
+    "logoType": "public",
+    "title": "4. Debat dan Uji Publik",
+    "textContent": "This is the content for rule 4."
+  },
+  {
+    "logoType": "vote",
+    "title": "5. Perhitungan Suara",
+    "textContent": "This is the content for rule 5."
+  },
+  {
+    "logoType": "addVote",
+    "title": "6. Pemungutan Suara",
+    "textContent": "This is the content for rule 6."
+  },
+  {
+    "logoType": "violation",
+    "title": "7. Pelanggaran",
+    "textContent": "This is the content for rule 6."
+  }
+]

@@ -35,3 +35,9 @@ body {
     background-image: url("/bg-mobile.svg");
   }
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
