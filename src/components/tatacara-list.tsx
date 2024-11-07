@@ -7,7 +7,7 @@ export default function TataCaraList() {
     <div className="flex flex-col items-center justify-center gap-4">
       {tatacara.map((item, index) => (
         <Collapsible key={index} title={item.title} logotype={item.logoType}>
-          <p>{item.textContent}</p>
+          {item.textContent}
         </Collapsible>
       ))}
     </div>
