@@ -26,15 +26,17 @@ export default function Collapsible({
     >
       <AccordionItem value="item-1">
         <AccordionTrigger className="flex items-center justify-between">
-          <div className="flex items-center justify-center gap-4">
+          <div className="relative flex items-center gap-4">
             <CollapsibleIcon
               logotype={logotype}
-              className="rounded-xl bg-[#156E3C] p-2"
+              className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#156E3C] p-2"
             />
-            <span className="text-xl font-bold">{title}</span>
+            <span className="text-left text-xl font-bold">{title}</span>
           </div>
         </AccordionTrigger>
-        <AccordionContent>{children}</AccordionContent>
+        <AccordionContent>
+          <p className="whitespace-pre-wrap text-sm md:text-lg">{children}</p>
+        </AccordionContent>
       </AccordionItem>
     </Accordion>
   );
