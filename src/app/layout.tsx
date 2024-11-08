@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import localFont from "next/font/local";
-import Footer from "./footer";
+import Footer from "../components/footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
