@@ -1,4 +1,6 @@
 import "~/styles/globals.css";
+import NavBar from "./_components/navbar";
+
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
@@ -38,6 +40,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${playfair.variable} ${sloop.variable} ${satoshi.variable} ${neuething.variable}`}>
       <body>
+        <header>
+          <NavBar />
+        </header>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
