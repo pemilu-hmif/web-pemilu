@@ -7,8 +7,10 @@ export default function TataCara() {
         {/* Title */}
         <div className="relative flex w-full flex-col items-center justify-center text-center text-white">
           <div className="relative flex gap-1">
-            <h1 className="-rotate-12 font-sloop text-7xl sm:text-9xl">P</h1>
-            <h1 className="font-playfair text-6xl sm:text-8xl">eraturan</h1>
+            <h1 className="-rotate-12 font-sloop text-7xl sm:text-9xl">T</h1>
+            <h1 className="font-playfair text-6xl sm:text-8xl">ata</h1>
+            <h1 className="-rotate-12 font-sloop text-7xl sm:text-9xl ml-2">C</h1>
+            <h1 className="font-playfair text-6xl sm:text-8xl">ara</h1>
           </div>
           <h1 className="mt-2 font-neuething text-5xl font-bold tracking-wide sm:text-7xl">
             PEMILU HMIF ITB

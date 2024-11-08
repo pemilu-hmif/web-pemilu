@@ -36,9 +36,9 @@ const AccordionTrigger = React.forwardRef<
       >
         {children}
         {isOpen ? (
-          <X className="size-6 shrink-0 transition-transform duration-200" />
+          <X className="size-6 shrink-0 transition-transform duration-200 ml-4" />
         ) : (
-          <Plus className="size-6 shrink-0 transition-transform duration-200" />
+          <Plus className="size-6 shrink-0 transition-transform duration-200 ml-4" />
         )}
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
