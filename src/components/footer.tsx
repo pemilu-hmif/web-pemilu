@@ -5,21 +5,20 @@ import line from "public/footer/line.png";
 
 const Footer = () => {
   return (
-    <div className="min-h-[299px] bg-white flex items-center justify-center p-4">
-      <div className="w-full max-w-7xl flex flex-col md:flex-row justify-between gap-8 md:gap-4">
-        <div className="flex flex-row md:flex-row justify-between md:justify-start gap-8 md:gap-44 flex-1">
-          <div className="flex flex-col font-neuething items-center">
-            <div className="w-[70px] h-[75px] md:w-[97px] md:h-[103px] mb-2">
-              <Image
-                src={logo}
-                alt="logo"
-              />
+    <div className="flex min-h-[299px] items-center justify-center bg-white p-4">
+      <div className="flex w-full max-w-7xl flex-col justify-between gap-8 md:flex-row md:gap-4">
+        <div className="flex flex-1 flex-row justify-between gap-8 md:flex-row md:justify-start md:gap-44">
+          <div className="flex flex-col items-center font-neuething">
+            <div className="mb-2 h-[75px] w-[70px] md:h-[103px] md:w-[97px]">
+              <Image src={logo} alt="logo" />
             </div>
             <h1 className="text-xl md:text-2xl">PEMILU</h1>
-            <h3 className="text-sm md:text-md">HMIF 2025</h3>
+            <h3 className="md:text-md text-sm">HMIF 2025</h3>
           </div>
           <div className="flex flex-col font-satoshi">
-            <h4 className="font-bold mb-2 md:mb-4 text-sm md:text-lg tracking-wider">Explore</h4>
+            <h4 className="mb-2 text-sm font-bold tracking-wider md:mb-4 md:text-lg">
+              Explore
+            </h4>
             <div className="flex flex-col gap-1 md:gap-2">
               <p className="text-sm md:text-base">Dokumen Teknis Pemilu</p>
               <p className="text-sm md:text-base">Kritik dan Saran</p>
@@ -27,37 +26,39 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col font-satoshi w-full md:w-auto">
-          <h4 className="font-bold mb-2 md:mb-4 text-sm md:text-lg tracking-wider">Contact Person</h4>
+        <div className="flex w-full flex-col font-satoshi md:w-auto">
+          <h4 className="mb-2 text-sm font-bold tracking-wider md:mb-4 md:text-lg">
+            Contact Person
+          </h4>
           <div className="grid grid-cols-2 gap-x-4 md:gap-x-44">
             <div className="flex flex-col gap-1 md:gap-2">
               <p className="text-sm md:text-base">Venantius Sean</p>
               <div className="flex items-center gap-2">
-                <div className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]">
+                <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={line} alt="line" />
                 </div>
                 <p className="text-sm md:text-base">seanardinugroholline</p>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]">
+              {/* <div className="flex items-center gap-2">
+                <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={whatsapp} alt="whatsapp" />
                 </div>
-                <p className="text-sm md:text-base">081212121212</p>
-              </div>
+                <p className="text-sm md:text-base">085956659510</p>
+              </div> */}
             </div>
             <div className="flex flex-col gap-1 md:gap-2">
               <p className="text-sm md:text-base">Ahmad Thoriq</p>
               <div className="flex items-center gap-2">
-                <div className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]">
+                <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={line} alt="line" />
                 </div>
                 <p className="text-sm md:text-base">thoriqaurkuning</p>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]">
+                {/* <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={whatsapp} alt="whatsapp" />
                 </div>
-                <p className="text-sm md:text-base">081212121212</p>
+                <p className="text-sm md:text-base">081212121212</p> */}
               </div>
             </div>
           </div>
