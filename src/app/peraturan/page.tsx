@@ -2,7 +2,7 @@ import PeraturanList from "~/components/peraturan-list";
 
 export default function TataCara() {
   return (
-    <div className="mb-12 mt-24 flex flex-col items-center">
+    <div className="mb-12 mt-32 flex flex-col items-center">
       <div className="container flex flex-col gap-16 p-4">
         {/* Title */}
         <div className="relative flex w-full flex-col items-center justify-center text-center text-white">
