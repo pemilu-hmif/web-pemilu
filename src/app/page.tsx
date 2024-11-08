@@ -62,8 +62,8 @@ const HomePage = () => {
         </div>
 
         {/* section 3 */}
-        <div className="flex items-center justify-center min-h-screen" data-aos="fade-up" data-aos-delay="200">
-            <div className="w-[270px] sm:w-96 h-auto sm:h-96 mb-6">
+        <div className="flex items-center justify-center mb-6" data-aos="fade-up" data-aos-delay="200">
+            <div className="w-[270px] sm:w-96 h-auto sm:h-[500-px]">
                 <Image
                   src={timeline}
                   alt="timeline"

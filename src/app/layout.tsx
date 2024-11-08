@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import localFont from "next/font/local";
+import Footer from "./footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable} ${playfair.variable} ${sloop.variable} ${satoshi.variable} ${neuething.variable}`}>
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Footer />
       </body>
     </html>
   );
