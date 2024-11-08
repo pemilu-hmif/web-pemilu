@@ -6,10 +6,10 @@ import { useState } from 'react';
 
 const navLinks = [
     { name: "Beranda", href:"/" },
-    { name: "Coblos", href:"/Coblos" },
-    { name: "Tata Cara", href:"/TataCara" },
-    { name: "Peraturan", href:"/Peraturan" },
-    { name: "Profil", href:"/Profil" },
+    { name: "Coblos", href:"/coblos" },
+    { name: "Tata Cara", href:"/tata-cara" },
+    { name: "Peraturan", href:"/peraturan" },
+    { name: "Profil", href:"/profil" },
 ];
 
 export default function NavBar() {
@@ -29,13 +29,17 @@ export default function NavBar() {
                             key={navLink.name}
                             href={navLink.href}
                             className={clsx(
-                                "hidden lg:flex text-center text-[#3f3f3f] text-2xl font-bold font-['Satoshi Variable'] leading-[28.80px] hover:text-[#156e3c]", 
+                                "hidden lg:flex text-center text-[#3f3f3f] text-2xl font-bold font-['Satoshi Variable'] leading-[28.80px] hover:text-[#156e3c] px-4 py-3 gap-2.5", 
                                 {
                                     "text-[#156e3c] underline": pathname === navLink.href
                                 },
                             )}
                             style={pathname === navLink.href ? { color: '#156e3c' } : {}}
-                            > {navLink.name}
+                            > 
+                            {navLink.name === "Profil" ? (
+                                <img src="3d_avatar_5.svg" alt="Profil"/>
+                            ) : (navLink.name)
+                            }
                         </Link>
                     ))}
                 </div>
