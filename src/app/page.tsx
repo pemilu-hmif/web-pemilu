@@ -1,67 +1,89 @@
-import Link from "next/link";
+"use client";
+import Image from "next/image";
+import logo from "public/homepage/logo.png";
+import timeline from "public/homepage/timeline.png";
+import arrow from "public/homepage/arrow.png";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
-import { LatestPost } from "~/app/_components/post";
-import { getServerAuthSession } from "~/server/auth";
-import { api, HydrateClient } from "~/trpc/server";
-
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await getServerAuthSession();
-
-  void api.post.getLatest.prefetch();
-
+const HomePage = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: "ease-out-cubic",
+    });
+  }, []);
   return (
-    <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
+    <div className="flex flex-col">
+      {/* logo section */}
+      <div
+        className="relative flex min-h-screen flex-col-reverse items-center justify-center gap-8 px-4 py-12 sm:flex-row sm:gap-0 sm:px-16"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <div className="text-center text-white sm:text-left">
+          <div className="flex items-baseline justify-center gap-1 sm:justify-start">
+            <h1 className="font-sloop text-7xl sm:text-9xl">P</h1>
+            <h1 className="font-playfair text-6xl sm:text-8xl">emilu</h1>
+          </div>
+          <h1 className="mt-2 font-neuething text-5xl font-bold tracking-wide sm:text-7xl">
+            HMIF 2025
           </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
+          <div className="mt-4">
+            <h3 className="rounded-full border p-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl">
+              Pelajari calon ketua himpunan yang sesuai denganmu!
+            </h3>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
-
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-center text-2xl text-white">
-                {session && <span>Logged in as {session.user?.name}</span>}
-              </p>
-              <Link
-                href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Link>
-            </div>
-          </div>
-
-          {session?.user && <LatestPost />}
         </div>
-      </main>
-    </HydrateClient>
+        <div className="relative h-64 w-64 sm:h-80 sm:w-80">
+          <Image src={logo} alt="Logo" />
+        </div>
+      </div>
+
+      {/* section 2 */}
+      <div
+        className="flex min-h-screen flex-col items-center justify-center px-2 py-4 text-center text-white"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <h1 className="font-neuething text-2xl font-bold sm:text-5xl">
+          Mau mencalonkan
+        </h1>
+        <h1 className="font-neuething text-2xl font-bold sm:text-5xl">
+          diri, <span className="text-yellow-400">Pips</span>?
+        </h1>
+        <p className="font-satoshi text-sm sm:text-xl">
+          Yuk, kenali tata cara mencalonkan diri menjadi calon ketua himpunan
+          dan
+        </p>
+        <p className="font-satoshi text-sm sm:text-xl">
+          senator HMIF selanjutnya
+        </p>
+        <a
+          href="tata-cara"
+          className="mt-4 flex items-center gap-2 rounded-full border-yellow-500 bg-yellow-500 p-2 font-satoshi text-lg font-semibold transition-colors hover:bg-yellow-600 sm:text-2xl"
+        >
+          Lihat Tata Cara
+          <span className="inline-flex items-center">
+            <Image src={arrow} alt="arrow" width={24} height={24} />
+          </span>
+        </a>
+      </div>
+
+      {/* section 3 */}
+      <div
+        className="mb-6 flex items-center justify-center"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <div className="h-auto w-[270px] sm:h-[500-px] sm:w-96">
+          <Image src={timeline} alt="timeline" />
+        </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default HomePage;
