@@ -17,10 +17,15 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>
-      <div className="fixed left-0 top-0 z-50 w-full justify-around bg-[#F8F7F2] px-[36px] py-[16px] lg:px-[72px] lg:py-[16px]">
+      <div className="fixed left-0 top-0 z-50 w-full justify-around bg-[#FAFAFA] px-[24px] py-[14px] lg:px-[72px] lg:py-[16px]">
         <div className="flex w-full flex-row items-center justify-between">
           <Link href="/">
-            <img src="/logo.svg" alt="logo" loading="lazy" className="h-full" />
+            <img
+              src="/logo.svg"
+              alt="logo"
+              loading="lazy"
+              className="h-[70%] w-[70%] lg:h-full"
+            />
           </Link>
           <div className="flex flex-row items-center gap-[24px]">
             {navLinks.map((navLink) => (
@@ -44,18 +49,21 @@ export default function NavBar() {
             ))}
           </div>
           <div className="lg:hidden">
-            <button onClick={() => setIsOpen(!isOpen)} className="h-10 w-10">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="h-[30px] w-[30px]"
+            >
               {isOpen ? (
                 <img
                   src="/close.svg"
                   alt="close"
-                  className="min-h-full min-w-full"
+                  className="h-[30px] w-[30px]"
                 />
               ) : (
                 <img
                   src="/menu6.svg"
                   alt="menu"
-                  className="min-h-full min-w-full"
+                  className="h-[30px] w-[30px]"
                 />
               )}
             </button>
@@ -63,20 +71,23 @@ export default function NavBar() {
         </div>
         {/*drop down menu*/}
         {isOpen && (
-          <div className="mt-3 flex h-[360.75px] flex-col items-start justify-start self-stretch lg:hidden">
+          <div className="mt-3 flex h-[345px] flex-col items-start justify-start self-stretch lg:hidden">
             {navLinks.map((navLink) => (
               <Link
+                onClick={() => setIsOpen(!isOpen)}
                 key={navLink.name}
                 href={navLink.href}
-                className={clsx(
-                  "ml-[-20px] inline-flex items-center justify-start gap-2.5 self-stretch bg-[#f8f7f2] px-6 py-5",
-                  {
-                    "text-[#156e3c] underline": pathname === navLink.href,
-                  },
-                )}
-                style={pathname === navLink.href ? { color: "#156e3c" } : {}}
+                className="ml-[-20px] mt-2 inline-flex items-center justify-start gap-[10px] self-stretch bg-[#FAFAFA] px-[18px] py-[18px]"
               >
-                <div className="font-['Satoshi Variable'] text-center text-xl font-bold leading-normal text-[#3f3f3f]">
+                <div
+                  className={clsx(
+                    "font-['Satoshi Variable'] text-center text-lg font-bold leading-normal",
+                    {
+                      "text-[#156e3c]": pathname === navLink.href,
+                      "text-[#3f3f3f]": pathname !== navLink.href,
+                    },
+                  )}
+                >
                   {navLink.name}
                 </div>
               </Link>
