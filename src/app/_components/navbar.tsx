@@ -17,11 +17,11 @@ export default function NavBar() {
     const [isOpen, setIsOpen] = useState(false);
     return (
     <>
-        <div className="fixed top-0 left-0 w-full z-50 justify-around bg-[#F8F7F2] lg:py-[16px] py-[16px] lg:px-[72px] px-[36px]">
+        <div className="fixed top-0 left-0 w-full z-50 justify-around bg-[#FAFAFA] lg:py-[16px] py-[14px] lg:px-[72px] px-[24px]">
             <div className="flex flex-row justify-between items-center w-full">
                 <Link
                     href="/">
-                    <img src="/logo.svg" alt="logo" loading="lazy" className="h-full"/>
+                    <img src="/logo.svg" alt="logo" loading="lazy" className="lg:h-full h-[70%] w-[70%]"/>
                 </Link>
                 <div className="flex flex-row items-center gap-[24px]">
                         {navLinks.map((navLink) => (
@@ -46,18 +46,18 @@ export default function NavBar() {
                 <div className="lg:hidden">
                     <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="w-10 h-10">
+                    className="w-[30px] h-[30px]">
                         {isOpen ? (
                             <img
                             src = "/close.svg"
                             alt="close"
-                            className="min-w-full min-h-full"
+                            className="w-[30px] h-[30px]"
                             />
                         ) : (
                             <img
                             src="/menu6.svg"
                             alt="menu"
-                            className="min-w-full min-h-full"
+                            className="w-[30px] h-[30px]"
                             />
                         )
                         }
@@ -66,22 +66,23 @@ export default function NavBar() {
             </div>
             {/*drop down menu*/}
                 {isOpen && (
-                    <div className="lg:hidden self-stretch h-[360.75px] flex-col justify-start items-start flex mt-3">
-                            {navLinks.map((navLink) => (
+                    <div className="lg:hidden self-stretch h-[345px] flex-col justify-start items-start flex mt-3">
+                        {navLinks.map((navLink) => (
                             <Link 
+                                onClick={() => setIsOpen(!isOpen)}
                                 key={navLink.name}
                                 href={navLink.href}
-                                className={clsx(
-                                    "self-stretch px-6 py-5 bg-[#f8f7f2] justify-start items-center gap-2.5 inline-flex ml-[-20px]", 
+                                className="self-stretch px-[18px] py-[18px] bg-[#FAFAFA] justify-start items-center gap-[10px] inline-flex ml-[-20px] mt-2"
+                            >
+                                <div className={clsx(
+                                    "text-center text-lg font-bold font-['Satoshi Variable'] leading-normal",
                                     {
-                                        "text-[#156e3c] underline": pathname === navLink.href
-                                    },
-                                )}
-                                style={pathname === navLink.href ? { color: '#156e3c' } : {}}
-                                >
-                                    <div className="text-center text-[#3f3f3f] text-xl font-bold font-['Satoshi Variable'] leading-normal">
-                                        {navLink.name}
-                                    </div>
+                                        "text-[#156e3c]": pathname === navLink.href,
+                                        "text-[#3f3f3f]": pathname !== navLink.href,
+                                    }
+                                )}>
+                                    {navLink.name}
+                                </div>
                             </Link>
                         ))}
                     </div>
