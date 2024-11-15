@@ -7,13 +7,13 @@ const Footer = () => {
   return (
     <div className="flex min-h-[299px] items-center justify-center bg-white p-4">
       <div className="flex w-full max-w-7xl flex-col justify-between gap-8 md:flex-row md:gap-4">
-        <div className="flex flex-1 flex-row justify-between gap-8 md:flex-row md:justify-start md:gap-44">
+        <div className="flex flex-1 flex-col justify-between gap-8 md:flex-row md:justify-start md:gap-44">
           <div className="flex flex-col items-center font-neuething">
-            <div className="mb-2 h-[75px] w-[70px] md:h-[103px] md:w-[97px]">
+            <div className="mb-2 h-[75px] w-[70px] md:h-[103px] md:w-[97px] md:mt-0 mt-8">
               <Image src={logo} alt="logo" />
             </div>
-            <h1 className="text-xl md:text-2xl">PEMILU</h1>
-            <h3 className="md:text-md text-sm">HMIF 2025</h3>
+            <h1 className="text-2xl md:text-2xl">PEMILU</h1>
+            <h3 className="md:text-md text-md">HMIF 2025</h3>
           </div>
           <div className="flex flex-col font-satoshi">
             <h4 className="mb-2 text-sm font-bold tracking-wider md:mb-4 md:text-lg">
@@ -30,7 +30,7 @@ const Footer = () => {
           <h4 className="mb-2 text-sm font-bold tracking-wider md:mb-4 md:text-lg">
             Contact Person
           </h4>
-          <div className="grid grid-cols-2 gap-x-4 md:gap-x-44">
+          <div className="grid grid-rows-2 md:grid-cols-2 gap-y-8 md:gap-x-44">
             <div className="flex flex-col gap-1 md:gap-2">
               <p className="text-sm md:text-base">Venantius Sean</p>
               <div className="flex items-center gap-2">
