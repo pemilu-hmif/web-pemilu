@@ -20,7 +20,7 @@ const Footer = () => {
               Explore
             </h4>
             <div className="flex flex-col gap-1 md:gap-2">
-              <p className="text-sm md:text-base">Dokumen Teknis Pemilu</p>
+              <a href="https://drive.google.com/drive/folders/1t2Hv0BFil_-vrxoYzif9JNLHh957Vm7S" className="text-sm md:text-base">Dokumen Teknis Pemilu</a>
               <p className="text-sm md:text-base">Kritik dan Saran</p>
               <p className="text-sm md:text-base">Tim Kami</p>
             </div>
@@ -37,7 +37,7 @@ const Footer = () => {
                 <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={line} alt="line" />
                 </div>
-                <p className="text-sm md:text-base">seanardinugroholline</p>
+                <a href="https://line.me/ti/p/~seanardinugroholline" className="text-sm md:text-base">seanardinugroholline</a>
               </div>
               {/* <div className="flex items-center gap-2">
                 <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
@@ -52,7 +52,7 @@ const Footer = () => {
                 <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={line} alt="line" />
                 </div>
-                <p className="text-sm md:text-base">thoriqaurkuning</p>
+                <a href="https://line.me/ti/p/~thoriqaurkuning" className="text-sm md:text-base">thoriqaurkuning</a>
               </div>
               <div className="flex items-center gap-2">
                 {/* <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
