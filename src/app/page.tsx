@@ -32,7 +32,7 @@ const HomePage = () => {
             HMIF 2025
           </h1>
           <div className="mt-4">
-            <h3 className="rounded-full border p-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl">
+            <h3 className="rounded-full border px-4 py-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl">
               Pelajari calon ketua himpunan yang sesuai denganmu!
             </h3>
           </div>
@@ -63,7 +63,7 @@ const HomePage = () => {
         </p>
         <a
           href="tata-cara"
-          className="mt-4 flex items-center gap-2 rounded-full border-yellow-500 bg-yellow-500 p-2 font-satoshi text-lg font-semibold transition-colors hover:bg-yellow-600 sm:text-2xl"
+          className="mt-4 flex items-center gap-2 rounded-full border-yellow-500 bg-yellow-500 px-4 py-2 font-satoshi text-lg font-semibold transition-colors hover:bg-yellow-600 sm:text-2xl"
         >
           Lihat Tata Cara
           <span className="inline-flex items-center">
@@ -78,7 +78,7 @@ const HomePage = () => {
         data-aos="fade-up"
         data-aos-delay="200"
       >
-        <div className="h-auto w-[270px] sm:h-[500-px] sm:w-96">
+        <div className="h-auto w-[270px] sm:h-[500-px] sm:w-96 mb-16">
           <Image src={timeline} alt="timeline" />
         </div>
       </div>
