@@ -1,12 +1,10 @@
 import "~/styles/globals.css";
-import NavBar from "~/components/navbar";
-
 import { GeistSans } from "geist/font/sans";
-import { type Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
-import { TRPCReactProvider } from "~/trpc/react";
+import { type Metadata } from "next";
 import localFont from "next/font/local";
-import Footer from "../components/footer";
+import { TRPCReactProvider } from "~/trpc/react";
+import ClientWrapper from "./ClientWrapper";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -44,11 +42,9 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${playfair.variable} ${sloop.variable} ${satoshi.variable} ${neuething.variable}`}
     >
       <body>
-        <header>
-          <NavBar />
-        </header>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-        <Footer />
+        <TRPCReactProvider>
+          <ClientWrapper>{children}</ClientWrapper>
+        </TRPCReactProvider>
       </body>
     </html>
   );
