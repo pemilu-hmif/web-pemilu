@@ -1,14 +1,11 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
 } from "next-auth";
-import { type Adapter } from "next-auth/adapters";
 import Google from "next-auth/providers/google";
 
 import { env } from "~/env";
-import { db } from "~/server/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -25,28 +22,18 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+//   interface User {
+//     // ...other properties
+//     // role: UserRole;
+//   }
 }
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
+*
+* @see https://next-auth.js.org/configuration/options
+*/
 export const authOptions: NextAuthOptions = {
-  callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
-  },
-  adapter: PrismaAdapter(db) as Adapter,
   providers: [
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -62,6 +49,20 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  secret: env.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async signIn({ profile }) {
+      const allowedDomain = 'std.stei.itb.ac.id';
+      if (profile?.email?.endsWith(`@${allowedDomain}`)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
 };
 
 /**

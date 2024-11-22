@@ -5,7 +5,10 @@ import timeline from "public/homepage/timeline.png";
 import arrow from "public/homepage/arrow.png";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSession, getSession } from "next-auth/react";
+import LoadingSpinner from "~/components/LoadingSpinner";
+import DialogBox from "~/components/DialogBox";
 
 const HomePage = () => {
   useEffect(() => {
@@ -15,6 +18,21 @@ const HomePage = () => {
       easing: "ease-out-cubic",
     });
   }, []);
+  const { data: session, status } = useSession();
+  const [showDialog, setShowDialog] = useState(false);
+  if (status === "loading") {
+    return <LoadingSpinner/>;
+  }
+  if (status === "unauthenticated" && !showDialog) {
+    return (
+      <DialogBox
+        title="Unauthorized"
+        message="You are not authenticated. Please log in to continue."
+        onConfirm={() => (window.location.href = "/login")}
+        onCancel={() => setShowDialog(true)} // Menutup dialog
+      />
+    );
+  }
   return (
     <div className="flex flex-col">
       {/* logo section */}
@@ -78,7 +96,7 @@ const HomePage = () => {
         data-aos="fade-up"
         data-aos-delay="200"
       >
-        <div className="h-auto w-[270px] sm:h-[500-px] sm:w-96 mb-16">
+        <div className="mb-16 h-auto w-[270px] sm:h-[500-px] sm:w-96">
           <Image src={timeline} alt="timeline" />
         </div>
       </div>
