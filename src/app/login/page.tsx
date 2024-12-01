@@ -6,22 +6,24 @@ import google from "public/login/google.svg";
 import { signIn, useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import DialogBox from "~/components/DialogBox";
-
-export async function doLogin() {
-  await signIn("google", { callbackUrl: "/" });
-}
+import type { StaticImageData } from 'next/image';
 
 const LoginPage = () => {
-  const { data: session, status } = useSession();
-  const [showDialog, setShowDialog] = useState(false);
+  const { status } = useSession();
+  const [showDialog, setShowDialog] = useState<boolean>(false);
+
+  const doLogin = async (): Promise<void> => {
+    await signIn("google", { callbackUrl: "/" });
+  };
+
   if (status === "loading") {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
   if (status === "authenticated" && !showDialog) {
     return (
       <DialogBox
-        title="User have been login"
-        message="You are have been login. Let's go to home page."
+        title="User has logged in"
+        message="You are already logged in. Let's go to the home page."
         onConfirm={() => (window.location.href = "/")}
         onCancel={() => setShowDialog(true)} // Menutup dialog
       />
@@ -57,7 +59,7 @@ const LoginPage = () => {
             <Image
               className="h-[18px] w-[18px] md:h-[28px] md:w-[28px]"
               alt="google"
-              src={google}
+              src={google as StaticImageData}
             />
             Log in with Google
           </button>

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import logo from "public/homepage/logo.png";
-import whatsapp from "public/footer/whatsapp.png";
 import line from "public/footer/line.png";
 
 const Footer = () => {
