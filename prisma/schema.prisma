@@ -14,18 +14,6 @@ datasource db {
     url       = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
-
-    @@index([name])
-}
-
 // Necessary for Next auth
 model Account {
     id                       String  @id @default(cuid())
@@ -60,10 +48,29 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    kahim_id      String? // Optional to allow nullable relationships
+    senat_id      String? // Optional to allow nullable relationships
+    kahim         User?    @relation("KahimRelation", fields: [kahim_id], references: [id])
+    senat         User?    @relation("SenatRelation", fields: [senat_id], references: [id])
     accounts      Account[]
     sessions      Session[]
-    posts         Post[]
+
+    // For inverse relations
+    kahimFor      User[]    @relation("KahimRelation")
+    senatFor      User[]    @relation("SenatRelation")
 }
+
+model Calon_Detail {
+    id String @id
+    document_url String?
+    type Role
+}
+
+enum Role {
+    KAHIM
+    SENAT
+}
+
 
 model VerificationToken {
     identifier String
