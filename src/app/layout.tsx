@@ -12,18 +12,44 @@ const playfair = Playfair_Display({
   style: "italic",
 });
 
-const sloop = localFont({
-  src: "./fonts/sloop.ttf",
-  variable: "--font-sloop",
-});
-
 const satoshi = localFont({
-  src: "./fonts/satoshi.otf",
+  src: [
+    {
+      path: "../fonts/satoshi/Satoshi-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/satoshi/Satoshi-Italic.otf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../fonts/satoshi/Satoshi-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../fonts/satoshi/Satoshi-BoldItalic.otf",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../fonts/satoshi/Satoshi-Black.otf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
   variable: "--font-satoshi",
 });
 
+const sloop = localFont({
+  src: "../fonts/sloop.ttf",
+  variable: "--font-sloop",
+});
+
 const neuething = localFont({
-  src: "./fonts/neuething.otf",
+  src: "../fonts/neuething.otf",
   variable: "--font-neuething",
 });
 
