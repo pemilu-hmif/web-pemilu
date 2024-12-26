@@ -6,6 +6,7 @@ import { useState, useMemo, useCallback } from "react";
 import { Menu, User, X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { signOut } from "next-auth/react";
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -18,11 +19,23 @@ export default function NavBar() {
       { name: "Tata Cara", href: "/tata-cara" },
       { name: "Peraturan", href: "/peraturan" },
       { name: "Profil", href: "/profile" },
+      { name: "Logout", href: "/auth/login" },
     ],
     [],
   );
 
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
+
+  const logout = async () => {
+    try {
+      // Tunggu hingga token dihapus
+      await signOut({ redirect: false }); // Jangan langsung redirect di sini
+      // Setelah token dihapus, lakukan redirect manual
+      window.location.href = "/auth/login";
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   const renderNavLink = (navLink: { name: string; href: string }) => (
     <Link
@@ -40,6 +53,13 @@ export default function NavBar() {
             <User className="size-8" />
           </AvatarFallback>
         </Avatar>
+      ) : navLink.name === "Logout" ? (
+        <button
+          className="rounded-sm bg-green-500 px-2 py-1 text-white"
+          onClick={() => logout()}
+        >
+          Sign out
+        </button>
       ) : (
         navLink.name
       )}
@@ -79,7 +99,9 @@ export default function NavBar() {
                 key={navLink.name}
                 href={navLink.href}
                 className="mt-2 inline-flex items-center justify-start gap-[10px] self-stretch bg-[#FAFAFA] py-2"
-                onClick={toggleMenu}
+                onClick={
+                  navLink.name === "Logout" ? () => logout() : toggleMenu
+                }
                 role="menuitem"
               >
                 <div

@@ -15,4 +15,4 @@ export default withAuth(
   },
 );
 
-export const config = { matcher: ["/coblos"] }
+export const config = { matcher: ["/coblos", "/api/:path*"] };
