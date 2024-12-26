@@ -15,7 +15,7 @@ export default function Coblos() {
         <DialogBox
           title="Unauthorized"
           message="You are not authenticated. Please log in to continue."
-          onConfirm={() => (window.location.href = "/login")}
+          onConfirm={() => (window.location.href = "/auth/login")}
           onCancel={() => setShowDialog(true)} // Menutup dialog
         />
       );

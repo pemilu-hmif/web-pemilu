@@ -22,17 +22,17 @@ declare module "next-auth" {
     } & DefaultSession["user"];
   }
 
-//   interface User {
-//     // ...other properties
-//     // role: UserRole;
-//   }
+  //   interface User {
+  //     // ...other properties
+  //     // role: UserRole;
+  //   }
 }
 
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
-*
-* @see https://next-auth.js.org/configuration/options
-*/
+ *
+ * @see https://next-auth.js.org/configuration/options
+ */
 export const authOptions: NextAuthOptions = {
   providers: [
     Google({
@@ -49,19 +49,23 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  pages: {
+    signIn: "/auth/login/",
+    error: "/auth/error/"
+  },
   secret: env.NEXTAUTH_SECRET,
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   callbacks: {
     async signIn({ profile }) {
-      const allowedDomain = 'std.stei.itb.ac.id';
+      const allowedDomain = "std.stei.itb.ac.id";
       if (profile?.email?.endsWith(`@${allowedDomain}`)) {
         return true;
       } else {
         return false;
       }
-    }
+    },
   },
 };
 

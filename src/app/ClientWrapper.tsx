@@ -11,14 +11,15 @@ export default function ClientWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isLoginPage = pathname === "/login";
+  const isLoginPage = pathname === "/auth/login";
+  const isError = pathname === "/auth/error";
 
   return (
     
     <SessionProvider>
-      {!isLoginPage && <NavBar />}
+      {!isLoginPage && !isError && <NavBar />}
       {children}
-      {!isLoginPage && <Footer />}
+      {!isLoginPage && !isError && <Footer />}
     </SessionProvider>
   );
 }

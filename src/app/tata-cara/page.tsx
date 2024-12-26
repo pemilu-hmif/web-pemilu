@@ -5,7 +5,7 @@ import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import TataCaraList from "~/components/tatacara-list";
 
-export default async function TataCara() {
+export default function TataCara() {
   const { data: session, status } = useSession();
   const [showDialog, setShowDialog] = useState(false);
   if (status === "loading") {
@@ -16,7 +16,7 @@ export default async function TataCara() {
       <DialogBox
         title="Unauthorized"
         message="You are not authenticated. Please log in to continue."
-        onConfirm={() => (window.location.href = "/login")}
+        onConfirm={() => (window.location.href = "/auth/login")}
         onCancel={() => setShowDialog(true)} // Menutup dialog
       />
     );

@@ -5,18 +5,18 @@ import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import PeraturanList from "~/components/peraturan-list";
 
-export default async function TataCara() {
+export default function TataCara() {
   const { data: session, status } = useSession();
   const [showDialog, setShowDialog] = useState(false);
   if (status === "loading") {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
   if (status === "unauthenticated" && !showDialog) {
     return (
       <DialogBox
         title="Unauthorized"
         message="You are not authenticated. Please log in to continue."
-        onConfirm={() => (window.location.href = "/login")}
+        onConfirm={() => (window.location.href = "/auth/login")}
         onCancel={() => setShowDialog(true)} // Menutup dialog
       />
     );
