@@ -1,31 +1,5 @@
 import CalonTabs from '~/components/calon-tabs'
-
-type TabData = {
-    id: string
-    name: string
-    number: number
-    angkatan: string
-    imageSrc: string
-    visi: string
-    misi: string[]
-}
-
-const tabsData: TabData[] = [
-    {
-        id: '1',
-        number: 1,
-        name: 'Elijah Darellshane Suryanegara',
-        angkatan: 'IF22',
-        imageSrc: '/logo.svg',
-        visi: 'Kesenatoran HMIF ITB 2025/2026 sebagai mercusuar demokrasi yang memancarkan idealisme untuk menginspirasi perubahan progresif di HMIF ITB dan Kongres KM ITB.',
-        misi: [
-            'Menyusun sistem demokrasi yang efisien dan representatif bagi seluruh warga HMIF ITB.',
-            'Mendorong terciptanya budaya berpikir yang objektif, kritis, dan inklusif.',
-            'Menggerakkan HMIF ITB sebagai himpunan yang proaktif dalam memelopori perubahan yang bermakna.',
-            'Menjaga harkat HMIF ITB sebagai organisasi yang berdikari dan berintegritas.'
-        ]
-    }
-]
+import { calonSenatorData } from '~/data/calon-data'
 
 const CalonSenator = () => {
     return (
@@ -48,7 +22,7 @@ const CalonSenator = () => {
 
                 {/* Content */}
                 <div className='mt-8 flex w-full flex-col items-center justify-center gap-12'>
-                    <CalonTabs tabsData={tabsData}/>
+                    <CalonTabs tabsData={calonSenatorData} defaultTab='1' />
                 </div>
             </div>
         </div>

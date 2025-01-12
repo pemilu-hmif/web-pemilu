@@ -1,46 +1,5 @@
 import CalonTabs from '~/components/calon-tabs'
-
-type TabData = {
-    id: string
-    name: string
-    number: number
-    angkatan: string
-    imageSrc: string
-    visi: string
-    misi: string[]
-}
-
-const tabsData: TabData[] = [
-    {
-        id: '1',
-        number: 1,
-        name: 'Marvin Scifo Y. Hutahaean',
-        angkatan: 'IF22',
-        imageSrc: '/logo.svg',
-        visi: 'Membuat dan mewujudkan HMIF yang berbakat, berkontribusi, dan berorientasi ke masa depan.',
-        misi: [
-            'HMIF sebagai tempat mahasiswa belajar, mendalami, dan menguasai bidang informatika.',
-            'HMIF sebagai tempat mahasiswa menumbuhkan potensi dari aspek jasmani, mental, akademik, dan rohani.',
-            'HMIF sebagai tempat mahasiswa menemukan posisi dan identitas mereka baik di ITB, maupun di kehidupan masyarakat.',
-            'HMIF sebagai tempat mahasiswa berelasi dengan orang-orang dengan latar belakang yang beragam.'
-        ]
-    },
-    {
-        id: '2',
-        number: 2,
-        name: 'Bryan P. Hutagalung',
-        angkatan: 'STI22',
-        imageSrc: '/test.svg',
-        visi: 'HMIF ITB menjadi perahu kolaborasi yang mengarungi samudra inovasi untuk kemajuan teknologi bersama dalam menghadapi gelombang perubahan.',
-        misi: [
-            'Menjaga dan mengembangkan identitas HMIF ITB yang adaptif, inklusif, dan bermakna.',
-            'Mengembangkan ekosistem kolaborasi yang mendorong pertukaran pengetahuan, kreativitas, dan inovasi teknologi.',
-            'Membangun pengembangan potensi warga HMIF ITB melalui pembinaan minat, bakat, dan kolektif.',
-            'Memperluas relasi dengan komunitas teknologi untuk memperkaya pengalaman dan wawasan warga HMIF ITB.',
-            'Mendorong kontribusi sosial teknologi untuk pemberdayaan masyarakat melalui implementasi solusi inovatif.'
-        ]
-    }
-]
+import { calonKetuaData } from '~/data/calon-data'
 
 const CalonKetua = () => {
     return (
@@ -63,7 +22,7 @@ const CalonKetua = () => {
 
                 {/* Content */}
                 <div className='mt-8 flex w-full flex-col items-center justify-center gap-12'>
-                    <CalonTabs tabsData={tabsData} />
+                    <CalonTabs tabsData={calonKetuaData} defaultTab='1' />
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
-import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs'
+import CalonCard from './calon-card'
 
 type TabData = {
     id: string
@@ -9,39 +9,30 @@ type TabData = {
     imageSrc: string
     visi: string
     misi: string[]
+    draflink: string
 }
 
 type CalonTabsProps = {
     tabsData: TabData[]
+    defaultTab?: string
 }
 
-function CalonTabs({ tabsData }: CalonTabsProps) {
+function CalonTabs({ tabsData, defaultTab = '1' }: CalonTabsProps) {
     if (tabsData.length === 1) {
         const tab = tabsData[0]
-        if (!tab) return
+        if (!tab) return null
 
         return (
             <div className='rounded-lg p-4'>
                 <div className='flex flex-col items-center justify-center gap-4'>
-                    <div className='relative'>
-                        {/* Number */}
-                        <div className='absolute left-4 top-4 z-10'>
-                            <h1 className='flex h-20 w-20 items-center justify-center rounded-lg bg-[#FFBB00] pt-4 font-neuething text-6xl text-[#156E3C]'>
-                                {tab.number}
-                            </h1>
-                        </div>
-
-                        {/* Image */}
-                        <div className='pl-8 pt-8'>
-                            <Image
-                                src={tab.imageSrc}
-                                alt={`Tab ${tab.number} content image`}
-                                width={400}
-                                height={300}
-                                className='rounded-lg'
-                            />
-                        </div>
-                    </div>
+                    <CalonCard
+                        number={tab.number}
+                        angkatan={tab.angkatan}
+                        imageSrc={tab.imageSrc}
+                        name={tab.name}
+                        draflink={tab.draflink}
+                        variant='calon'
+                    />
 
                     {/* Visi */}
                     <div className='flex w-full max-w-[1000px] flex-col gap-2 text-white'>
@@ -66,7 +57,7 @@ function CalonTabs({ tabsData }: CalonTabsProps) {
     }
 
     return (
-        <Tabs defaultValue='1' className='rounded-lg p-4'>
+        <Tabs defaultValue={defaultTab} className='rounded-lg p-4'>
             <TabsList className='mb-6 inline-flex w-full items-center justify-center gap-4 rounded-md bg-transparent p-1 font-satoshi font-bold'>
                 {tabsData.map(tab => (
                     <TabsTrigger
@@ -84,25 +75,14 @@ function CalonTabs({ tabsData }: CalonTabsProps) {
                     value={tab.id}
                     className='flex flex-col items-center justify-center gap-4'
                 >
-                    <div className='relative'>
-                        {/* Number */}
-                        <div className='absolute left-4 top-4 z-10'>
-                            <h1 className='flex h-20 w-20 items-center justify-center rounded-lg bg-[#FFBB00] pt-4 font-neuething text-6xl text-[#156E3C]'>
-                                {tab.number}
-                            </h1>
-                        </div>
-
-                        {/* Image */}
-                        <div className='pl-8 pt-8'>
-                            <Image
-                                src={tab.imageSrc}
-                                alt={`Tab ${tab.number} content image`}
-                                width={400}
-                                height={300}
-                                className='rounded-lg'
-                            />
-                        </div>
-                    </div>
+                    <CalonCard
+                        number={tab.number}
+                        angkatan={tab.angkatan}
+                        imageSrc={tab.imageSrc}
+                        name={tab.name}
+                        draflink={tab.draflink}
+                        variant='calon'
+                    />
 
                     {/* Visi */}
                     <div className='flex w-full max-w-[1000px] flex-col gap-2 text-white'>
