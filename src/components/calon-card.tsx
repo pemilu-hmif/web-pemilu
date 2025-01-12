@@ -1,3 +1,4 @@
+import { LucideUserSearch } from 'lucide-react'
 import Image from 'next/image'
 
 type CalonCardProps = {
@@ -7,6 +8,7 @@ type CalonCardProps = {
     name: string
     draflink: string
     variant: 'home' | 'calon'
+    calonpagelink: string
 }
 
 function CalonCard({
@@ -15,7 +17,8 @@ function CalonCard({
     imageSrc,
     name,
     draflink,
-    variant
+    variant,
+    calonpagelink
 }: CalonCardProps) {
     return (
         <div className='relative flex flex-col items-center'>
@@ -31,8 +34,8 @@ function CalonCard({
                 <Image
                     src={imageSrc}
                     alt={`Image of ${name}`}
-                    width={400}
-                    height={300}
+                    width={300}
+                    height={400}
                     className='rounded-lg'
                 />
                 {/* Gradient Overlay */}
@@ -47,17 +50,18 @@ function CalonCard({
                 <p className='text-center text-lg text-white'>{angkatan}</p>
                 {variant === 'home' ? (
                     <a
-                        href='#placeholder'
-                        className='flex items-center justify-center rounded-2xl bg-[#FFBB00] px-6 py-3 text-center font-satoshi text-2xl font-bold text-[#156E3C] hover:bg-yellow-600'
+                        href={calonpagelink}
+                        className='flex items-center justify-center rounded-2xl bg-[#FFBB00] px-6 py-3 text-center font-satoshi text-xl font-bold text-[#156E3C] hover:bg-yellow-600'
                     >
                         Kenali Calon
+                        <LucideUserSearch className='ml-2 h-6 w-6' />
                     </a>
                 ) : (
                     <a
                         href={draflink}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='flex items-center justify-center rounded-2xl bg-[#FFBB00] px-6 py-3 text-center font-satoshi text-2xl font-bold text-[#156E3C] hover:bg-yellow-600'
+                        className='flex items-center justify-center rounded-2xl bg-[#FFBB00] px-6 py-3 text-center font-satoshi text-xl font-bold text-[#156E3C] hover:bg-yellow-600'
                     >
                         Lihat Draft Calon
                     </a>

@@ -7,6 +7,7 @@ export type TabData = {
     visi: string
     misi: string[]
     draflink: string
+    calonpagelink: string
 }
 
 export const calonKetuaData: TabData[] = [
@@ -23,7 +24,8 @@ export const calonKetuaData: TabData[] = [
             'HMIF sebagai tempat mahasiswa menemukan posisi dan identitas mereka baik di ITB, maupun di kehidupan masyarakat.',
             'HMIF sebagai tempat mahasiswa berelasi dengan orang-orang dengan latar belakang yang beragam.'
         ],
-        draflink: 'http://google.com'
+        draflink: 'http://google.com',
+        calonpagelink: '/calonketua/1'
     },
     {
         id: '2',
@@ -39,7 +41,8 @@ export const calonKetuaData: TabData[] = [
             'Memperluas relasi dengan komunitas teknologi untuk memperkaya pengalaman dan wawasan warga HMIF ITB.',
             'Mendorong kontribusi sosial teknologi untuk pemberdayaan masyarakat melalui implementasi solusi inovatif.'
         ],
-        draflink: 'http://google.com'
+        draflink: 'http://google.com',
+        calonpagelink: '/calonketua/2'
     }
 ]
 
@@ -57,6 +60,7 @@ export const calonSenatorData: TabData[] = [
             'Menggerakkan HMIF ITB sebagai himpunan yang proaktif dalam memelopori perubahan yang bermakna.',
             'Menjaga harkat HMIF ITB sebagai organisasi yang berdikari dan berintegritas.'
         ],
-        draflink: 'http://google.com'
+        draflink: 'http://google.com',
+        calonpagelink: '/calonsenator'
     }
 ]
