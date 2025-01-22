@@ -16,7 +16,7 @@ export const calonKetuaData: TabData[] = [
         number: 1,
         name: 'Marvin Scifo Y. Hutahaean',
         angkatan: 'IF22',
-        imageSrc: '/logo.svg',
+        imageSrc: '/calon/Scifo.webp',
         visi: 'Membuat dan mewujudkan HMIF yang berbakat, berkontribusi, dan berorientasi ke masa depan.',
         misi: [
             'HMIF sebagai tempat mahasiswa belajar, mendalami, dan menguasai bidang informatika.',
@@ -52,7 +52,7 @@ export const calonSenatorData: TabData[] = [
         number: 1,
         name: 'Elijah Darellshane Suryanegara',
         angkatan: 'IF22',
-        imageSrc: '/logo.svg',
+        imageSrc: '/calon/Darrel.webp',
         visi: 'Kesenatoran HMIF ITB 2025/2026 sebagai mercusuar demokrasi yang memancarkan idealisme untuk menginspirasi perubahan progresif di HMIF ITB dan Kongres KM ITB.',
         misi: [
             'Menyusun sistem demokrasi yang efisien dan representatif bagi seluruh warga HMIF ITB.',
