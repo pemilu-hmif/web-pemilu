@@ -15,7 +15,7 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT {
-    [key: string]: any  // Add index signature
+    [key: string]: unknown  // Add index signature, was any
     accessToken?: string
     accessTokenExpires?: number
     refreshToken?: string

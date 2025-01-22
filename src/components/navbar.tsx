@@ -41,8 +41,8 @@ export default function NavBar() {
     <Link
       key={navLink.name}
       href={navLink.href}
-      className={`hidden px-4 py-2 text-center font-satoshi text-xl font-bold underline-offset-4 hover:text-green-700 md:flex ${
-        pathname === navLink.href ? "text-green-700 underline" : ""
+      className={`hidden px-4 py-2 text-center font-satoshi text-xl font-bold underline-offset-4 hover:text-[#156E3C] md:flex ${
+        pathname === navLink.href ? "text-[#156E3C] underline" : ""
       }`}
       onClick={isOpen ? toggleMenu : undefined}
     >
@@ -107,7 +107,7 @@ export default function NavBar() {
                 <div
                   className={twMerge(
                     "text-md text-center font-satoshi font-bold leading-normal",
-                    pathname === navLink.href ? "text-green-700 underline" : "",
+                    pathname === navLink.href ? "text-[#156E3C] underline" : "",
                   )}
                 >
                   {navLink.name}

@@ -15,11 +15,15 @@ export default function ClientWrapper({
   const isError = pathname === "/auth/error";
 
   return (
-    
     <SessionProvider>
-      {!isLoginPage && !isError && <NavBar />}
-      {children}
-      {!isLoginPage && !isError && <Footer />}
+      <div className="flex flex-col min-h-screen">
+        {!isLoginPage && !isError && <NavBar />}
+        <main className="flex-grow">
+          {children}
+        </main>
+        {!isLoginPage && !isError && <Footer />}
+      </div>
     </SessionProvider>
   );
 }
+

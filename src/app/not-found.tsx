@@ -1,38 +1,45 @@
-import { Button } from "~/components/ui/button";
-import Link from "next/link";
+import { Button } from '~/components/ui/button'
+import Link from 'next/link'
 
 export default function NotFound() {
     return (
-        <div className="lg:mt-[215px] mt-[170px] lg:mb-[80px] mb-[-70px] flex items-center justify-center">
-            <div className="lg:w-[1000px] w-[300px] lg:h-[574px] h-[490px] flex-col justify-start items-center lg:gap-11 gap-4 inline-flex">
-                <div className="lg:h-[310px] h-[140px] flex-col justify-start items-center lg:gap-3 inline-flex">
-                    <h1 className="text-neutral-50 lg:text-[120px] text-[50px] font-bold font-neuething lg:leading-[144px]">
+        <div className='mb-64 mt-64 flex items-center justify-center md:mb-0 md:mt-0 md:min-h-screen md:pt-[80px]'>
+            <div className='inline-flex flex-col items-center justify-start gap-4 lg:gap-11'>
+                <div className='inline-flex flex-col items-center justify-start lg:gap-3'>
+                    <h1 className='font-neuething text-6xl font-bold text-neutral-50 lg:text-9xl'>
                         404
                     </h1>
-                    <h2 className="text-center tracking-wide text-neutral-50 lg:text-[64px] text-[24px] font-bold font-neuething lg:leading-[76.80px]">
+                    <h2 className='text-center font-neuething text-2xl font-bold tracking-wide text-neutral-50 lg:text-6xl'>
                         Halaman tidak
                         <br />
                         ditemukan
                     </h2>
                 </div>
-                <div className="self-stretch text-center text-neutral-50 lg:text-2xl font-satoshi lg:leading-[28.80px]">
-                        Halaman yang kamu cari tidak ada atau telah dipindahkan.
-                        <br />
-                        Silahkan kembali ke beranda.
+                <div className='self-stretch text-center font-satoshi text-lg text-neutral-50 md:text-2xl'>
+                    Halaman yang kamu cari tidak ada atau telah dipindahkan.
+                    <br />
+                    Silahkan kembali ke beranda.
                 </div>
-                <Button asChild className="lg:h-[68px] lg:pl-10 lg:pr-7 lg:py-4 bg-[#ffbb00] rounded-[32px] justify-center items-center lg:gap-2.5 inline-flex hover:bg-yellow-600">
-                    <Link href ="/">
-                        <div className="lg:h-11 justify-center items-center lg:gap-2 gap-1 inline-flex">
-                            <p className="text-center text-neutral-50 lg:text-[28px] font-bold font-satoshi lg:leading-[33.60px]"> Beranda</p>
-                            <img
-                            src="/arrow_outward.svg"
-                            alt=""
-                            loading="lazy"
-                            className="h-[40%] w-[25%] lg:h-full"/>
-                        </div>
+                <Button
+                    asChild
+                    className='inline-flex items-center justify-center rounded-[32px] bg-[#ffbb00] hover:bg-yellow-600 lg:h-[68px] lg:gap-2.5 lg:py-4 lg:pl-10 lg:pr-7'
+                >
+                    <Link
+                        href='/'
+                        className='inline-flex items-center justify-center gap-1 lg:h-11 lg:gap-2'
+                    >
+                        <p className='lg:leadsing-[33.60px] text-center font-satoshi text-lg font-bold text-neutral-50 md:text-3xl'>
+                            Beranda
+                        </p>
+                        <img
+                            src='/arrow_outward.svg'
+                            alt=''
+                            loading='lazy'
+                            className='h-[40%] w-[25%] lg:h-full'
+                        />
                     </Link>
                 </Button>
             </div>
         </div>
-    );
+    )
 }

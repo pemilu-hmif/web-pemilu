@@ -1,5 +1,5 @@
 import Google from "next-auth/providers/google";
-import { JWT } from "next-auth/jwt";
+import type { JWT } from "next-auth/jwt";
 import { env } from "~/env";
 import NextAuth, {
   NextAuthOptions,
@@ -20,7 +20,31 @@ interface CustomJWT extends JWT {
   error?: string;
 }
 
+interface TokenResponse {
+  access_token: string;
+  expires_in: number;
+  refresh_token?: string;
+}
+
+type StrictUser = {
+  id: string;
+  email: string;
+  name: string;
+  image?: string;
+};
+
+class RefreshTokenError extends Error {
+  details: unknown;
+
+  constructor(message: string, details: unknown) {
+    super(message);
+    this.name = "RefreshTokenError";
+    this.details = details;
+  }
+}
+
 export const authOptions: NextAuthOptions = {
+  
   providers: [
     Google({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -42,7 +66,7 @@ export const authOptions: NextAuthOptions = {
   secret: env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 60 * 24, // one day
+    maxAge: 60*60*24, // one day
   },
   callbacks: {
     async signIn({ profile }) {
@@ -80,7 +104,13 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token.user) {
-        session.user = token.user as any;
+        const strictUser: StrictUser = {
+          id: token.user.id,
+          email: token.user.email ?? "", // Default to an empty string if null
+          name: token.user.name ?? "",   // Default to an empty string if null
+          image: token.user.image ?? "",       // Optional field remains as is
+        };
+        session.user = strictUser; 
       }
       session.accessToken = token.accessToken;
       session.error = token.error;
@@ -103,12 +133,12 @@ async function refreshAccessToken(token: CustomJWT): Promise<CustomJWT> {
       method: "POST",
     });
 
-    const refreshedTokens = await response.json();
+    const refreshedTokens = (await response.json()) as TokenResponse;
 
     if (!response.ok) {
-      throw refreshedTokens;
+      //was throw refrshedTokens
+      throw new RefreshTokenError("Failed to refresh access token", refreshedTokens);
     }
-
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
