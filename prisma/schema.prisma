@@ -48,17 +48,11 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    kahim_id      String? // Optional to allow nullable relationships
-    senat_id      String? // Optional to allow nullable relationships
-    kahim         User?    @relation("KahimRelation", fields: [kahim_id], references: [id])
-    senat         User?    @relation("SenatRelation", fields: [senat_id], references: [id])
+    kahim_email      String?  // No foreign key reference
+    senat_email      String?  // No foreign key reference
+
     accounts      Account[]
     sessions      Session[]
-
-    // For inverse relations
-    kahimFor      User[]    @relation("KahimRelation")
-    senatFor      User[]    @relation("SenatRelation")
-
     posts         Post[]   @relation("UserPosts")
 }
 
