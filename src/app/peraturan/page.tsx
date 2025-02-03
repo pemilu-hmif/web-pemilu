@@ -21,6 +21,7 @@ export default function TataCara() {
             />
         )
     }
+
     return (
         <div className='mb-24 mt-32 flex flex-col items-center pt-[80px]'>
             <div className='container flex flex-col gap-16 p-4'>

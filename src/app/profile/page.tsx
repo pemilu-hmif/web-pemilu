@@ -1,17 +1,37 @@
+"use client"
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import React from 'react'
-import { getServerSession } from 'next-auth/next'
 import ProfileCard from '~/components/profile-card'
-import { authOptions } from "~/app/api/auth/[...nextauth]";
 import { ProfileUser } from '~/types/user';
+import DialogBox from '~/components/DialogBox'
+import LoadingSpinner from '~/components/LoadingSpinner'
 
-const Profile = async () => {
-  const session = await getServerSession(authOptions)
+const Profile =() => {
   
-  if (!session?.user?.email) {
-    throw new Error("User email not found")
+  const { data: session, status } = useSession()
+  const [showDialog, setShowDialog] = useState(false)
+  if (status === 'loading') {
+    return <LoadingSpinner />
   }
-  
-  const nim = session.user.email?.split('@')[0] ?? "defaultNIM";
+  if (status === 'unauthenticated' && !showDialog) {
+    return (
+        <DialogBox
+            title='Unauthorized'
+            message='You are not authenticated. Please log in to continue.'
+            onConfirm={() => (window.location.href = '/auth/login')}
+            onCancel={() => setShowDialog(true)} // Menutup dialog
+        />
+    )
+  }
+
+  const user = session?.user || {
+    id: 'defaultId',
+    email: 'default@example.com',
+    image: 'defaultImageUrl',
+    name: 'Default Name',
+  };
+  const nim = user.email?.split('@')[0] ?? "defaultNIM";
   
   const getJurusan = (kodeJurusan: string) => {
     switch (kodeJurusan) {
@@ -24,14 +44,14 @@ const Profile = async () => {
     }
   }
 
-  const userImage = session.user.image
+  const userImage = user.image
   const kodeJurusan = nim.substring(0, 3)
   const angkatan = nim.substring(3, 5)
-  const nama = session.user.name.substring(8)
+  const nama = user.name.substring(8)
   
   const userProfile: ProfileUser = {
-    id: session.user.id ?? '',
-    email: session.user.email,
+    id: user.id ?? '',
+    email: user.email,
     name: nama,
     image: userImage,
     nim: nim,
