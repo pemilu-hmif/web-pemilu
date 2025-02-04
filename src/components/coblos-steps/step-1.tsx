@@ -1,13 +1,10 @@
 'use client'
 import Link from "next/link"
-import { useState } from "react"
 import React from "react"
 
-export default function Step1({ onChange } : { onChange: (value: boolean) => void }) {
-    const [isChecked, setIsChecked] = useState(false)
+export default function Step1({ isChecked, onChange } : { isChecked: boolean, onChange: (value: boolean) => void }) {
     const handleCheckBoxChange = () => {
         const newValue = !isChecked;
-        setIsChecked(newValue);
         onChange(newValue);
     };
 
