@@ -22,7 +22,7 @@ export default function Coblos() {
       );
     }
     return (
-        <div className="flex items-center justify-center h-screen mt-10">
+        <div className="flex items-center justify-center h-screen sm:mt-[130px] mt-[30px] sm:mb-[140px] mb-[-28px]">
           <Onboarding/>
         </div>
     );

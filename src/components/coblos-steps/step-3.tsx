@@ -24,11 +24,11 @@ export default function Step3({senatVoteId, onChange}: {senatVoteId: number, onC
     };
     return (
         <div className="flex-col justify-items-center">
-            <div className="items-center mb-20">
+            <div className="items-center mb-20 text-center">
                 <h1 className="text-neutral-50 mt-2 font-neuething text-[30px] font-bold tracking-wide leading-[33.60px]">Coblos Calon Senator</h1>
             </div>
             <div className="items-center mb-6">
-                <h1 className="text-2xl font-satoshi text-white">Apakah kamu setuju atau tidak setuju calon berikut menjadi senator HMIF?</h1>
+                <h1 className="text-2xl font-satoshi text-white text-center">Apakah kamu setuju atau tidak setuju calon berikut menjadi senator HMIF?</h1>
             </div>
             <div className="flex" >
                 <button onClick={handleSetVoteId1} className="mr-8 relative">

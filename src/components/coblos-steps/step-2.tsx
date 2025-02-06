@@ -24,10 +24,10 @@ export default function Step2({ kahimVoteId, onChange } : {kahimVoteId: number, 
     };
     return (
         <div className="flex-col justify-items-center">
-            <div className="items-center mb-20">
+            <div className="items-center mb-20 text-center">
                 <h1 className="text-neutral-50 mt-2 font-neuething text-[30px] font-bold tracking-wide leading-[33.60px]">Coblos Calon Ketua Himpunan</h1>
             </div>
-            <div className="items-center mb-6">
+            <div className="items-center mb-6 text-center">
                 <h2 className="text-2xl font-satoshi text-white">Pilih calon ketua himpunan yang ingin dicoblos</h2>
             </div>
             <div className="flex" >

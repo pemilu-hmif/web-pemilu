@@ -66,10 +66,10 @@ export default function Onboarding() {
                 step === 0 && isChecked ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[84px]">
-                        <button className="opacity-0 h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" disabled>
+                        <button className="opacity-0 h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" disabled>
                             Sebelum
                         </button>
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" onClick={handleNext}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" onClick={handleNext}>
                             Lanjut
                         </button>
                     </div>
@@ -78,10 +78,10 @@ export default function Onboarding() {
                 step === 0 ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[84px]">
-                        <button className="opacity-0 h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" disabled>
+                        <button className="opacity-0 h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" disabled>
                             Sebelum
                         </button>
-                        <button className="opacity-50 h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
+                        <button className="opacity-50 h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
                             Lanjut
                         </button>
                     </div>
@@ -94,10 +94,10 @@ export default function Onboarding() {
                 step === 1 && submition.kahimVoteId === 0 ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[100px]">
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
                             Sebelum
                         </button>
-                        <button className="opacity-50 h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
+                        <button className="opacity-50 h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
                             Lanjut
                         </button>
                     </div>
@@ -106,10 +106,10 @@ export default function Onboarding() {
                 step === 1 && submition.kahimVoteId !== 0 ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[100px]">
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
                             Sebelum
                         </button>
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" onClick={handleNext}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" onClick={handleNext}>
                             Lanjut
                         </button>
                     </div>
@@ -122,10 +122,10 @@ export default function Onboarding() {
                 step === 2 && submition.senatVoteId === 0 ? 
                 (
                     <div className="flex items-center justify-center gap-8 mt-[100px]">
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
                             Sebelum
                         </button>
-                        <button className="opacity-50 h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
+                        <button className="opacity-50 h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
                             Lanjut
                         </button>
                     </div>
@@ -134,10 +134,10 @@ export default function Onboarding() {
                 step === 2 && submition.senatVoteId !== 0 ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[100px]">
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
                             Sebelum
                         </button>
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" onClick={handleNext}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" onClick={handleNext}>
                             Lanjut
                         </button>
                     </div>
@@ -150,10 +150,10 @@ export default function Onboarding() {
                 step === 3 && isConfirmed ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[84px]">
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
                             Sebelum
                         </button>
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center"onClick={handleNext}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center"onClick={handleNext}>
                             Submit
                         </button>
                     </div>
@@ -162,10 +162,10 @@ export default function Onboarding() {
                 step === 3 ?
                 (
                     <div className="flex items-center justify-center gap-8 mt-[84px]">
-                        <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
+                        <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center" onClick={handlePrev}>
                             Sebelum
                         </button>
-                        <button className="opacity-50 h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
+                        <button className="opacity-50 h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center" disabled>
                             Submit
                         </button>
                     </div>
@@ -181,12 +181,12 @@ export default function Onboarding() {
                         <Link
                         href="/">
 
-                            <button className="h-[53px] w-[150px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center">
+                            <button className="h-[55px] w-[175px] px-8 py-3 bg-[#156e3c] border-4 border-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#ffbb00] font-bold flex items-center justify-center">
                                 Beranda
                             </button>
                             </Link>
                         
-                        <button className="opacity-50 h-[53px] w-[150px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center">
+                        <button className="opacity-50 h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center">
                             Feedback
                         </button>
                     </div>   
@@ -201,7 +201,7 @@ export default function Onboarding() {
                         {[...Array(4)].map((_, index) => (
                             <div
                             key={index}
-                            className={`w-3 h-3 mt-8 rounded-full ${
+                            className={`w-3 h-3 mt-10 mb-12 rounded-full ${
                                 index === step ? "bg-[#ffbb00]" : "bg-white"
                             } border border-[#ffbb00]`}
                             />
