@@ -11,7 +11,7 @@ import { hashSync } from "bcrypt-ts";
 
 
 //i used kahim_id and senat_id as kahim and senat's email, biar ga banyak api call
-interface RequestBody {
+export interface RequestBody {
     userEmail: string;
     kahimEmail: string;
     senatEmail: string;

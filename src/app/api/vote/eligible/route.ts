@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 
-export async function POST(req:NextRequest) {
+export async function GET(req:NextRequest) {
   try{
     const token = await getToken({ req, secret: process.env.JWT_SECRET });
     if(!token?.user?.email){

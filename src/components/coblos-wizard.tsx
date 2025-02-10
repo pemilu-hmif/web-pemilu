@@ -6,12 +6,9 @@ import Step2 from "./coblos-steps/step-2";
 import Step3 from "./coblos-steps/step-3";
 import Step4 from "./coblos-steps/step-4";
 import SubmittedPage from "./coblos-steps/submitted";
+import { RequestBody } from "~/app/api/vote/route";
 
 {/* Props for submition */}
-type SubmitionProps = {
-    kahimVoteId: number;
-    senatVoteId: number;
-}
 
 {/* 
     To Do
@@ -24,26 +21,27 @@ type SubmitionProps = {
 
 const steps = [Step1, Step2, Step3, Step4, SubmittedPage]
 
-export default function Onboarding() {
+export default function Onboarding({ userEmailParam }: { userEmailParam: string }) {
     const [isChecked, setIsChecked] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [step, setStep] = useState(0);
 
-    const [submition, setSubmition] = useState<SubmitionProps>({
-        kahimVoteId: 0,
-        senatVoteId: 0,
+    const [submition, setSubmition] = useState<RequestBody>({
+        userEmail:userEmailParam,
+        kahimEmail:"",
+        senatEmail:""
     });
 
     const handleCheckBoxChange1 = (value: boolean) => {
         setIsChecked(value);
         console.log('Checkbox value:', value);
     }
-    const handleKahimVoteId = (value: number) => {
+    const handleKahimVoteId = (value: string) => {
         setSubmition(prev => ({ ...prev, kahimVoteId: value }));
         console.log('Kahim Vote value:', value);
     };
 
-    const handleSenatVoteId = (value: number) => {
+    const handleSenatVoteId = (value: string) => {
         setSubmition(prev => ({ ...prev, senatVoteId: value }));
         console.log(value === 1 ? 'Setuju' : 'Tidak Setuju', `(Value: ${value})`);
     };
