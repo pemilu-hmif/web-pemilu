@@ -5,6 +5,8 @@ import { useEffect } from "react";
 import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import Onboarding from "~/components/coblos-wizard";
+import { eligibilityResponse } from "~/types/eligibilityResponse";
+
 
 export default function Coblos() {
   const { data: session, status } = useSession();
@@ -12,14 +14,16 @@ export default function Coblos() {
   const [isEligible, setIsEligible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-      if (status === "authenticated") {
-          checkEligibility();
-      }
-  }, [status]);
+    if (status === "authenticated") {
+        void (async () => {
+            await checkEligibility();
+        })();
+    }
+}, [status]);
 
   const checkEligibility = async () => {
       try {
-          const response = await fetch("http://localhost:3000/api/vote/eligible", {
+          const response = await fetch("https://pemilu.hmif.dev/api/vote/eligible", {
               method: "GET",
               headers: {
                   "Content-Type": "application/json",
@@ -30,7 +34,7 @@ export default function Coblos() {
               throw new Error("Failed to fetch eligibility");
           }
 
-          const data = await response.json();
+          const data = await response.json() as eligibilityResponse;
           if (data.eligible) {
               setIsEligible(true);
           } else {
@@ -71,7 +75,7 @@ export default function Coblos() {
   }
     return (
         <div className="flex items-center justify-center h-screen sm:mt-[130px] mt-[30px] sm:mb-[140px] mb-[-28px]">
-          {session?.user?.email && <Onboarding userEmailParam={session.user.email} />}
+          {session?.user?.email && <Onboarding/>}
         </div>
     );
 }

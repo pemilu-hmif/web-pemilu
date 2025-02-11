@@ -8,7 +8,7 @@ export async function GET(req:NextRequest) {
     const token = await getToken({ req, secret: process.env.JWT_SECRET });
     if(!token?.user?.email){
         return NextResponse.json(
-            { eligible: false, message: "Not authenticated" },
+            { eligible: false,hasVoted:false ,message: "Not authenticated" },
             { status: 401 }
           );
     }    
@@ -24,7 +24,7 @@ export async function GET(req:NextRequest) {
       });
       if (!user) {
         return NextResponse.json(
-          { eligible: false, message: "User not found" },
+          { eligible: false,hasVoted:false, message: "User not found" },
           { status: 404 }
         );
       }
@@ -32,6 +32,7 @@ export async function GET(req:NextRequest) {
       return NextResponse.json(
         { 
           eligible: isEligible,
+          hasVoted: !isEligible,
           message: isEligible ? "User is eligible" : "User is not eligible"
         },
         { status: 200 }

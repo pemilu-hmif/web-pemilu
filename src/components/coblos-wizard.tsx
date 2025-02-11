@@ -1,3 +1,4 @@
+
 "use client"
 import { useState } from "react";
 import Link from "next/link";
@@ -6,9 +7,12 @@ import Step2 from "./coblos-steps/step-2";
 import Step3 from "./coblos-steps/step-3";
 import Step4 from "./coblos-steps/step-4";
 import SubmittedPage from "./coblos-steps/submitted";
-import { RequestBody } from "~/app/api/vote/route";
 
 {/* Props for submition */}
+type SubmitionProps = {
+    kahimVoteId: number;
+    senatVoteId: number;
+}
 
 {/* 
     To Do
@@ -21,27 +25,26 @@ import { RequestBody } from "~/app/api/vote/route";
 
 const steps = [Step1, Step2, Step3, Step4, SubmittedPage]
 
-export default function Onboarding({ userEmailParam }: { userEmailParam: string }) {
+export default function Onboarding() {
     const [isChecked, setIsChecked] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [step, setStep] = useState(0);
 
-    const [submition, setSubmition] = useState<RequestBody>({
-        userEmail:userEmailParam,
-        kahimEmail:"",
-        senatEmail:""
+    const [submition, setSubmition] = useState<SubmitionProps>({
+        kahimVoteId: 0,
+        senatVoteId: 0,
     });
 
     const handleCheckBoxChange1 = (value: boolean) => {
         setIsChecked(value);
         console.log('Checkbox value:', value);
     }
-    const handleKahimVoteId = (value: string) => {
+    const handleKahimVoteId = (value: number) => {
         setSubmition(prev => ({ ...prev, kahimVoteId: value }));
         console.log('Kahim Vote value:', value);
     };
 
-    const handleSenatVoteId = (value: string) => {
+    const handleSenatVoteId = (value: number) => {
         setSubmition(prev => ({ ...prev, senatVoteId: value }));
         console.log(value === 1 ? 'Setuju' : 'Tidak Setuju', `(Value: ${value})`);
     };
@@ -193,21 +196,18 @@ export default function Onboarding({ userEmailParam }: { userEmailParam: string 
                 null
             }
             {
-                step < 4 ?
-                (
+                step < 4 ? (
                     <div className="flex justify-center items-center gap-3 mt-4">
-                        {[...Array(4)].map((_, index) => (
+                        {Array.from({ length: 4 }, (_, index) => ( // Fix: Use Array.from with explicit typing
                             <div
-                            key={index}
-                            className={`w-3 h-3 mt-10 mb-12 rounded-full ${
-                                index === step ? "bg-[#ffbb00]" : "bg-white"
-                            } border border-[#ffbb00]`}
+                                key={index}
+                                className={`w-3 h-3 mt-10 mb-12 rounded-full ${
+                                    index === step ? "bg-[#ffbb00]" : "bg-white"
+                                } border border-[#ffbb00]`}
                             />
                         ))}
                     </div>
-                )
-                :
-                null
+                ) : null
             }
         </div>
     )
