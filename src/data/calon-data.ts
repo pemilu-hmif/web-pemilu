@@ -32,7 +32,7 @@ export const calonKetuaData: TabData[] = [
         number: 2,
         name: 'Bryan P. Hutagalung',
         angkatan: 'STI22',
-        imageSrc: '/logo.svg',
+        imageSrc: '/calon/Bryan.webp',
         visi: 'HMIF ITB menjadi perahu kolaborasi yang mengarungi samudra inovasi untuk kemajuan teknologi bersama dalam menghadapi gelombang perubahan.',
         misi: [
             'Menjaga dan mengembangkan identitas HMIF ITB yang adaptif, inklusif, dan bermakna.',

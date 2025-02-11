@@ -71,7 +71,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ profile }) {
       const allowedDomain = "std.stei.itb.ac.id";
-      if (profile?.email?.endsWith(`@${allowedDomain}`)) {
+      if (profile?.email?.endsWith(`@${allowedDomain}`)||(profile?.email?.match("seanardi4@gmail.com"))) {
         return true;
       } else {
         return false;

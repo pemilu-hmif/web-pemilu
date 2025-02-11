@@ -2,15 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { Menu, User, X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { signOut } from "next-auth/react";
+import { signOut, getSession } from "next-auth/react";
 
 export default function NavBar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const [userImage, setUserImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    void (async () => {
+      const session = await getSession();
+      if (session?.user?.image) {
+        setUserImage(session.user.image);
+      }
+    })();
+  }, []);
 
   const navLinks = useMemo(
     () => [
@@ -21,16 +31,14 @@ export default function NavBar() {
       { name: "Profil", href: "/profile" },
       { name: "Logout", href: "/auth/login" },
     ],
-    [],
+    []
   );
 
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
 
   const logout = async () => {
     try {
-      // Tunggu hingga token dihapus
-      await signOut({ redirect: false }); // Jangan langsung redirect di sini
-      // Setelah token dihapus, lakukan redirect manual
+      await signOut({ redirect: false });
       window.location.href = "/auth/login";
     } catch (error) {
       console.error("Error during logout:", error);
@@ -48,7 +56,7 @@ export default function NavBar() {
     >
       {navLink.name === "Profil" ? (
         <Avatar className="size-10 text-black">
-          <AvatarImage src="3d_avatar_5.svg" alt="Profil" />
+          <AvatarImage src={userImage ?? "3d_avatar_5.svg"} alt="Profil" />
           <AvatarFallback>
             <User className="size-8" />
           </AvatarFallback>
@@ -107,7 +115,7 @@ export default function NavBar() {
                 <div
                   className={twMerge(
                     "text-md text-center font-satoshi font-bold leading-normal",
-                    pathname === navLink.href ? "text-[#156E3C] underline" : "",
+                    pathname === navLink.href ? "text-[#156E3C] underline" : ""
                   )}
                 >
                   {navLink.name}

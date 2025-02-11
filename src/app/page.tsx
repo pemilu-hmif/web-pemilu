@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import logo from 'public/homepage/logo.png'
 import timeline from 'public/homepage/timeline.png'
+import tl from 'public/homepage/tl.webp'
 import arrow from 'public/homepage/arrow.png'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -114,7 +115,7 @@ const HomePage = () => {
                 data-aos-delay='200'
             >
                 <div className='mb-16 h-auto w-[270px] sm:h-[500-px] sm:w-96'>
-                    <Image src={timeline} alt='timeline' />
+                    <Image src={tl} alt='timeline' />
                 </div>
             </div>
 
