@@ -23,7 +23,7 @@ export default function Coblos() {
 
   const checkEligibility = async () => {
       try {
-          const response = await fetch("https://pemilu.hmif.dev/api/vote/eligible", {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/vote/eligible`, {
               method: "GET",
               headers: {
                   "Content-Type": "application/json",
