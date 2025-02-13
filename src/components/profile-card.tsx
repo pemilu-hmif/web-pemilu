@@ -29,7 +29,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
     };
   }, [showTooltip]);
 
-  const handleTooltipClick = (e: any) => {
+  const handleTooltipClick = (e: React.MouseEvent) => {
     e.stopPropagation(); 
     setShowTooltip(true);
   };
