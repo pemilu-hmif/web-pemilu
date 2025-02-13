@@ -64,7 +64,7 @@ export default function NavBar() {
       {navLink.name === "Profil" ? (
         <Avatar className="size-10 bg-black text-white">
           <AvatarFallback className="bg-black text-white">
-            {userInitial?.trim().charAt(0).toUpperCase() || <User className="size-8" />}
+            {userInitial?.trim().charAt(0).toUpperCase() ?? <User className="size-8" />}
           </AvatarFallback>
         </Avatar>            
       ) : navLink.name === "Logout" ? (
