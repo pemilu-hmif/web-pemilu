@@ -1,5 +1,5 @@
 "use client"
-import { Tooltip } from 'react-tooltip';
+import { TypeAnimation } from 'react-type-animation';
 import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import { useState } from 'react';
@@ -61,8 +61,15 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
       </div>
 
       {showTooltip && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-700 text-white text-sm p-4 rounded w-80 whitespace-normal z-10">
-          Untuk termasuk dalam DPT anda harus mengikuti minimal 1 rangkaian kegiatan pemilu HMIF ITB 2025 dan mengisi form absensi.
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black bg-white text-sm p-4 rounded w-80 whitespace-normal z-10 border-4 border-black">
+          <TypeAnimation
+            sequence={[
+              'Untuk termasuk dalam DPT anda harus mengikuti minimal 1 rangkaian kegiatan pemilu HMIF ITB 2025 dan mengisi form absensi.',
+            ]}
+            wrapper="span"
+            speed={80}
+            style={{ display: 'inline-block' }}
+          />
         </div>
       )}
 
