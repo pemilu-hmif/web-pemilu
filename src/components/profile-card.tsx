@@ -2,7 +2,7 @@
 import { TypeAnimation } from 'react-type-animation';
 import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { ProfileUser } from '../types/user';
 
 interface ProfileCardProps {
@@ -12,6 +12,27 @@ interface ProfileCardProps {
 const ProfileCard = ({ user }: ProfileCardProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const initial = user.name?.trim().charAt(0).toUpperCase();
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      if(showTooltip) {
+        setShowTooltip(false);
+      }
+    };
+
+    if(showTooltip) {
+      document.addEventListener('click', handleClickOutside);
+    };
+
+    return() => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showTooltip]);
+
+  const handleTooltipClick = (e: any) => {
+    e.stopPropagation(); 
+    setShowTooltip(true);
+  };
 
   return (
     <div className="max-w-3xl mx-4 mt-8 mb-8 sm:py-16 py-8 px-8 rounded-3xl bg-black/20 backdrop-blur-sm text-white border-4 border-[#227C49] relative">
@@ -43,7 +64,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
               {!user.isEligible && (
                 <div className="flex items-center relative">
                   <button
-                    onClick={() => setShowTooltip(!showTooltip)}
+                    onClick={handleTooltipClick}
                     className="ml-2 w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center text-white cursor-pointer hover:bg-gray-600 transition-colors"
                   >
                     ?
