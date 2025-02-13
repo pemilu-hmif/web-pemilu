@@ -7,17 +7,24 @@ import { Menu, User, X } from "lucide-react";
 import { twMerge } from "tailwind-merge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { signOut, getSession } from "next-auth/react";
+import { ProfileUser } from "~/types/user";
+
+interface NavBarProfImgProps {
+  user: ProfileUser
+}
 
 export default function NavBar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [userImage, setUserImage] = useState<string | null>(null);
+  const [userInitial, setUserInitial] = useState<string | null>(null);
 
   useEffect(() => {
     void (async () => {
       const session = await getSession();
-      if (session?.user?.image) {
-        setUserImage(session.user.image);
+      if (session?.user?.name.charAt(0) === '1') {
+        setUserInitial(session.user.name.trim().charAt(9).toUpperCase());
+      } else if (session?.user?.name){
+        setUserInitial(session.user.name.trim().charAt(0).toUpperCase());
       }
     })();
   }, []);
@@ -55,12 +62,11 @@ export default function NavBar() {
       onClick={isOpen ? toggleMenu : undefined}
     >
       {navLink.name === "Profil" ? (
-        <Avatar className="size-10 text-black">
-          <AvatarImage src={userImage ?? "3d_avatar_5.svg"} alt="Profil" />
-          <AvatarFallback>
-            <User className="size-8" />
+        <Avatar className="size-10 bg-black text-white">
+          <AvatarFallback className="bg-black text-white">
+            {userInitial?.trim().charAt(0).toUpperCase() || <User className="size-8" />}
           </AvatarFallback>
-        </Avatar>
+        </Avatar>            
       ) : navLink.name === "Logout" ? (
         <button
           className="rounded-sm bg-green-500 px-2 py-1 text-white"
