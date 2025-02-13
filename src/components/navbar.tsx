@@ -14,13 +14,12 @@ export default function NavBar() {
   const [userImage, setUserImage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchSession = async () => {
+    void (async () => {
       const session = await getSession();
       if (session?.user?.image) {
         setUserImage(session.user.image);
       }
-    };
-    fetchSession();
+    })();
   }, []);
 
   const navLinks = useMemo(
@@ -57,7 +56,7 @@ export default function NavBar() {
     >
       {navLink.name === "Profil" ? (
         <Avatar className="size-10 text-black">
-          <AvatarImage src={userImage || "3d_avatar_5.svg"} alt="Profil" />
+          <AvatarImage src={userImage ?? "3d_avatar_5.svg"} alt="Profil" />
           <AvatarFallback>
             <User className="size-8" />
           </AvatarFallback>

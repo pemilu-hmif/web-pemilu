@@ -23,7 +23,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
               onError={(e) => {
                 // Fallback ke placeholder jika gambar gagal load
                 const target = e.target as HTMLImageElement;
-                target.src = 'public/placeholder/image.png';
+                target.src = '/placeholder/image.png';
               }}
             />
         </div>

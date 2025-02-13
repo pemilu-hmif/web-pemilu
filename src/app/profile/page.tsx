@@ -1,16 +1,53 @@
 "use client"
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { useEffect } from 'react';
 import React from 'react'
 import ProfileCard from '~/components/profile-card'
 import { ProfileUser } from '~/types/user';
 import DialogBox from '~/components/DialogBox'
 import LoadingSpinner from '~/components/LoadingSpinner'
+import { eligibilityResponse } from '~/types/eligibilityResponse';
 
 const Profile =() => {
   
   const { data: session, status } = useSession()
   const [showDialog, setShowDialog] = useState(false)
+  const [isEligible, setIsEligible] = useState(false)
+  const [hasVoted, setHasVoted] = useState(false)
+  useEffect(() => {
+    if (status === "authenticated") {
+        void (async () => {
+            await checkEligibility();
+        })();
+    }
+  }, [status]);
+
+  const checkEligibility = async() =>{
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/vote/eligible`, {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+
+      if (!response.ok) {
+          throw new Error("Failed to fetch eligibility");
+      }
+
+      const data = await response.json() as eligibilityResponse;
+      if (data.eligible) {
+          setIsEligible(true);
+      }
+      if(data.hasVoted){
+        setHasVoted(true);
+      }
+  } catch (error) {
+      console.error("Error checking eligibility:", error);
+      setShowDialog(true);
+  };
+  };
   if (status === 'loading') {
     return <LoadingSpinner />
   }
@@ -20,12 +57,12 @@ const Profile =() => {
             title='Unauthorized'
             message='You are not authenticated. Please log in to continue.'
             onConfirm={() => (window.location.href = '/auth/login')}
-            onCancel={() => setShowDialog(true)} // Menutup dialog
+            onCancel={() => (window.location.href = '/auth/login')} 
         />
     )
   }
 
-  const user = session?.user || {
+  const user = session?.user ?? {
     id: 'defaultId',
     email: 'default@example.com',
     image: 'defaultImageUrl',
@@ -44,10 +81,10 @@ const Profile =() => {
     }
   }
 
-  const userImage = user.image
-  const kodeJurusan = nim.substring(0, 3)
-  const angkatan = nim.substring(3, 5)
-  const nama = user.name.substring(8)
+  const userImage = user.image;
+  const kodeJurusan = nim.substring(0, 3);
+  const angkatan = nim.substring(3, 5);
+  const nama = user.name.substring(8);
   
   const userProfile: ProfileUser = {
     id: user.id ?? '',
@@ -57,8 +94,8 @@ const Profile =() => {
     nim: nim,
     jurusan: getJurusan(kodeJurusan),
     angkatan: '20' + angkatan,
-    isEligible: true,
-    hasVoted: false,
+    isEligible: isEligible,
+    hasVoted: hasVoted,
   }
 
   return (
