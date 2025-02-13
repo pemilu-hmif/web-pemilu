@@ -17,7 +17,7 @@ export default function TataCara() {
                 title='Unauthorized'
                 message='You are not authenticated. Please log in to continue.'
                 onConfirm={() => (window.location.href = '/auth/login')}
-                onCancel={() => setShowDialog(true)} // Menutup dialog
+                onCancel={() => (window.location.href = '/auth/login')}
             />
         )
     }
