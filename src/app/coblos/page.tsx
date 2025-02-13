@@ -67,8 +67,8 @@ export default function Coblos() {
       return (
           <DialogBox
               title="Not Eligible"
-              message="You are not eligible to proceed."
-              onConfirm={() => (window.location.href = "/")}
+              message="Kamu tidak eligible untuk masuk. Informasi lengkap bisa dilihat di page profile."
+              onConfirm={() => (window.location.href = "/profile")}
               onCancel={() => (window.location.href = "/")}
           />
       );
