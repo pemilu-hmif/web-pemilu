@@ -84,7 +84,7 @@ const Profile =() => {
   const userImage = user.image;
   const kodeJurusan = nim.substring(0, 3);
   const angkatan = nim.substring(3, 5);
-  const nama = user.name.substring(8);
+  const nama = user.name.slice(user.name.search(/[a-zA-Z]/));
   
   const userProfile: ProfileUser = {
     id: user.id ?? '',
