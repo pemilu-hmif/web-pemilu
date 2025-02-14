@@ -41,7 +41,7 @@ export const calonKetuaData: TabData[] = [
             'Memperluas relasi dengan komunitas teknologi untuk memperkaya pengalaman dan wawasan warga HMIF ITB.',
             'Mendorong kontribusi sosial teknologi untuk pemberdayaan masyarakat melalui implementasi solusi inovatif.'
         ],
-        draflink: '/404',
+        draflink: 'https://s.hmif.dev/KolaborasInovasi',
         calonpagelink: '/calonketua/2'
     }
 ]
