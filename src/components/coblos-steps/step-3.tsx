@@ -3,23 +3,23 @@ import React from "react"
 import Image from "next/image"
 import CoblosCard from "../coblos-card"
 
-export default function Step3({senatVoteId, onChange}: {senatVoteId: number, onChange: (value : number) => void}) {
-    const handleSetVoteId1 = () => {
-        if (senatVoteId === 0 || senatVoteId === 2) {
-            onChange(1);
+export default function Step3({senatEmail, onChange}: {senatEmail: string, onChange: (value : string) => void}) {
+    const handleSetVoteEmail1 = () => {
+        if (senatEmail === "" || senatEmail === "Tidak Setuju") {
+            onChange("Darrel"); // CHANGE INTO REAL EMAIL
         }
         else
         {
-            onChange(0)
+            onChange("")
         }
     };
-    const handleSetVoteId2 = () => {
-        if (senatVoteId === 0 || senatVoteId === 1) {
-            onChange(2);
+    const handleSetVoteEmail2 = () => {
+        if (senatEmail === "" || senatEmail === "Darrel") {
+            onChange("Tidak Setuju");
         }
         else
         {
-            onChange(0)
+            onChange("")
         }
     };
     return (
@@ -31,10 +31,10 @@ export default function Step3({senatVoteId, onChange}: {senatVoteId: number, onC
                 <h1 className="text-2xl font-satoshi text-white text-center">Apakah kamu setuju atau tidak setuju calon berikut menjadi senator HMIF?</h1>
             </div>
             <div className="flex" >
-                <button onClick={handleSetVoteId1} className="mr-8 relative">
+                <button onClick={handleSetVoteEmail1} className="mr-8 relative">
                     <CoblosCard number={1} name="Elijah Darrellshane Suryanegara" imageSrc="/calon/Darrel.webp" angkatan="IF'22"/>
                     {
-                        senatVoteId === 1 && (
+                        senatEmail === "Darrel" && ( // CHANGE INTO REAL EMAIL
                             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                                 <Image
                                     src="/coblos/paku.svg"
@@ -47,10 +47,10 @@ export default function Step3({senatVoteId, onChange}: {senatVoteId: number, onC
                         )
                     }
                 </button>
-                <button onClick={handleSetVoteId2} className="relative">
+                <button onClick={handleSetVoteEmail2} className="relative">
                     <CoblosCard number={2} name="" imageSrc="/coblos/kotak-kosong.svg" angkatan=""/>
                     {
-                        senatVoteId === 2 && (
+                        senatEmail === "Tidak Setuju" && (
                             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                                 <Image
                                     src="/coblos/paku.svg"
