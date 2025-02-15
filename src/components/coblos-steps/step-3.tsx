@@ -48,7 +48,7 @@ export default function Step3({senatEmail, onChange}: {senatEmail: string, onCha
                     }
                 </button>
                 <button onClick={handleSetVoteEmail2} className="relative">
-                    <CoblosCard number={2} name="" imageSrc="/coblos/kotak-kosong.svg" angkatan=""/>
+                    <CoblosCard name="" imageSrc="" angkatan=""/>
                     {
                         senatEmail === "Tidak Setuju" && (
                             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
