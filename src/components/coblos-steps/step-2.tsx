@@ -3,23 +3,23 @@ import React from "react"
 import Image from "next/image"
 import CoblosCard from "../coblos-card"
 
-export default function Step2({ kahimVoteId, onChange } : {kahimVoteId: number, onChange : (value : number) => void}) {
-    const handleSetVoteId1 = () => {
-        if (kahimVoteId === 0 || kahimVoteId === 2) {
-            onChange(1);
+export default function Step2({ kahimEmail, onChange } : {kahimEmail: string, onChange : (value : string) => void}) {
+    const handleSetVoteEmail1 = () => {
+        if (kahimEmail === "" || kahimEmail === "bryan") { // CHANGE INTO REAL EMAIL
+            onChange("scifo"); // CHANGE INTO REAL EMAIL
         }
         else
         {
-            onChange(0)
+            onChange("")
         }
     };
-    const handleSetVoteId2 = () => {
-        if (kahimVoteId === 0 || kahimVoteId === 1) {
-            onChange(2);
+    const handleSetVoteEmail2 = () => {
+        if (kahimEmail === "" || kahimEmail === "scifo") { // CHANGE INTO REAL EMAIL
+            onChange("bryan"); // CHANGE INTO REAL EMAIL
         }
         else
         {
-            onChange(0)
+            onChange("")
         }
     };
     return (
@@ -31,10 +31,10 @@ export default function Step2({ kahimVoteId, onChange } : {kahimVoteId: number, 
                 <h2 className="text-2xl font-satoshi text-white">Pilih calon ketua himpunan yang ingin dicoblos</h2>
             </div>
             <div className="flex" >
-                <button onClick={handleSetVoteId1} className="mr-8 relative">
+                <button onClick={handleSetVoteEmail1} className="mr-8 relative">
                     <CoblosCard number={1} name="Marvin Scifo Y. Hutahaean" imageSrc="/calon/Scifo.webp" angkatan="IF'22"/>
                     {
-                        kahimVoteId === 1 && (
+                        kahimEmail === "scifo" && ( // CHANGE INTO REAL EMAIL
                             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                                 <Image
                                     src="/coblos/paku.svg"
@@ -47,10 +47,10 @@ export default function Step2({ kahimVoteId, onChange } : {kahimVoteId: number, 
                         )
                     }
                 </button>
-                <button onClick={handleSetVoteId2} className="relative">
+                <button onClick={handleSetVoteEmail2} className="relative">
                     <CoblosCard number={2} name="Bryan P. Hutagalung" imageSrc="/calon/Bryan.webp" angkatan="STI'22"/>
                     {
-                        kahimVoteId === 2 && (
+                        kahimEmail === "bryan" && ( // CHANGE INTO REAL EMAIL
                             <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
                                 <Image
                                     src="/coblos/paku.svg"
