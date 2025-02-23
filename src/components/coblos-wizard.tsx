@@ -211,9 +211,11 @@ export default function Onboarding() {
                             </button>
                             </Link>
                         
+                        <Link href="https://forms.gle/MgFXABwpVvbnCDMo9">
                         <button className="opacity-50 h-[55px] w-[175px] px-8 py-3 bg-[#ffbb00] rounded-2xl text-2xl font-['Satoshi Variable'] text-[#156e3c] font-bold flex items-center justify-center">
                             Feedback
                         </button>
+                        </Link>
                     </div>   
                 )
                 :
