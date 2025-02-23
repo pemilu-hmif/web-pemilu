@@ -1,6 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { hashSync } from "bcrypt-ts";
+import { getToken } from "next-auth/jwt";
+
 
 //contoh body
 // {
@@ -17,9 +19,18 @@ export interface RequestBody {
     senatEmail: string;
 }
 
-export async function PATCH(req: Request) {
+export const dynamic = 'force-dynamic';
+export async function PATCH(request: NextRequest) {
     try {
-        const { userEmail, kahimEmail, senatEmail }: RequestBody = (await req.json()) as RequestBody;
+        const token = await getToken({ req:request, secret: process.env.JWT_SECRET });
+        if(!token?.user?.email){
+            return NextResponse.json(
+                { eligible: false,hasVoted:false ,message: "Not authenticated" },
+                { status: 401 }
+            );
+        }    
+        console.log(token.user.email);
+        const { userEmail, kahimEmail, senatEmail }: RequestBody = (await request.json()) as RequestBody;
 
         if (!userEmail || !kahimEmail || !senatEmail) {
             return NextResponse.json(
@@ -41,6 +52,13 @@ export async function PATCH(req: Request) {
         if (existingUser.kahim_email !== null || existingUser.senat_email !== null) {
             return NextResponse.json(
                 { error: "You've already voted." },
+                { status: 403 }
+            );
+        }
+
+        if(userEmail != token.user.email){
+            return NextResponse.json(
+                { error: "Denied" },
                 { status: 403 }
             );
         }

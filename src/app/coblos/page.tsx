@@ -13,6 +13,14 @@ export default function Coblos() {
   const [showDialog, setShowDialog] = useState(false);
   const [isEligible, setIsEligible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const voteDateStart = new Date(2025,2,11,1,0,0);
+  const voteDateEnd = new Date(2025,2,13,1,0,0);
+  const currentDate = new Date();
+  const isVoteDate = (currentDate > voteDateStart) &&(currentDate<voteDateEnd);
+console.log("voteDateStart:", voteDateStart);
+console.log("voteDateEnd:", voteDateEnd);
+console.log("currentDate:", currentDate);
+console.log("isVoteDate:", isVoteDate);
   useEffect(() => {
     if (status === "authenticated") {
         void (async () => {
@@ -73,6 +81,17 @@ export default function Coblos() {
           />
       );
   }
+
+  if (!isVoteDate) {
+    return (
+        <DialogBox
+            title="Belum Waktunya"
+            message="Voting akan dilakukan pada tanggal 11 & 12 Maret 2025. Ditunggu ya !!!"
+            onConfirm={() => (window.location.href = "/")}
+            onCancel={() => (window.location.href = "/")}
+        />
+    );
+}
     return (
         <div className="flex items-center justify-center h-screen sm:mt-[130px] mt-[30px] sm:mb-[140px] mb-[-28px]">
           {session?.user?.email && <Onboarding/>}
