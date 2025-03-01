@@ -47,3 +47,4 @@ yarn-error.log*
 .idea
 
 /helperScript/dbConfig.py
+/helperScript/DPT1.xlsx

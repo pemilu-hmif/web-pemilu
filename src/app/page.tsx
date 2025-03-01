@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import logo from 'public/homepage/logo.png'
 import timeline from 'public/homepage/timeline.png'
-import tl from 'public/homepage/tl.webp'
+import tl from 'public/homepage/tl2.webp'
 import arrow from 'public/homepage/arrow.png'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
