@@ -74,8 +74,10 @@ export default function Coblos() {
       );
   }
     return (
-        <div className="flex items-center justify-center h-screen sm:mt-[130px] mt-[30px] sm:mb-[140px] mb-[-28px]">
-          {session?.user?.email && <Onboarding/>}
+        <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10">
+            <div className="max-w-[95%] [@media(max-width:350px)]:max-w-[90%] mt-12">
+                {session?.user?.email && <Onboarding />}
+            </div>
         </div>
     );
 }
