@@ -86,7 +86,7 @@ console.log("isVoteDate:", isVoteDate);
     return (
         <DialogBox
             title="Belum Waktunya"
-            message="Voting akan dilakukan pada tanggal 11 & 12 Maret 2025. Ditunggu ya !!!"
+            message="Voting akan dilakukan pada tanggal 17 & 18 Maret 2025. Ditunggu ya !!!"
             onConfirm={() => (window.location.href = "/")}
             onCancel={() => (window.location.href = "/")}
         />
