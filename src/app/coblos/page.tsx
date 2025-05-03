@@ -13,8 +13,8 @@ export default function Coblos() {
   const [showDialog, setShowDialog] = useState(false);
   const [isEligible, setIsEligible] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const voteDateStart = new Date(2025,2,17,1,0,0);
-  const voteDateEnd = new Date(2025,2,19,1,0,0);
+  const voteDateStart = new Date(2025,2,1,1,0,0);
+  const voteDateEnd = new Date(2026,2,19,1,0,0);
   const currentDate = new Date();
   const isVoteDate = (currentDate > voteDateStart) &&(currentDate<voteDateEnd);
 console.log("voteDateStart:", voteDateStart);
