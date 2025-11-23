@@ -12,7 +12,7 @@ const Footer = () => {
               <Image src={logo} alt="logo" />
             </div>
             <h1 className="text-2xl md:text-2xl">PEMILU</h1>
-            <h3 className="md:text-md text-md">HMIF 2025</h3>
+            <h3 className="md:text-md text-md">HMIF 2026</h3>
           </div>
           <div className="flex flex-col font-satoshi">
             <h4 className="mb-2 text-sm font-bold tracking-wider md:mb-4 md:text-lg">
@@ -30,12 +30,12 @@ const Footer = () => {
           </h4>
           <div className="grid grid-rows-2 md:grid-cols-2 gap-y-8 md:gap-x-44">
             <div className="flex flex-col gap-1 md:gap-2">
-              <p className="text-sm md:text-base">Venantius Sean</p>
+              <p className="text-sm md:text-base">Nathanael Rachmat</p>
               <div className="flex items-center gap-2">
                 <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={line} alt="line" />
                 </div>
-                <a href="https://line.me/ti/p/~seanardinugroholline" className="text-sm md:text-base">seanardinugroholline</a>
+                <a href="https://line.me/ti/p/~nathanaelrachmat" className="text-sm md:text-base">nathanaelrachmat</a>
               </div>
               {/* <div className="flex items-center gap-2">
                 <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
@@ -45,12 +45,12 @@ const Footer = () => {
               </div> */}
             </div>
             <div className="flex flex-col gap-1 md:gap-2">
-              <p className="text-sm md:text-base">Ahmad Thoriq</p>
+              <p className="text-sm md:text-base">Reza Ahmad Syarif</p>
               <div className="flex items-center gap-2">
                 <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">
                   <Image src={line} alt="line" />
                 </div>
-                <a href="https://line.me/ti/p/~thoriqaurkuning" className="text-sm md:text-base">thoriqaurkuning</a>
+                <a href="https://line.me/ti/p/~rejaah." className="text-sm md:text-base">rejaah.</a>
               </div>
               <div className="flex items-center gap-2">
                 {/* <div className="h-[20px] w-[20px] md:h-[24px] md:w-[24px]">

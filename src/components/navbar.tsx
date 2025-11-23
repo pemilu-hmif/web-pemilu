@@ -32,7 +32,7 @@ export default function NavBar() {
   const navLinks = useMemo(
     () => [
       { name: "Beranda", href: "/" },
-      { name: "Coblos", href: "/coblos" },
+      // { name: "Coblos", href: "/coblos" },
       { name: "Tata Cara", href: "/tata-cara" },
       { name: "Peraturan", href: "/peraturan" },
       { name: "Profil", href: "/profile" },
@@ -69,7 +69,7 @@ export default function NavBar() {
         </Avatar>            
       ) : navLink.name === "Logout" ? (
         <button
-          className="rounded-sm bg-green-500 px-2 py-1 text-white"
+          className="rounded-xl bg-[#156E3C] px-4 py-2 text-[1.25rem] text-white hover:bg-[#0C4224] transition-colors duration-300 ease-in-out"
           onClick={() => logout()}
         >
           Sign out

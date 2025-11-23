@@ -58,7 +58,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
             <span className="text-white">Angkatan</span>
             <span className='font-semibold'>{user.angkatan}</span>
 
-            <span className="text-white">Status Pemilih</span>
+            {/*<span className="text-white">Status Pemilih</span>
             <span className={`font-semibold ${user.isEligible ? 'text-yellow-400' : 'text-red-400'} flex items-center`}>
               {user.isEligible ? 'Eligible' : 'Not Eligible'}
               {!user.isEligible && (
@@ -76,7 +76,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
             <span className="text-white">Sudah Coblos</span>
             <span className={`font-semibold ${user.hasVoted ? 'text-yellow-400' : 'text-red-400'}`}>
               {user.hasVoted ? 'Sudah' : 'Belum'}
-            </span>
+            </span>*/}
           </div>
         </div>
       </div>

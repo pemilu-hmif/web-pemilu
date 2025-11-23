@@ -57,12 +57,11 @@ const HomePage = () => {
                             </h1>
                         </div>
                         <h1 className='mt-2 font-neuething text-5xl font-bold tracking-wide sm:text-7xl'>
-                            HMIF 2025
+                            HMIF 2026
                         </h1>
                         <div className='mt-4'>
-                            <h3 className='rounded-full border px-4 py-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl'>
-                                Pelajari calon ketua himpunan yang sesuai
-                                denganmu!
+                            <h3 className='rounded-full border px-4 py-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl max-w-[700px]'>
+                                Kenali tata cara mencalonkan diri menjadi calon ketua himpunan dan senator HMIF selanjutnya
                             </h3>
                         </div>
                     </div>
@@ -74,12 +73,12 @@ const HomePage = () => {
                     asChild
                     className='flex items-center justify-center rounded-[32px] bg-[#ffbb00] px-9 py-3 text-xl text-[#156E3C] hover:bg-yellow-600'
                 >
-                    <Link href='#calon'>Kenali Calonmu</Link>
+                    <Link href='tata-cara'>Lihat Tata Cara</Link>
                 </Button>
             </div>
 
             {/* section 2 */}
-            <div
+            {/* <div
                 className='flex min-h-screen flex-col items-center justify-center px-2 py-4 text-center text-white'
                 data-aos='fade-up'
                 data-aos-delay='200'
@@ -106,9 +105,9 @@ const HomePage = () => {
                         <Image src={arrow} alt='arrow' width={24} height={24} />
                     </span>
                 </a>
-            </div>
+            </div> */}
 
-            {/* Timeline */}
+            {/* Timeline 
             <div
                 className='mb-6 flex items-center justify-center'
                 data-aos='fade-up'
@@ -117,10 +116,10 @@ const HomePage = () => {
                 <div className='mb-16 h-auto w-[270px] sm:h-[500-px] sm:w-96'>
                     <Image src={tl} alt='timeline' />
                 </div>
-            </div>
+            </div> */}
 
             {/* Calon */}
-            <div
+            {/* <div
                 className='flex flex-col items-center justify-center gap-24 px-4 pb-12 pt-12 text-center text-white md:pt-32'
                 id='calon'
             >
@@ -162,7 +161,7 @@ const HomePage = () => {
                         ))}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

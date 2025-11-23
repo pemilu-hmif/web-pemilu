@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import logo from "public/login/login_logo.png";
+import logo from "public/homepage/logo.png";
 import google from "public/login/google.svg";
 import { signIn, useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/LoadingSpinner";
@@ -32,8 +32,11 @@ const LoginPage = () => {
   return (
     <div className="flex min-h-screen items-center justify-center">
       {/* Left section with logo - hidden on mobile */}
-      <div className="hidden w-1/2 items-center justify-center md:flex">
-        <Image alt="logo" src={logo} width={521} height={497} priority />
+      <div className="hidden w-1/2 items-center justify-center md:flex md:flex-col">
+        <Image alt="logo" src={logo} width={264} height={245} priority />
+        <p className="font-neuething text-white text-7xl mt-10">PEMILU</p>
+        <p className="font-neuething text-white text-5xl">HMIF 2026</p>
+
       </div>
 
       {/* Right section - full width on mobile */}
