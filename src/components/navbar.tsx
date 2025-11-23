@@ -79,7 +79,6 @@ export default function NavBar() {
       )}
     </Link>
   );
-
   return (
     <nav className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center bg-[#FAFAFA]">
       <div className="w-[90%] px-6 py-3">
