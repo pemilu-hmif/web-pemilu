@@ -42,43 +42,76 @@ body {
   }
 }
 
-.prose p {
-  line-height: 1;
-  margin-bottom: 0rem;
+.prose * {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.7 !important;
+}
+
+.prose ol, 
+.prose ul {
+  list-style: none !important;
+  margin-left: 0 !important;
 }
 
 .prose li {
-  margin-bottom: 0rem;
-}
-
-.prose h1,
-.prose h2,
-.prose h3 {
-  margin-top: 0rem;
-  margin-bottom: 0.5rem;
-  line-height: 1;
-}
-
-.prose p,
-.prose li,
-.prose span {
-}
-
-.prose * {
-  line-height: inherit !important;
-  margin-top: 0rem;
-  line-height: 1.5 !important;
-}
-
-
-.prose ol,
-.prose ul {
-  padding-left: 30px;
-  margin-bottom: 0;
-}
-
-.prose ol li,
-.prose ul li {
+  margin: 0.25rem 0 !important;
   white-space: normal !important;
 }
 
+.prose ol {
+  counter-reset: lvl1;
+  line-height: 0 !important;
+}
+
+.prose ol li {
+  position: relative;
+  margin: 4px 0;
+  padding-left: 2rem !important;
+}
+
+.prose ol li::before {
+  color: #156e3c !important;
+}
+
+.prose ol li::before {
+  counter-increment: lvl1;
+  content: counter(lvl1) ".";
+  position: absolute;
+  left: 0;
+  width: 1.5rem;
+  text-align: right;
+  font-weight: 700 !important;
+}
+
+.prose ol li ol li::before {
+  counter-increment: lvl2;
+  content: counter(lvl2, lower-alpha) ".";
+  font-weight: 600 !important;
+}
+
+.prose ol li ol li ol li::before {
+  counter-increment: lvl3;
+  content: counter(lvl3, lower-roman) ".";
+  font-style: italic;
+  font-weight: 500 !important;
+}
+
+.prose ol li ol li ol li ol li::before {
+  counter-increment: lvl4;
+  content: counter(lvl4) ".";
+  font-weight: 500 !important;
+}
+
+.prose ol { counter-reset: lvl1; }
+.prose ol ol { counter-reset: lvl2; }
+.prose ol ol ol { counter-reset: lvl3; }
+.prose ol ol ol ol { counter-reset: lvl4; }
+
+.prose ol > li > ol > li > ol > li::before {
+  font-weight: 600 !important;
+}
+
+.prose ol > li > ol > li > ol > li > ol > li::before {
+  font-weight: 600 !important;
+}
