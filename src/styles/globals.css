@@ -41,3 +41,44 @@ body {
     --radius: 0.5rem;
   }
 }
+
+.prose p {
+  line-height: 1;
+  margin-bottom: 0rem;
+}
+
+.prose li {
+  margin-bottom: 0rem;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.prose p,
+.prose li,
+.prose span {
+}
+
+.prose * {
+  line-height: inherit !important;
+  margin-top: 0rem;
+  line-height: 1.5 !important;
+}
+
+
+.prose ol,
+.prose ul {
+  padding-left: 30px;
+  margin-bottom: 0;
+}
+
+.prose ol li,
+.prose ul li {
+  white-space: normal !important;
+}
+

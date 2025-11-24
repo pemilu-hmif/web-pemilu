@@ -2,9 +2,21 @@
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
-await import("./src/env.js");
+
+import "./src/env.js";
+import mdx from "@next/mdx";
+import remarkGfm from "remark-gfm";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const nextConfig = {
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+};
 
-export default config;
+// Apply MDX wrapper
+export default mdx({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+  },
+})(nextConfig);
+
