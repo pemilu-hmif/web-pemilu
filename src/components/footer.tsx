@@ -19,7 +19,7 @@ const Footer = () => {
               Explore
             </h4>
             <div className="flex flex-col gap-1 md:gap-2">
-              <a href="https://drive.google.com/drive/folders/1t2Hv0BFil_-vrxoYzif9JNLHh957Vm7S" className="text-sm md:text-base">Dokumen Teknis Pemilu</a>
+              <a href="https://drive.google.com/drive/folders/1aZKPw4eADaaXyx4QXh5_ax_yIQ6oYG82?usp=sharing" className="text-sm md:text-base">Dokumen Teknis Pemilu</a>
               <a href="https://forms.gle/MgFXABwpVvbnCDMo9" className="text-sm md:text-base">Kritik dan Saran</a>
             </div>
           </div>
