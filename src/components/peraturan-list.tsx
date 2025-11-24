@@ -15,49 +15,49 @@ export default function PeraturanList() {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
 
-      <Collapsible title="1. Definisi dan Penjelasan Umum" logotype="book">
+      <Collapsible title="Bagian I Definisi dan Penjelasan Umum" logotype="book">
         <MdxWrapper>
           <P1 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="2. Definisi Pemilihan Umum (Pemilu) HMIF ITB" logotype="book">
+      <Collapsible title="Bagian II Definisi Pemilihan Umum (Pemilu) HMIF ITB" logotype="book">
         <MdxWrapper>
           <P2 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="3. Prasyarat untuk menjadi calon ketua HMIF" logotype="checkbox">
+      <Collapsible title="Bagian III Prasyarat untuk menjadi calon ketua HMIF" logotype="checkbox">
         <MdxWrapper>
           <P3 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="4. Prasyarat untuk menjadi calon senator HMIF" logotype="checkbox">
+      <Collapsible title="Bagian IV Prasyarat untuk menjadi calon senator HMIF" logotype="checkbox">
         <MdxWrapper>
           <P4 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="5. Ketentuan untuk menjadi tim sukses calon ketua HMIF atau calon senator HMIF" logotype="rule">
+      <Collapsible title="Bagian V Ketentuan untuk menjadi tim sukses calon ketua HMIF atau calon senator HMIF" logotype="rule">
         <MdxWrapper>
           <P5 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="6. Ketentuan Daftar Pemilih Tetap" logotype="rule">
+      <Collapsible title="Bagian VI Ketentuan Daftar Pemilih Tetap" logotype="rule">
         <MdxWrapper>
           <P6 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="7. Rangkaian Acara" logotype="calendar">
+      <Collapsible title="Bagian VII Rangkaian Acara" logotype="calendar">
         <MdxWrapper>
           <P7 />
         </MdxWrapper>
       </Collapsible>
 
-      <Collapsible title="8. Aturan Tambahan" logotype="exclamation">
+      <Collapsible title="Bagian VIII Aturan Tambahan" logotype="exclamation">
         <MdxWrapper>
           <P8 />
         </MdxWrapper>
