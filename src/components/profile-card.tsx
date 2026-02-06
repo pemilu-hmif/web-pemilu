@@ -58,7 +58,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
             <span className="text-white">Angkatan</span>
             <span className='font-semibold'>{user.angkatan}</span>
 
-            {/*<span className="text-white">Status Pemilih</span>
+            <span className="text-white">Status Pemilih</span>
             <span className={`font-semibold ${user.isEligible ? 'text-yellow-400' : 'text-red-400'} flex items-center`}>
               {user.isEligible ? 'Eligible' : 'Not Eligible'}
               {!user.isEligible && (
@@ -76,7 +76,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
             <span className="text-white">Sudah Coblos</span>
             <span className={`font-semibold ${user.hasVoted ? 'text-yellow-400' : 'text-red-400'}`}>
               {user.hasVoted ? 'Sudah' : 'Belum'}
-            </span>*/}
+            </span>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black bg-white text-sm p-4 rounded w-80 whitespace-normal z-10 border-4 border-black">
           <TypeAnimation
             sequence={[
-              'Untuk termasuk dalam DPT anda harus mengikuti minimal 1 rangkaian kegiatan pemilu HMIF ITB 2025 dan mengisi form absensi.',
+              'Untuk termasuk dalam DPT anda harus mengikuti minimal 1 rangkaian kegiatan pemilu HMIF ITB 2026 dan mengisi form absensi.',
             ]}
             wrapper="span"
             speed={80}

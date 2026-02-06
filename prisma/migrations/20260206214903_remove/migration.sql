@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Calon_Detail" ALTER COLUMN "angkatan" DROP DEFAULT,
+ALTER COLUMN "name" DROP DEFAULT;
