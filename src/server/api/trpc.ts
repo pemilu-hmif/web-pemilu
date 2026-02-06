@@ -10,12 +10,12 @@
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
-
-import { getServerAuthSession } from "~/lib/auth/auth";
+import { auth } from "~/server/auth";
+import { Role } from "@prisma/client";
 import { db } from "~/server/db";
 
 /**
- * 1. CONTEXT
+* 1. CONTEXT
  *
  * This section defines the "contexts" that are available in the backend API.
  *
@@ -27,7 +27,7 @@ import { db } from "~/server/db";
  * @see https://trpc.io/docs/server/context
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
-  const session = await getServerAuthSession();
+  const session = await auth();
 
   return {
     db,
@@ -131,3 +131,22 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+export const authProcedure = t.procedure.use(({ ctx, next }) => {
+  if (ctx.session?.user) {
+    // user is already logged in → block access
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "You are already logged in.",
+    });
+  }
+
+  return next();
+});
+
+export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.session.user.role !== Role.ADMIN) {
+    throw new TRPCError({ code: "FORBIDDEN", message: "Admin only." });
+  }
+  return next();
+});

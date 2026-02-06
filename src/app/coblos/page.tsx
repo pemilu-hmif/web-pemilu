@@ -17,10 +17,6 @@ export default function Coblos() {
   const voteDateEnd = new Date(2026,2,19,1,0,0);
   const currentDate = new Date();
   const isVoteDate = (currentDate > voteDateStart) &&(currentDate<voteDateEnd);
-console.log("voteDateStart:", voteDateStart);
-console.log("voteDateEnd:", voteDateEnd);
-console.log("currentDate:", currentDate);
-console.log("isVoteDate:", isVoteDate);
   useEffect(() => {
     if (status === "authenticated") {
         void (async () => {

@@ -35,7 +35,9 @@ export default function Collapsible({
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          <p className="whitespace-pre-wrap text-sm md:text-lg">{children}</p>
+          <div className="prose whitespace-pre-wrap text-sm md:text-lg">
+            {children}
+          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

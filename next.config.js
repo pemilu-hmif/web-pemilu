@@ -10,13 +10,19 @@ import remarkGfm from "remark-gfm";
 /** @type {import("next").NextConfig} */
 const nextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+    ],
+  },
 };
 
-// Apply MDX wrapper
 export default mdx({
   extension: /\.mdx?$/,
   options: {
     remarkPlugins: [remarkGfm],
   },
 })(nextConfig);
-
