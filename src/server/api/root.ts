@@ -1,4 +1,6 @@
 import { adminRouter } from "./routers/admin";
+import { userRouter } from "./routers/user";
+import { voteRouter } from "./routers/vote";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -9,6 +11,8 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
 
   admin: adminRouter,
+  user: userRouter,
+  vote: voteRouter,
 });
 
 // export type definition of API

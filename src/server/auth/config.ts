@@ -93,7 +93,6 @@ export const authConfig = {
             email,
             name: profile.name ?? undefined,
             nim: email ? email.split("@")[0] : undefined,
-            voted: false,
             role: "USER",
           },
         });
@@ -105,9 +104,25 @@ export const authConfig = {
 
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.role = user.role;
+        if (user.role) {
+          token.id = user.id;
+          token.role = user.role;
+          return token;
+        }
+
+        if (user.email) {
+          const dbUser = await db.user.findUnique({
+            where: { email: user.email },
+            select: { id: true, role: true },
+          });
+
+          if (dbUser) {
+            token.id = dbUser.id;
+            token.role = dbUser.role;
+          }
+        }
       }
+
       return token;
     },
 

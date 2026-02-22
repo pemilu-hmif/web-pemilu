@@ -35,13 +35,13 @@ const ProfileCard = ({ user }: ProfileCardProps) => {
   };
 
   return (
-    <div className="max-w-3xl mx-4 mt-8 mb-8 sm:py-16 py-8 px-8 rounded-3xl bg-black/20 backdrop-blur-sm text-white border-4 border-[#227C49] relative">
+    <div className="max-w-3xl w-full mx-4 mt-8 mb-8 sm:py-16 py-8 px-8 rounded-3xl bg-black/20 backdrop-blur-sm text-white border-4 border-[#227C49] relative">
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <div className="sm:w-56 sm:h-56 w-36 h-36 rounded-full flex items-center justify-center bg-black text-white text-[5rem] text-center font-bold">
           {initial}
         </div>
 
-        <div className="flex-1 space-y-2 overflow-hidden">
+        <div className="flex-1 space-y-2 overflow-hidden w-full">
           <div className="grid sm:grid-cols-2 grid-cols-1 gap-x-2 gap-y-2 font-satoshi">
             <span className="text-white">Nama</span>
             <span className='font-semibold'>{user.name}</span>
