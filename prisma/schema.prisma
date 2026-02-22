@@ -36,15 +36,14 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  nim           String?
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  voted         Boolean
-  accounts      Account[]
-  role          Role
-  passwordHash  String?
+  id           String    @id @default(cuid())
+  nim          String?
+  name         String?
+  email        String?   @unique
+  accounts     Account[]
+  role         Role
+  passwordHash String?
+  Vote         Vote[]
 }
 
 enum Role {
@@ -53,9 +52,16 @@ enum Role {
 }
 
 model Eligible {
-  id       Int     @id @default(autoincrement())
-  nim      String
-  eligible Boolean
+  id         Int     @id @default(autoincrement())
+  electionId String
+  nim        String
+  eligible   Boolean
+
+  election Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+
+  @@unique([electionId, nim])
+  @@index([electionId])
+  @@index([nim])
 }
 
 model Config {
@@ -64,21 +70,88 @@ model Config {
   calon     Boolean
   coblos    Boolean
   peraturan Boolean
+
+  activeElectionId String?
+  activeElection   Election? @relation("ActiveElection", fields: [activeElectionId], references: [id])
 }
 
 model Calon_Detail {
-  id       Int       @id @default(autoincrement())
-  name     String
-  angkatan String
-  number   Int
-  image    String?
-  vision   String?
-  mision   String?
-  document String?
-  type     CalonType
+  id         Int             @id @default(autoincrement())
+  name       String
+  angkatan   String
+  number     Int
+  image      String?
+  vision     String?
+  mision     String?
+  document   String?
+  type       CalonType
+  isActive   Boolean         @default(true)
+  elections  ElectionCalon[]
+  kahimVotes Vote[]          @relation("VoteKahim")
+  senatVotes Vote[]          @relation("VoteSenat")
+
+  @@index([type])
 }
 
 enum CalonType {
   KAHIM
   SENAT
+}
+
+model Timeline {
+  id         String    @id @default(cuid())
+  electionId String
+  title      String
+  dateFrom   DateTime  @db.Date
+  dateTo     DateTime? @db.Date
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  election Election @relation(fields: [electionId], references: [id], onDelete: Cascade)
+
+  @@index([electionId])
+  @@index([dateFrom])
+  @@index([dateTo])
+}
+
+model Election {
+  id        String          @id @default(cuid())
+  name      String
+  isActive  Boolean         @default(false)
+  timelines Timeline[]
+  eligibles Eligible[]
+  calons    ElectionCalon[]
+  votes     Vote[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  configs   Config[]        @relation("ActiveElection")
+}
+
+model ElectionCalon {
+  id         String       @id @default(cuid())
+  electionId String
+  calonId    Int
+  isActive   Boolean      @default(true)
+  election   Election     @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  calon      Calon_Detail @relation(fields: [calonId], references: [id], onDelete: Cascade)
+
+  @@unique([electionId, calonId])
+  @@index([electionId])
+  @@index([calonId])
+}
+
+model Vote {
+  id         String        @id @default(cuid())
+  userId     String
+  electionId String
+  kahimId    Int?
+  senatId    Int?
+  createdAt  DateTime      @default(now())
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  election   Election      @relation(fields: [electionId], references: [id], onDelete: Cascade)
+  kahim      Calon_Detail? @relation("VoteKahim", fields: [kahimId], references: [id])
+  senat      Calon_Detail? @relation("VoteSenat", fields: [senatId], references: [id])
+  @@unique([userId, electionId])
+  @@index([kahimId])
+  @@index([senatId])
 }

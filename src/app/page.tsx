@@ -4,7 +4,7 @@ import Image from "next/image";
 import logo from "public/homepage/logo.png";
 import tl from "public/homepage/tl2.webp";
 import arrow from "public/homepage/arrow.png";
-
+import { useRouter } from "next/navigation";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
@@ -20,6 +20,29 @@ import CalonCard from "~/components/calon-card";
 import { api } from "~/trpc/react";
 import { CalonType } from "@prisma/client";
 
+const formatTimelineDate = (from: Date, to: Date | null) => {
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  const dFrom = new Date(from);
+
+  if (!to) return dFrom.toLocaleDateString("id-ID", options);
+
+  const dTo = new Date(to);
+
+  // If dates are in the same month/year: "17 - 18 Maret 2025"
+  if (
+    dFrom.getMonth() === dTo.getMonth() &&
+    dFrom.getFullYear() === dTo.getFullYear()
+  ) {
+    return `${dFrom.getDate()} - ${dTo.getDate()} ${dFrom.toLocaleDateString("id-ID", { month: "long", year: "numeric" })}`;
+  }
+
+  return `${dFrom.toLocaleDateString("id-ID")} - ${dTo.toLocaleDateString("id-ID")}`;
+};
+
 const HomePage = () => {
   useEffect(() => {
     AOS.init({
@@ -28,42 +51,49 @@ const HomePage = () => {
       easing: "ease-out-cubic",
     });
   }, []);
-
-  const { status } = useSession();
+  const router = useRouter();
+  const { status, data: session } = useSession();
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/auth/login");
+    }
+  }, [status, router]);
+  console.log("user: ", session);
   const [showDialog, setShowDialog] = useState(false);
 
   const config = api.admin.configuration.config.get.useQuery(undefined, {
     enabled: status === "authenticated",
   });
 
+  const active = api.admin.configuration.election.getActive.useQuery();
+  const timeline = api.admin.configuration.timeline.list.useQuery(
+    {
+      electionId: active.data?.id,
+    },
+    {
+      enabled: !!active.data?.id,
+    },
+  );
   const calonEnabled = !!config.data?.calon;
   const timelineEnabled = !!config.data?.timeline;
   const peraturanEnabled = !!config.data?.peraturan;
 
-  const calonList = api.admin.configuration.calonDetail.list.useQuery(
-    {},
-    { enabled: status === "authenticated" && calonEnabled },
+  const election = api.admin.configuration.election.get.useQuery(
+    { id: active.data?.id as string },
+    { enabled: status === "authenticated" && calonEnabled && active.isSuccess },
   );
 
+  const calonList = election.data?.calons;
   const { kahim, senat } = useMemo(() => {
-    const all = calonList.data ?? [];
+    const all = calonList ?? [];
     return {
-      kahim: all.filter((c) => c.type === CalonType.KAHIM),
-      senat: all.filter((c) => c.type === CalonType.SENAT),
+      kahim: all.filter((c) => c.calon.type === CalonType.KAHIM),
+      senat: all.filter((c) => c.calon.type === CalonType.SENAT),
     };
-  }, [calonList.data]);
+  }, [calonList]);
 
-  if (status === "loading") return <LoadingSpinner />;
-
-  if (status === "unauthenticated" && !showDialog) {
-    return (
-      <DialogBox
-        title="Unauthorized"
-        message="You are not authenticated. Please log in to continue."
-        onConfirm={() => (window.location.href = "/auth/login")}
-        onCancel={() => (window.location.href = "/auth/login")}
-      />
-    );
+  if (status === "loading" || status === "unauthenticated") {
+    return <LoadingSpinner />;
   }
 
   return (
@@ -80,27 +110,30 @@ const HomePage = () => {
               <h1 className="font-playfair text-6xl sm:text-8xl">emilu</h1>
             </div>
             <h1 className="mt-2 font-neuething text-5xl font-bold tracking-wide sm:text-7xl">
-              HMIF 2026
+              HMIF {active.isFetched && !active.isError && active.data?.name}
             </h1>
-            <div className="mt-4">
-              <h3 className="rounded-full border px-4 py-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl">
-                Pelajari calon ketua himpunan yang sesuai denganmu!
-              </h3>
-            </div>
+            {calonEnabled && (
+              <div className="mt-4">
+                <h3 className="rounded-full border px-4 py-2 font-satoshi text-lg font-semibold tracking-wider sm:text-xl">
+                  Pelajari calon ketua himpunan yang sesuai denganmu!
+                </h3>
+              </div>
+            )}
           </div>
 
           <div className="relative h-64 w-64 sm:h-80 sm:w-80">
             <Image src={logo} alt="Logo" />
           </div>
         </div>
-
-        <Button
-          asChild
-          disabled={config.isLoading || !calonEnabled}
-          className="flex items-center justify-center rounded-[32px] bg-[#ffbb00] px-9 py-3 text-xl text-[#156E3C] hover:bg-yellow-600 disabled:opacity-60"
-        >
-          <Link href={calonEnabled ? "#calon" : "#"}>Kenali Calonmu</Link>
-        </Button>
+        {calonEnabled && (
+          <Button
+            asChild
+            disabled={config.isLoading || !calonEnabled}
+            className="flex items-center justify-center rounded-[32px] bg-[#ffbb00] px-9 py-3 text-xl text-[#156E3C] hover:bg-yellow-600 disabled:opacity-60"
+          >
+            <Link href={calonEnabled ? "#calon" : "#"}>Kenali Calonmu</Link>
+          </Button>
+        )}
       </div>
 
       {peraturanEnabled && (
@@ -136,12 +169,41 @@ const HomePage = () => {
 
       {timelineEnabled && (
         <div
-          className="mb-6 flex items-center justify-center"
+          className="mb-6 flex flex-col items-center justify-center p-8"
           data-aos="fade-up"
           data-aos-delay="200"
         >
-          <div className="mb-16 h-auto w-[270px] sm:w-96">
-            <Image src={tl} alt="timeline" />
+          <div className="mb-12 h-auto w-full max-w-md">
+            <h1 className="mb-10 text-center font-neuething text-6xl font-bold tracking-tighter text-white">
+              Timeline
+            </h1>
+
+            <div className="relative flex flex-col gap-10">
+              <div className="absolute left-[15px] top-2 h-[calc(100%-16px)] w-1 bg-white" />
+
+              {timeline.data?.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="relative flex min-h-[80px] flex-col justify-center pl-12" // pl-12 creates the "gutter"
+                >
+                  <div className="absolute left-0 top-1/2 z-10 h-7 w-7 -translate-y-1/2 translate-x-[3px] rounded-full border-4 border-white bg-[#D9D9D9]" />
+
+                  <div className="flex flex-col">
+                    <h3 className="font-neuething text-3xl font-bold leading-none text-white">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-xl font-medium text-white/90">
+                      {formatTimelineDate(item.dateFrom, item.dateTo)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              {/* Loading / Empty State */}
+              {timeline.isLoading && (
+                <p className="italic text-white">Loading...</p>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -151,7 +213,7 @@ const HomePage = () => {
           className="flex flex-col items-center justify-center gap-24 px-4 pb-12 pt-12 text-center text-white md:pt-32"
           id="calon"
         >
-          {calonList.isLoading && <LoadingSpinner />}
+          {election.isLoading && <LoadingSpinner />}
 
           <div className="flex flex-col flex-wrap items-center justify-center gap-8">
             <h1 className="max-w-[800px] font-neuething text-2xl font-bold text-white md:text-6xl">
@@ -159,18 +221,20 @@ const HomePage = () => {
             </h1>
 
             <div className="flex flex-wrap items-center justify-center gap-6">
-              {kahim.map((calon) => (
-                <CalonCard
-                  key={calon.id}
-                  number={calon.number}
-                  angkatan={calon.angkatan}
-                  imageSrc={calon.image ?? ""}
-                  name={calon.name}
-                  draflink={calon.document ?? ""}
-                  calonpagelink={`/calonketua/${calon.number}`}
-                  variant="home"
-                />
-              ))}
+              {[...kahim]
+                .sort((a, b) => a.calon.number - b.calon.number)
+                .map((calon) => (
+                  <CalonCard
+                    key={calon.id}
+                    number={calon.calon.number}
+                    angkatan={calon.calon.angkatan}
+                    imageSrc={calon.calon.image ?? ""}
+                    name={calon.calon.name}
+                    draflink={calon.calon.document ?? ""}
+                    calonpagelink={`/calonketua/${calon.calon.number}`}
+                    variant="home"
+                  />
+                ))}
             </div>
           </div>
 
@@ -180,18 +244,20 @@ const HomePage = () => {
             </h1>
 
             <div className="flex flex-wrap items-center justify-center gap-6">
-              {senat.map((calon) => (
-                <CalonCard
-                  key={calon.id}
-                  number={calon.number}
-                  angkatan={calon.angkatan}
-                  imageSrc={calon.image ?? ""}
-                  name={calon.name}
-                  draflink={calon.document ?? ""}
-                  calonpagelink={`/calonsenator/${calon.number}`}
-                  variant="home"
-                />
-              ))}
+              {[...senat]
+                .sort((a, b) => a.calon.number - b.calon.number)
+                .map((calon) => (
+                  <CalonCard
+                    key={calon.id}
+                    number={calon.calon.number}
+                    angkatan={calon.calon.angkatan}
+                    imageSrc={calon.calon.image ?? ""}
+                    name={calon.calon.name}
+                    draflink={calon.calon.document ?? ""}
+                    calonpagelink={`/calonsenator/${calon.calon.number}`}
+                    variant="home"
+                  />
+                ))}
             </div>
           </div>
         </div>

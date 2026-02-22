@@ -6,10 +6,11 @@ import Image from "next/image";
 import logo from "public/homepage/logo.png";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import DialogBox from "~/components/DialogBox";
-
+import { api } from "~/trpc/react";
 
 export default function AdminLoginPage() {
   const { status } = useSession();
+  const active = api.admin.configuration.election.getActive.useQuery()
 
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -58,7 +59,7 @@ export default function AdminLoginPage() {
       <div className="hidden w-1/2 items-center justify-center md:flex md:flex-col">
         <Image alt="logo" src={logo} width={264} height={245} priority />
         <p className="mt-10 font-neuething text-7xl text-white">PEMILU</p>
-        <p className="font-neuething text-5xl text-white">HMIF 2026</p>
+        <p className="font-neuething text-5xl text-white">HMIF {(active.isFetched && !active.isError) && active.data?.name}</p>
       </div>
 
       {/* Right section */}

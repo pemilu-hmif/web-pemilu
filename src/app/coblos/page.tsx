@@ -1,98 +1,129 @@
 "use client";
+
 import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { useEffect } from "react";
 import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import Onboarding from "~/components/coblos-wizard";
-import { eligibilityResponse } from "~/types/eligibilityResponse";
+import { api } from "~/trpc/react";
 
+export default function CoblosPage() {
+  const { status } = useSession();
 
-export default function Coblos() {
-  const { data: session, status } = useSession();
-  const [showDialog, setShowDialog] = useState(false);
-  const [isEligible, setIsEligible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const voteDateStart = new Date(2025,2,1,1,0,0);
-  const voteDateEnd = new Date(2026,2,19,1,0,0);
-  const currentDate = new Date();
-  const isVoteDate = (currentDate > voteDateStart) &&(currentDate<voteDateEnd);
-  useEffect(() => {
-    if (status === "authenticated") {
-        void (async () => {
-            await checkEligibility();
-        })();
-    }
-}, [status]);
+  // 🔥 ALL hooks must be declared before any return
+  const config = api.admin.configuration.config.get.useQuery(undefined, {
+    enabled: status === "authenticated",
+  });
 
-  const checkEligibility = async () => {
-      try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/vote/eligible`, {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-          });
+  const myStatus = api.vote.myStatus.useQuery(undefined, {
+    enabled: status === "authenticated",
+  });
 
-          if (!response.ok) {
-              throw new Error("Failed to fetch eligibility");
-          }
+  const electionId = myStatus.data?.activeElectionId;
 
-          const data = await response.json() as eligibilityResponse;
-          if (data.eligible) {
-              setIsEligible(true);
-          } else {
-              setShowDialog(true);
-          }
-      } catch (error) {
-          console.error("Error checking eligibility:", error);
-          setShowDialog(true);
-      } finally {
-          setIsLoading(false);
-      }
-  };
+  const election = api.admin.configuration.election.get.useQuery(
+    { id: electionId ?? "" },
+    {
+      enabled: status === "authenticated" && !!electionId,
+    },
+  );
 
-  if (status === "loading" || isLoading) {
-      return <LoadingSpinner />;
+  // ---------------------------
+  // After ALL hooks are declared
+  // ---------------------------
+
+  const voteDateStart = new Date(2025, 2, 1, 1, 0, 0);
+  const voteDateEnd = new Date(2026, 2, 19, 1, 0, 0);
+  const now = new Date();
+  const isVoteDate = now > voteDateStart && now < voteDateEnd;
+
+  // Loading state
+  if (
+    status === "loading" ||
+    config.isLoading ||
+    myStatus.isLoading ||
+    election.isLoading
+  ) {
+    return <LoadingSpinner />;
   }
 
-  if (status === "unauthenticated" && !showDialog) {
-      return (
-          <DialogBox
-              title="Unauthorized"
-              message="You are not authenticated. Please log in to continue."
-              onConfirm={() => (window.location.href = "/auth/login")}
-              onCancel={() =>(window.location.href = "/auth/login")}
-          />
-      );
+  // Unauthenticated
+  if (status === "unauthenticated") {
+    return (
+      <DialogBox
+        title="Unauthorized"
+        message="You are not authenticated. Please log in to continue."
+        onConfirm={() => (window.location.href = "/auth/login")}
+        onCancel={() => (window.location.href = "/auth/login")}
+      />
+    );
   }
 
-  if (!isEligible) {
-      return (
-          <DialogBox
-              title="Not Eligible"
-              message="Kamu tidak eligible untuk masuk. Informasi lengkap bisa dilihat di page profile."
-              onConfirm={() => (window.location.href = "/profile")}
-              onCancel={() => (window.location.href = "/")}
-          />
-      );
+  // Coblos disabled
+  if (!config.data?.coblos) {
+    return null;
   }
 
+  // Error from myStatus
+  if (myStatus.isError) {
+    return (
+      <DialogBox
+        title="Error"
+        message={myStatus.error.message ?? "Failed to load voting status."}
+        onConfirm={() => (window.location.href = "/")}
+        onCancel={() => (window.location.href = "/")}
+      />
+    );
+  }
+
+  // Not eligible
+  if (!myStatus.data?.isEligible) {
+    return (
+      <DialogBox
+        title="Not Eligible"
+        message="Kamu tidak eligible untuk masuk. Informasi lengkap bisa dilihat di page profile."
+        onConfirm={() => (window.location.href = "/profile")}
+        onCancel={() => (window.location.href = "/")}
+      />
+    );
+  }
+
+  // Not within voting date
   if (!isVoteDate) {
     return (
-        <DialogBox
-            title="Belum Waktunya"
-            message="Voting akan dilakukan pada tanggal 17 & 18 Maret 2025. Ditunggu ya !!!"
-            onConfirm={() => (window.location.href = "/")}
-            onCancel={() => (window.location.href = "/")}
+      <DialogBox
+        title="Belum Waktunya"
+        message="Voting belum dimulai atau sudah berakhir."
+        onConfirm={() => (window.location.href = "/")}
+        onCancel={() => (window.location.href = "/")}
+      />
+    );
+  }
+
+  // Build candidates
+  const links = election.data?.calons ?? [];
+
+  const activeCalons = links
+    .filter((ec) => ec.isActive && ec.calon?.isActive)
+    .map((ec) => ec.calon);
+
+  const kahimCandidates = activeCalons
+    .filter((c) => c.type === "KAHIM")
+    .sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
+
+  const senatCandidates = activeCalons
+    .filter((c) => c.type === "SENAT")
+    .sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center px-5 py-10">
+      <div className="mt-12 max-w-[95%] [@media(max-width:350px)]:max-w-[90%]">
+        <Onboarding
+          kahimCandidates={kahimCandidates}
+          senatCandidates={senatCandidates}
+          hasVoted={myStatus.data.hasVoted}
+          existingVote={myStatus.data.vote ?? null}
         />
-    );
-}
-    return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-5 py-10">
-            <div className="max-w-[95%] [@media(max-width:350px)]:max-w-[90%] mt-12">
-                {session?.user?.email && <Onboarding />}
-            </div>
-        </div>
-    );
+      </div>
+    </div>
+  );
 }

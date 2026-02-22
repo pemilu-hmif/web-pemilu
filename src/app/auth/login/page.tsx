@@ -7,11 +7,12 @@ import { signIn, useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import DialogBox from "~/components/DialogBox";
 import type { StaticImageData } from 'next/image';
+import { api } from "~/trpc/react";
 
 const LoginPage = () => {
   const { status } = useSession();
   const [showDialog, setShowDialog] = useState<boolean>(false);
-
+  const active = api.admin.configuration.election.getActive.useQuery()
   const doLogin = async (): Promise<void> => {
     await signIn("google", { callbackUrl: "/" });
   };
@@ -19,6 +20,7 @@ const LoginPage = () => {
   if (status === "loading") {
     return <LoadingSpinner />;
   }
+
   if (status === "authenticated" && !showDialog) {
     return (
       <DialogBox
@@ -35,7 +37,7 @@ const LoginPage = () => {
       <div className="hidden w-1/2 items-center justify-center md:flex md:flex-col">
         <Image alt="logo" src={logo} width={264} height={245} priority />
         <p className="font-neuething text-white text-7xl mt-10">PEMILU</p>
-        <p className="font-neuething text-white text-5xl">HMIF 2026</p>
+        <p className="font-neuething text-white text-5xl">HMIF {(active.isFetched && !active.isError) && active.data?.name}</p>
 
       </div>
 
