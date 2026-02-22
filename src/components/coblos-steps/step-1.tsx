@@ -48,7 +48,7 @@ export default function Step1({
             Saya telah memahami
           </span>
           <Link
-            href="https://drive.google.com/drive/folders/1t2Hv0BFil_-vrxoYzif9JNLHh957Vm7S"
+            href="https://drive.google.com/drive/folders/1aZKPw4eADaaXyx4QXh5_ax_yIQ6oYG82?usp=sharing"
             className="ml-[7px] mt-1 font-satoshi text-2xl leading-[28.80px] text-neutral-50 underline"
           >
             dokumen teknis pemilu
