@@ -669,7 +669,6 @@ export default function Page() {
   const calonCanPrev = calonPage > 0;
   const calonCanNext = calonPage + 1 < totalCalonPages;
 
-  /* ================= Main UI ================= */
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-6 pt-40 text-white">
       {/* Header */}
