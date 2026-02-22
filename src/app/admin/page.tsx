@@ -4,7 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 import { CalonType } from "@prisma/client";
-
+import { FeatureFlagsCard } from "~/components/Flags";
 import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";
 
@@ -709,95 +709,20 @@ export default function Page() {
       {flash?.type === "err" && <ErrorBox message={flash.msg} />}
 
       {activeTab === "FLAGS" && (
-        <Card
-          title="Feature Flags"
-          subtitle="Toggle which pages/features are enabled."
-          right={
-            updateConfig.isPending ? (
-              <span className="text-sm text-white/60">Saving…</span>
-            ) : null
-          }
-        >
-          {config.isLoading && <LoadingSpinner />}
-          {config.error && <ErrorBox message={config.error.message} />}
-
-          {config.data && (
-            <>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {(["timeline", "calon", "coblos", "peraturan"] as const).map(
-                  (key) => (
-                    <TogglePill
-                      key={key}
-                      label={key.toUpperCase()}
-                      value={config.data[key]}
-                      disabled={updateConfig.isPending}
-                      onToggle={() =>
-                        updateConfig.mutate({ [key]: !config.data[key] })
-                      }
-                    />
-                  ),
-                )}
-              </div>
-
-              {/* NEW: Active election config */}
-              <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
-                <div className="mb-2 flex items-center justify-between gap-3">
-                  <div className="text-sm font-medium">
-                    Active Election (Config)
-                  </div>
-                  {setActiveElection.isPending ? (
-                    <span className="text-xs text-white/60">Saving…</span>
-                  ) : null}
-                </div>
-
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
-                  <select
-                    className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white focus:border-white/25 focus:outline-none md:col-span-2"
-                    value={activeElectionId ?? ""}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      setActiveElection.mutate({
-                        electionId: v ? v : null,
-                      });
-                    }}
-                    disabled={
-                      setActiveElection.isPending || electionList.isLoading
-                    }
-                  >
-                    <option value="">(none)</option>
-                    {(electionList.data ?? []).map((e) => (
-                      <option key={e.id} value={e.id}>
-                        {e.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button
-                    type="button"
-                    className="rounded-xl border border-white/15 bg-white/10 px-4 py-2 text-sm transition hover:bg-white/15 disabled:opacity-60"
-                    disabled={setActiveElection.isPending}
-                    onClick={() =>
-                      setActiveElection.mutate({ electionId: null })
-                    }
-                  >
-                    Clear
-                  </button>
-                </div>
-
-                <div className="mt-2 text-xs text-white/60">
-                  Currently:{" "}
-                  {config.data.activeElection ? (
-                    <span className="text-white/90">
-                      {config.data.activeElection.name} (
-                    </span>
-                  ) : (
-                    <span>(none)</span>
-                  )}
-                </div>
-              </div>
-            </>
-          )}
-        </Card>
+        <FeatureFlagsCard
+          config={{
+            data: config.data,
+            isLoading: config.isLoading,
+            errorMessage: config.error?.message,
+          }}
+          electionList={{
+            data: electionList.data,
+            isLoading: electionList.isLoading,
+          }}
+          updateConfig={updateConfig}
+          setActiveElection={setActiveElection}
+          activeElectionId={activeElectionId}
+        />
       )}
 
       {activeTab === "ELIGIBLE" && (

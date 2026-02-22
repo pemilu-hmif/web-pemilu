@@ -65,12 +65,14 @@ model Eligible {
 }
 
 model Config {
-  id        Int     @id @default(1)
-  timeline  Boolean
-  calon     Boolean
-  coblos    Boolean
-  peraturan Boolean
-
+  id               Int       @id @default(1)
+  timeline         Boolean
+  calon            Boolean
+  coblos           Boolean
+  peraturan        Boolean
+  countdown        Boolean?
+  toStart          DateTime?
+  toEnd            DateTime?
   activeElectionId String?
   activeElection   Election? @relation("ActiveElection", fields: [activeElectionId], references: [id])
 }
@@ -151,6 +153,7 @@ model Vote {
   election   Election      @relation(fields: [electionId], references: [id], onDelete: Cascade)
   kahim      Calon_Detail? @relation("VoteKahim", fields: [kahimId], references: [id])
   senat      Calon_Detail? @relation("VoteSenat", fields: [senatId], references: [id])
+
   @@unique([userId, electionId])
   @@index([kahimId])
   @@index([senatId])
