@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";
@@ -30,11 +31,24 @@ export default function CoblosPage() {
   // ---------------------------
   // After ALL hooks are declared
   // ---------------------------
+  const [now, setNow] = useState(new Date());
 
-  const voteDateStart = new Date(2025, 2, 1, 1, 0, 0);
-  const voteDateEnd = new Date(2026, 2, 19, 1, 0, 0);
-  const now = new Date();
-  const isVoteDate = now > voteDateStart && now < voteDateEnd;
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const isCoblosEnabled = useMemo(() => {
+    const c = config.data;
+    if (!c) return false;
+
+    if (c.coblos) return true;
+
+    if (!c.countdown || !c.toStart || !c.toEnd) return false;
+    const start = new Date(c.toStart);
+    const end = new Date(c.toEnd);
+    return now >= start && now < end;
+  }, [config.data, now]);
 
   // Loading state
   if (
@@ -59,8 +73,15 @@ export default function CoblosPage() {
   }
 
   // Coblos disabled
-  if (!config.data?.coblos) {
-    return null;
+  if (!isCoblosEnabled) {
+    return (
+      <DialogBox
+        title="Belum Waktunya"
+        message="Voting belum dimulai atau sudah berakhir."
+        onConfirm={() => (window.location.href = "/")}
+        onCancel={() => (window.location.href = "/")}
+      />
+    );
   }
 
   // Error from myStatus
@@ -82,18 +103,6 @@ export default function CoblosPage() {
         title="Not Eligible"
         message="Kamu tidak eligible untuk masuk. Informasi lengkap bisa dilihat di page profile."
         onConfirm={() => (window.location.href = "/profile")}
-        onCancel={() => (window.location.href = "/")}
-      />
-    );
-  }
-
-  // Not within voting date
-  if (!isVoteDate) {
-    return (
-      <DialogBox
-        title="Belum Waktunya"
-        message="Voting belum dimulai atau sudah berakhir."
-        onConfirm={() => (window.location.href = "/")}
         onCancel={() => (window.location.href = "/")}
       />
     );

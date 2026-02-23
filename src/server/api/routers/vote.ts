@@ -71,7 +71,13 @@ export const voteRouter = createTRPCRouter({
       // 1️⃣ Get global config
       const config = await ctx.db.config.findUnique({
         where: { id: ACTIVE_CONFIG_ID },
-        select: { coblos: true, activeElectionId: true },
+        select: {
+          coblos: true,
+          countdown: true,
+          toStart: true,
+          toEnd: true,
+          activeElectionId: true,
+        },
       });
 
       if (!config?.activeElectionId) {
@@ -81,10 +87,20 @@ export const voteRouter = createTRPCRouter({
         });
       }
 
-      if (!config.coblos) {
+      const now = new Date();
+
+      const isCoblosEnabled =
+        config.coblos ||
+        (config.countdown === true &&
+          config.toStart != null &&
+          config.toEnd != null &&
+          now >= config.toStart &&
+          now < config.toEnd);
+
+      if (!isCoblosEnabled) {
         throw new TRPCError({
           code: "FORBIDDEN",
-          message: "Voting (coblos) is currently disabled in config.",
+          message: "Voting is not currently open.",
         });
       }
 

@@ -15,10 +15,28 @@ export default function NavBar() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [userInitial, setUserInitial] = useState<string | null>(null);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const config = api.admin.configuration.config.get.useQuery(undefined, {
     enabled: status === "authenticated",
   });
+
+  const isCoblosEnabled = useMemo(() => {
+    const c = config.data;
+    if (!c) return false;
+
+    if (c.coblos) return true;
+
+    if (!c.countdown || !c.toStart || !c.toEnd) return false;
+    const start = new Date(c.toStart);
+    const end = new Date(c.toEnd);
+    return now >= start && now < end;
+  }, [config.data, now]);
 
   useEffect(() => {
     if (session?.user?.name) {
@@ -45,7 +63,7 @@ export default function NavBar() {
       { name: "Beranda", href: "/" },
     ];
 
-    if (config.data.coblos) {
+    if (isCoblosEnabled) {
       links.push({ name: "Coblos", href: "/coblos" });
     }
 
@@ -62,7 +80,7 @@ export default function NavBar() {
     links.push({ name: "Logout", href: "/auth/login" });
 
     return links;
-  }, [config.data, session]);
+  }, [config.data, session, isCoblosEnabled]);
 
   const renderNavLink = (navLink: { name: string; href: string }) => (
     <Link
