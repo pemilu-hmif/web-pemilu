@@ -270,20 +270,20 @@ const HomePage = () => {
 
                 return (
                   <div className="w-fit rounded-2xl bg-black px-6 py-8 shadow-2xl">
-                    <div className="flex items-center justify-between gap-4 text-center">
-                      <TimeBlock value={pad(days)} label="DAYS" />
+                    <div className="flex items-start justify-between gap-4 text-center">
+                      <TimeBlock value={pad(days)} label="HARI" />
                       <div className="font-mono text-2xl font-bold text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
                         :
                       </div>
-                      <TimeBlock value={pad(hours)} label="HOURS" />
+                      <TimeBlock value={pad(hours)} label="JAM" />
                       <div className="font-mono text-2xl font-bold text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
                         :
                       </div>
-                      <TimeBlock value={pad(minutes)} label="MINUTES" />
+                      <TimeBlock value={pad(minutes)} label="MENIT" />
                       <div className="font-mono text-2xl font-bold text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
                         :
                       </div>
-                      <TimeBlock value={pad(seconds)} label="SECONDS" />
+                      <TimeBlock value={pad(seconds)} label="DETIK" />
                     </div>
                   </div>
                 );
