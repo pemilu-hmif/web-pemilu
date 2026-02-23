@@ -59,6 +59,16 @@ function getCountdownTarget(config: any) {
 }
 
 const HomePage = () => {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+  const [phase, setPhase] = useState<"start" | "end" | "none">("start");
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -95,8 +105,38 @@ const HomePage = () => {
   const timelineEnabled = !!config.data?.timeline;
   const peraturanEnabled = !!config.data?.peraturan;
   const countdownEnabled = !!config.data?.countdown;
-  const countdownTarget = getCountdownTarget(config.data);
+  const countdownTarget = useMemo(() => {
+    if (!config.data) return null;
 
+    const now = new Date();
+    const toStart = config.data.toStart ? new Date(config.data.toStart) : null;
+    const toEnd = config.data.toEnd ? new Date(config.data.toEnd) : null;
+
+    if (phase === "start" && toStart && now < toStart) {
+      return { label: "Menuju Pemilu Dimulai", date: toStart };
+    }
+
+    if (toEnd && now < toEnd) {
+      return { label: "Menuju Pemilu Berakhir", date: toEnd };
+    }
+
+    return null;
+  }, [config.data, phase]);
+
+  const isVotingOpen = useMemo(() => {
+    if (!config.data?.toStart || !config.data?.toEnd) return false;
+
+    const toStart = new Date(config.data.toStart);
+    const toEnd = new Date(config.data.toEnd);
+
+    return now >= toStart && now < toEnd;
+  }, [config.data, now]);
+
+  const countdownKey = useMemo(() => {
+    return countdownTarget
+      ? `${phase}-${countdownTarget.date.getTime()}`
+      : "none";
+  }, [countdownTarget, phase]);
 
   const election = api.admin.configuration.election.get.useQuery(
     { id: active.data?.id as string },
@@ -117,7 +157,7 @@ const HomePage = () => {
   }
 
   return (
-    <div className="mb-24 flex flex-col">
+    <div className="mb-12 flex flex-col">
       <div
         className="flex min-h-screen flex-col items-center justify-center gap-4 md:gap-8"
         data-aos="fade-up"
@@ -156,7 +196,7 @@ const HomePage = () => {
         )}
       </div>
 
-      {peraturanEnabled && (
+      {peraturanEnabled && !countdownTarget && (
         <div
           className="flex min-h-screen flex-col items-center justify-center px-2 py-4 text-center text-white"
           data-aos="fade-up"
@@ -187,41 +227,90 @@ const HomePage = () => {
         </div>
       )}
 
-  {countdownEnabled && countdownTarget && (
-  <div
-    className="mb-12 flex flex-col items-center justify-center"
-    data-aos="fade-up"
-    data-aos-delay="200"
-  >
-    <div className="relative flex flex-col gap-10 w-full max-w-md">
-      <div className="relative flex min-h-[80px] flex-col justify-center pl-12">
-        <div className="flex flex-col items-center">
-          <Countdown
-            date={countdownTarget.date}
-            renderer={({ days, hours, minutes, seconds, completed }) => {
-              if (completed) {
-                return <span className="text-8xl font-bold text-white">Selesai!</span>;
-              }
-              const pad = (n: number) => n.toString().padStart(2, '0');
-              return (
-                <span className="text-8xl font-mono font-bold text-white tracking-widest">
-                  {pad(days)}:{pad(hours)}:{pad(minutes)}:{pad(seconds)}
+      {countdownEnabled && countdownTarget && (
+        <div
+          className="flex min-h-screen flex-col items-center justify-center px-4"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          <div className="flex w-full max-w-md flex-col items-center gap-8 sm:max-w-lg lg:max-w-3xl">
+            <Countdown
+              key={countdownKey}
+              date={countdownTarget.date}
+              onComplete={() => {
+                if (phase === "start") {
+                  const toEnd = config.data?.toEnd
+                    ? new Date(config.data.toEnd)
+                    : null;
+                  if (toEnd && new Date() < toEnd) setPhase("end");
+                  else setPhase("none");
+                } else {
+                  setPhase("none");
+                }
+              }}
+              renderer={({ days, hours, minutes, seconds }) => {
+                const pad = (n: number) => n.toString().padStart(2, "0");
+
+                const TimeBlock = ({
+                  value,
+                  label,
+                }: {
+                  value: string;
+                  label: string;
+                }) => (
+                  <div className="flex flex-col items-center">
+                    <div className="font-mono text-2xl font-extrabold tracking-widest text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
+                      {value}
+                    </div>
+                    <div className="mt-2 text-[10px] font-semibold tracking-[0.3em] text-white sm:text-xs md:text-sm lg:text-base">
+                      {label}
+                    </div>
+                  </div>
+                );
+
+                return (
+                  <div className="w-fit rounded-2xl bg-black px-6 py-8 shadow-2xl">
+                    <div className="flex items-center justify-between gap-4 text-center">
+                      <TimeBlock value={pad(days)} label="DAYS" />
+                      <div className="font-mono text-2xl font-bold text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
+                        :
+                      </div>
+                      <TimeBlock value={pad(hours)} label="HOURS" />
+                      <div className="font-mono text-2xl font-bold text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
+                        :
+                      </div>
+                      <TimeBlock value={pad(minutes)} label="MINUTES" />
+                      <div className="font-mono text-2xl font-bold text-yellow-400 sm:text-4xl md:text-6xl lg:text-8xl">
+                        :
+                      </div>
+                      <TimeBlock value={pad(seconds)} label="SECONDS" />
+                    </div>
+                  </div>
+                );
+              }}
+            />
+
+            <div className="text-center text-lg font-bold tracking-tight text-white sm:text-xl md:text-2xl">
+              {countdownTarget.label}
+            </div>
+            {isVotingOpen && (
+              <a
+                href="/coblos"
+                className="mt-4 flex items-center gap-2 rounded-full border-yellow-500 bg-yellow-500 px-4 py-2 font-satoshi text-lg font-semibold text-white transition-colors hover:bg-yellow-600 sm:text-2xl"
+              >
+                Coblos Sekarang!
+                <span className="inline-flex items-center">
+                  <Image src={arrow} alt="arrow" width={24} height={24} />
                 </span>
-              );
-            }}
-          />
+              </a>
+            )}
+          </div>
         </div>
-        <div className="mt-6 text-center text-2xl font-neuething font-bold tracking-tighter text-white">
-          {countdownTarget.label}
-        </div>
-      </div>
-    </div>
-  </div>
-  )}
+      )}
 
       {timelineEnabled && (
         <div
-          className="mb-6 flex flex-col items-center justify-center p-8"
+          className="flex min-h-screen flex-col items-center justify-center p-8"
           data-aos="fade-up"
           data-aos-delay="200"
         >

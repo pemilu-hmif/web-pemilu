@@ -170,7 +170,13 @@ export default function Page() {
     type: "ok" | "err";
     msg: string;
   }>(null);
-  type AdminTab = "FLAGS" | "ELIGIBLE" | "CALON" | "TIMELINE" | "ELECTIONS" | "COUNTDOWN";
+  type AdminTab =
+    | "FLAGS"
+    | "ELIGIBLE"
+    | "CALON"
+    | "TIMELINE"
+    | "ELECTIONS"
+    | "COUNTDOWN";
   const [activeTab, setActiveTab] = useState<AdminTab>("FLAGS");
 
   const isAuthed = status === "authenticated";
@@ -239,8 +245,6 @@ export default function Page() {
     },
     { enabled: isAdmin },
   );
-
-
 
   // Mutations
   const updateConfig = api.admin.configuration.config.update.useMutation({
@@ -572,6 +576,32 @@ export default function Page() {
     return all.sort((a, b) => (a.number ?? 0) - (b.number ?? 0));
   }, [calonList.data]);
 
+  const [countdownForm, setCountdownForm] = useState<{
+    toStart: string;
+    toEnd: string;
+  }>({
+    toStart: "",
+    toEnd: "",
+  });
+
+  useEffect(() => {
+    if (!config.data) return;
+
+    const formatToGMT7Local = (value: Date | string | null | undefined) => {
+      if (!value) return "";
+
+      const date = value instanceof Date ? value : new Date(value);
+
+      const gmt7 = new Date(date.getTime() + 7 * 60 * 60 * 1000);
+
+      return gmt7.toISOString().slice(0, 16);
+    };
+
+    setCountdownForm({
+      toStart: formatToGMT7Local(config.data.toStart),
+      toEnd: formatToGMT7Local(config.data.toEnd),
+    });
+  }, [config.data]);
   /* ================= AUTH UI (render) ================= */
 
   if (status === "loading") return <LoadingSpinner />;
@@ -671,27 +701,6 @@ export default function Page() {
   const calonCanPrev = calonPage > 0;
   const calonCanNext = calonPage + 1 < totalCalonPages;
 
-  const [countdownForm, setCountdownForm] = useState<{
-  toStart: string;
-  toEnd: string;
-  }>({
-    toStart: "",
-    toEnd: "",
-  });
-
-  useEffect(() => {
-  if (!config.data) return;
-
-  setCountdownForm({
-    toStart: config.data.toStart
-      ? new Date(config.data.toStart).toISOString().slice(0, 16)
-      : "",
-    toEnd: config.data.toEnd
-      ? new Date(config.data.toEnd).toISOString().slice(0, 16)
-      : "",
-    });
-  }, [config.data]);
-
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-6 pt-40 text-white">
       {/* Header */}
@@ -727,9 +736,11 @@ export default function Page() {
             badge: String(electionList.data?.length ?? 0),
           },
 
-          { id: "COUNTDOWN", 
+          {
+            id: "COUNTDOWN",
             label: "Countdown",
-           badge: String(config.data?.countdown ? 1 : 0),}
+            badge: String(config.data?.countdown ? 1 : 0),
+          },
         ]}
       />
       {flash?.type === "ok" && <SuccessBox message={flash.msg} />}
@@ -2156,7 +2167,7 @@ export default function Page() {
             </>
           )}
         </Card>
-        )}
+      )}
     </div>
   );
 }
