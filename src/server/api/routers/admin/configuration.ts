@@ -14,6 +14,9 @@ const DEFAULT_CONFIG = {
   calon: false,
   coblos: false,
   peraturan: false,
+  countdown: false,
+  toStart: null,
+  toEnd: null,
   activeElectionId: null as string | null,
 } as const;
 
@@ -71,6 +74,9 @@ const configUpdateInput = z.object({
   calon: z.boolean().optional(),
   coblos: z.boolean().optional(),
   peraturan: z.boolean().optional(),
+  countdown: z.boolean().optional(),
+  toStart: z.coerce.date().optional().nullable(),
+  toEnd: z.coerce.date().optional().nullable(),
   // activeElectionId is set via a dedicated mutation below
 });
 
@@ -187,6 +193,12 @@ const electionCalonRemoveInput = z.object({
 const electionCalonToggleActiveInput = z.object({
   electionCalonId: z.string().cuid(),
   isActive: z.boolean(),
+});
+
+const configSetCountdownInput = z.object({
+  countdown: z.boolean().optional(),
+  toStart: z.coerce.date().optional().nullable(),
+  toEnd: z.coerce.date().optional().nullable(),
 });
 
 /* ============================ Router =============================== */
@@ -380,8 +392,20 @@ export const adminConfigurationRouter = createTRPCRouter({
           update: { activeElectionId: input.electionId },
           include: { activeElection: true },
         });
+
       }),
-  }),
+
+    setCountdown: adminProcedure
+      .input(configSetCountdownInput)
+      .mutation(async ({ ctx, input }) => {
+        return ctx.db.config.upsert({
+          where: { id: 1 },
+          create: { ...DEFAULT_CONFIG, ...input },
+          update: { ...input },
+          include: { activeElection: true },
+        });
+      }),
+   }),
 
   /* -------------------------- Calon Detail --------------------------- */
   calonDetail: createTRPCRouter({

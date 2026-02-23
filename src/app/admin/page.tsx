@@ -170,7 +170,7 @@ export default function Page() {
     type: "ok" | "err";
     msg: string;
   }>(null);
-  type AdminTab = "FLAGS" | "ELIGIBLE" | "CALON" | "TIMELINE" | "ELECTIONS";
+  type AdminTab = "FLAGS" | "ELIGIBLE" | "CALON" | "TIMELINE" | "ELECTIONS" | "COUNTDOWN";
   const [activeTab, setActiveTab] = useState<AdminTab>("FLAGS");
 
   const isAuthed = status === "authenticated";
@@ -239,6 +239,8 @@ export default function Page() {
     },
     { enabled: isAdmin },
   );
+
+
 
   // Mutations
   const updateConfig = api.admin.configuration.config.update.useMutation({
@@ -669,6 +671,27 @@ export default function Page() {
   const calonCanPrev = calonPage > 0;
   const calonCanNext = calonPage + 1 < totalCalonPages;
 
+  const [countdownForm, setCountdownForm] = useState<{
+  toStart: string;
+  toEnd: string;
+  }>({
+    toStart: "",
+    toEnd: "",
+  });
+
+  useEffect(() => {
+  if (!config.data) return;
+
+  setCountdownForm({
+    toStart: config.data.toStart
+      ? new Date(config.data.toStart).toISOString().slice(0, 16)
+      : "",
+    toEnd: config.data.toEnd
+      ? new Date(config.data.toEnd).toISOString().slice(0, 16)
+      : "",
+    });
+  }, [config.data]);
+
   return (
     <div className="mx-auto max-w-6xl space-y-6 p-6 pt-40 text-white">
       {/* Header */}
@@ -703,6 +726,10 @@ export default function Page() {
             label: "Elections",
             badge: String(electionList.data?.length ?? 0),
           },
+
+          { id: "COUNTDOWN", 
+            label: "Countdown",
+           badge: String(config.data?.countdown ? 1 : 0),}
         ]}
       />
       {flash?.type === "ok" && <SuccessBox message={flash.msg} />}
@@ -2032,6 +2059,104 @@ export default function Page() {
           </div>
         </Card>
       )}
+
+      {activeTab === "COUNTDOWN" && (
+        <Card
+          title="Countdown Configuration"
+          subtitle="Control homepage countdown visibility and target dates."
+          right={
+            updateConfig.isPending ? (
+              <span className="text-sm text-white/60">Saving…</span>
+            ) : null
+          }
+        >
+          {config.isLoading && <LoadingSpinner />}
+          {config.error && <ErrorBox message={config.error.message} />}
+
+          {config.data && (
+            <>
+              {/* Enable Toggle */}
+              <div className="mb-6">
+                <TogglePill
+                  label="Enable Countdown"
+                  value={!!config.data.countdown}
+                  disabled={updateConfig.isPending}
+                  onToggle={() =>
+                    updateConfig.mutate({
+                      countdown: !config.data?.countdown,
+                    })
+                  }
+                />
+              </div>
+
+              {/* Date Editors */}
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="mb-1 block text-xs text-white/60">
+                    toStart (Pemilu Dimulai)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-white/25 focus:outline-none"
+                    value={countdownForm.toStart}
+                    onChange={(e) =>
+                      setCountdownForm({
+                        ...countdownForm,
+                        toStart: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block text-xs text-white/60">
+                    toEnd (Pemilu Berakhir)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-white/25 focus:outline-none"
+                    value={countdownForm.toEnd}
+                    onChange={(e) =>
+                      setCountdownForm({
+                        ...countdownForm,
+                        toEnd: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Save Button */}
+              <div className="mt-6">
+                <button
+                  type="button"
+                  disabled={updateConfig.isPending}
+                  className="rounded-xl border border-emerald-400/25 bg-emerald-500/10 px-5 py-2 text-sm transition hover:bg-emerald-500/15 disabled:opacity-60"
+                  onClick={() =>
+                    updateConfig.mutate({
+                      toStart: countdownForm.toStart
+                        ? new Date(countdownForm.toStart)
+                        : null,
+                      toEnd: countdownForm.toEnd
+                        ? new Date(countdownForm.toEnd)
+                        : null,
+                    })
+                  }
+                >
+                  Save Countdown Settings
+                </button>
+              </div>
+
+              {/* Debug Info */}
+              <div className="mt-6 text-xs text-white/50">
+                Current:
+                <div>toStart: {String(config.data.toStart ?? "null")}</div>
+                <div>toEnd: {String(config.data.toEnd ?? "null")}</div>
+              </div>
+            </>
+          )}
+        </Card>
+        )}
     </div>
   );
 }

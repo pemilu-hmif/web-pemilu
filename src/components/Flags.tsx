@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import type { api } from "~/trpc/react";
 
 import LoadingSpinner from "~/components/LoadingSpinner";
@@ -158,7 +159,7 @@ export function FeatureFlagsCard({
         <>
           {/* Feature toggles */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {(["timeline", "calon", "coblos", "peraturan"] as const).map(
+            {(["timeline", "calon", "coblos", "peraturan", "countdown"] as const).map(
               (key) => (
                 <TogglePill
                   key={key}
@@ -174,6 +175,8 @@ export function FeatureFlagsCard({
               ),
             )}
           </div>
+          
+
 
           {/* Active election config */}
           <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">

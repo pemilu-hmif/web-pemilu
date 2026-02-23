@@ -12,13 +12,14 @@ import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 
 import LoadingSpinner from "~/components/LoadingSpinner";
-import DialogBox from "~/components/DialogBox";
+
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 import CalonCard from "~/components/calon-card";
 
 import { api } from "~/trpc/react";
 import { CalonType } from "@prisma/client";
+import Countdown from "react-countdown";
 
 const formatTimelineDate = (from: Date, to: Date | null) => {
   const options: Intl.DateTimeFormatOptions = {
@@ -43,6 +44,20 @@ const formatTimelineDate = (from: Date, to: Date | null) => {
   return `${dFrom.toLocaleDateString("id-ID")} - ${dTo.toLocaleDateString("id-ID")}`;
 };
 
+function getCountdownTarget(config: any) {
+  const now = new Date();
+  const toStart = config?.toStart ? new Date(config.toStart) : null;
+  const toEnd = config?.toEnd ? new Date(config.toEnd) : null;
+
+  if (toStart && now < toStart) {
+    return { label: "Menuju Pemilu Dimulai", date: toStart };
+  }
+  if (toEnd && now < toEnd) {
+    return { label: "Menuju Pemilu Berakhir", date: toEnd };
+  }
+  return null;
+}
+
 const HomePage = () => {
   useEffect(() => {
     AOS.init({
@@ -58,7 +73,8 @@ const HomePage = () => {
       router.replace("/auth/login");
     }
   }, [status, router]);
-  console.log("user: ", session);
+  //console.log("user: ", session);
+
   const [showDialog, setShowDialog] = useState(false);
 
   const config = api.admin.configuration.config.get.useQuery(undefined, {
@@ -74,9 +90,13 @@ const HomePage = () => {
       enabled: !!active.data?.id,
     },
   );
+
   const calonEnabled = !!config.data?.calon;
   const timelineEnabled = !!config.data?.timeline;
   const peraturanEnabled = !!config.data?.peraturan;
+  const countdownEnabled = !!config.data?.countdown;
+  const countdownTarget = getCountdownTarget(config.data);
+
 
   const election = api.admin.configuration.election.get.useQuery(
     { id: active.data?.id as string },
@@ -166,6 +186,38 @@ const HomePage = () => {
           </a>
         </div>
       )}
+
+  {countdownEnabled && countdownTarget && (
+  <div
+    className="mb-12 flex flex-col items-center justify-center"
+    data-aos="fade-up"
+    data-aos-delay="200"
+  >
+    <div className="relative flex flex-col gap-10 w-full max-w-md">
+      <div className="relative flex min-h-[80px] flex-col justify-center pl-12">
+        <div className="flex flex-col items-center">
+          <Countdown
+            date={countdownTarget.date}
+            renderer={({ days, hours, minutes, seconds, completed }) => {
+              if (completed) {
+                return <span className="text-8xl font-bold text-white">Selesai!</span>;
+              }
+              const pad = (n: number) => n.toString().padStart(2, '0');
+              return (
+                <span className="text-8xl font-mono font-bold text-white tracking-widest">
+                  {pad(days)}:{pad(hours)}:{pad(minutes)}:{pad(seconds)}
+                </span>
+              );
+            }}
+          />
+        </div>
+        <div className="mt-6 text-center text-2xl font-neuething font-bold tracking-tighter text-white">
+          {countdownTarget.label}
+        </div>
+      </div>
+    </div>
+  </div>
+  )}
 
       {timelineEnabled && (
         <div

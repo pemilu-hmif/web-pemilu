@@ -3,7 +3,6 @@
  * for Docker builds.
  */
 
-import "./src/env.js";
 import mdx from "@next/mdx";
 import remarkGfm from "remark-gfm";
 
