@@ -83,7 +83,6 @@ const HomePage = () => {
       router.replace("/auth/login");
     }
   }, [status, router]);
-  //console.log("user: ", session);
 
   const [showDialog, setShowDialog] = useState(false);
 

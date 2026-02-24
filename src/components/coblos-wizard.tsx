@@ -49,8 +49,6 @@ export default function Onboarding({
   // Rule: blank option ONLY if total candidates for that type is exactly 1
   const allowBlankKahim = kahimCandidates.length === 1;
   const allowBlankSenat = senatCandidates.length === 1;
-  console.log("allowed blank kahim: ", allowBlankKahim);
-  console.log("allowed blank senat: ", allowBlankSenat);
 
   const [isChecked, setIsChecked] = useState(false);
   const [isConfirmed, setIsConfirmed] = useState(false);
