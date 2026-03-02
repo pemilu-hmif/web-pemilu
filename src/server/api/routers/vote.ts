@@ -387,4 +387,83 @@ export const voteRouter = createTRPCRouter({
       senat: { totalVotes: senatTotalVotes, rows: senatRows },
     };
   }),
+  listdpt: protectedProcedure.query(async ({ ctx }) => {
+    // 1️⃣ Get active election ID
+    const config = await ctx.db.config.findUnique({
+      where: { id: ACTIVE_CONFIG_ID },
+      select: { activeElectionId: true },
+    });
+
+    if (!config?.activeElectionId) {
+      throw new TRPCError({
+        code: "PRECONDITION_FAILED",
+        message: "No active election is set in config.",
+      });
+    }
+
+    const electionId = config.activeElectionId;
+
+    // 2️⃣ Fetch all eligible NIMs for this election, ordered by NIM
+    const eligibles = await ctx.db.eligible.findMany({
+      where: {
+        electionId,
+        eligible: true,
+      },
+      orderBy: { nim: "asc" },
+      select: { nim: true },
+    });
+
+    const eligibleNims = eligibles.map((e) => e.nim);
+
+    // 3️⃣ Fetch matching Users based on eligible NIMs
+    // (Note: Some eligible NIMs might not have a registered User account yet)
+    const users = await ctx.db.user.findMany({
+      where: {
+        nim: { in: eligibleNims },
+      },
+      select: {
+        id: true,
+        nim: true,
+        name: true,
+      },
+    });
+
+    // Create a map to easily look up a user by their NIM
+    const userMap = new Map<string, { id: string; name: string | null }>();
+    for (const u of users) {
+      if (u.nim) {
+        userMap.set(u.nim, u);
+      }
+    }
+
+    const userIds = users.map((u) => u.id);
+
+    // 4️⃣ Fetch Votes for this election to check who has already voted
+    const votes = await ctx.db.vote.findMany({
+      where: {
+        electionId,
+        userId: { in: userIds },
+      },
+      select: { userId: true },
+    });
+
+    // Create a set of user IDs who have voted for O(1) lookups
+    const votedUserIds = new Set(votes.map((v) => v.userId));
+
+    // 5️⃣ Map everything together and attach an index
+    const dptList = eligibles.map((eligible, index) => {
+      const user = userMap.get(eligible.nim);
+      const hasVoted = user ? votedUserIds.has(user.id) : false;
+
+      return {
+        index: index + 1,
+        nim: eligible.nim,
+        name: user?.name ?? "Belum Registrasi / Unknown", // Fallback if no User record exists yet
+        hasVoted,
+        status: hasVoted ? "Have Voted" : "Not Voted",
+      };
+    });
+
+    return dptList;
+  }),
 });
