@@ -67,6 +67,8 @@ export default function NavBar() {
       links.push({ name: "Coblos", href: "/coblos" });
     }
 
+    links.push({name:"DPT", href: "/dpt"})
+
     if (config.data.peraturan) {
       links.push({ name: "Tata Cara", href: "/tata-cara" });
       links.push({ name: "Peraturan", href: "/peraturan" });
