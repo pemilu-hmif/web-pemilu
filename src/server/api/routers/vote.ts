@@ -458,7 +458,7 @@ export const voteRouter = createTRPCRouter({
       return {
         index: index + 1,
         nim: eligible.nim,
-        name: user?.name ?? "Belum Registrasi / Unknown", // Fallback if no User record exists yet
+        name: user?.name ?? "Belum Registrasi", // Fallback if no User record exists yet
         hasVoted,
         status: hasVoted ? "Have Voted" : "Not Voted",
       };

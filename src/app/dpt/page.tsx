@@ -60,7 +60,6 @@ export default function DptPage() {
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   // Data fetching
-  // Assuming listdpt was added to voteRouter
   const dptQuery = api.vote.listdpt.useQuery(undefined, {
     enabled: status === "authenticated",
   });
@@ -120,8 +119,8 @@ export default function DptPage() {
   if (status === "unauthenticated" && !showAuthDialog) {
     return (
       <DialogBox
-        title="Unauthorized"
-        message="You are not authenticated. Please log in to view the DPT."
+        title="Akses Ditolak"
+        message="Anda belum masuk. Silakan masuk untuk melihat DPT."
         onConfirm={() => (window.location.href = "/auth/login")}
         onCancel={() => (window.location.href = "/auth/login")}
       />
@@ -135,18 +134,14 @@ export default function DptPage() {
       {/* Header */}
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">Daftar Pemilih Tetap (DPT)</h1>
-        <p className="text-sm text-white/70">
-          List of eligible voters and their voting status for the current active
-          election.
-        </p>
       </div>
 
       <Card
-        title="Eligible Voters"
-        subtitle="Search by NIM or Name, and filter by voting status."
+        title=""
+        subtitle=""
         right={
           dptQuery.isFetching ? (
-            <span className="text-sm text-white/60">Refreshing…</span>
+            <span className="text-sm text-white/60">Memuat ulang…</span>
           ) : null
         }
       >
@@ -154,7 +149,7 @@ export default function DptPage() {
         <div className="mb-5 grid grid-cols-1 gap-3 md:grid-cols-4">
           <input
             className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-white/40 focus:border-white/25 focus:outline-none md:col-span-2"
-            placeholder="Search NIM or Name…"
+            placeholder="Cari NIM atau Nama…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -164,13 +159,15 @@ export default function DptPage() {
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value as any)}
           >
-            <option value="ALL">All Status</option>
-            <option value="VOTED">Have Voted</option>
-            <option value="NOT_VOTED">Not Voted</option>
+            <option value="ALL">Semua Status</option>
+            <option value="VOTED">Sudah Memilih</option>
+            <option value="NOT_VOTED">Belum Memilih</option>
           </select>
 
           <div className="flex items-center justify-end gap-2">
-            <span className="text-sm text-white/60">Showing: {totalItems}</span>
+            <span className="text-sm text-white/60">
+              Menampilkan: {totalItems}
+            </span>
           </div>
         </div>
 
@@ -186,7 +183,7 @@ export default function DptPage() {
                   <tr>
                     <th className="w-16 px-4 py-3">No.</th>
                     <th className="w-32 px-4 py-3">NIM</th>
-                    <th className="px-4 py-3">Name</th>
+                    <th className="px-4 py-3">Nama</th>
                     <th className="px-4 py-3 text-right">Status</th>
                   </tr>
                 </thead>
@@ -201,7 +198,7 @@ export default function DptPage() {
                       <td className="px-4 py-3">
                         <span
                           className={
-                            row.name === "Belum Registrasi / Unknown"
+                            row.name?.toLowerCase() === "belum registrasi"
                               ? "italic text-white/40"
                               : "text-white"
                           }
@@ -210,7 +207,13 @@ export default function DptPage() {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <Badge ok={row.hasVoted} text={row.status} />
+                        {/* Status diterjemahkan langsung di UI agar tidak perlu merubah API response */}
+                        <Badge
+                          ok={row.hasVoted}
+                          text={
+                            row.hasVoted ? "Sudah Memilih" : "Belum Memilih"
+                          }
+                        />
                       </td>
                     </tr>
                   ))}
@@ -221,7 +224,7 @@ export default function DptPage() {
                         className="px-4 py-8 text-center text-white/60"
                         colSpan={4}
                       >
-                        No matching voters found.
+                        Pemilih tidak ditemukan.
                       </td>
                     </tr>
                   )}
@@ -232,7 +235,9 @@ export default function DptPage() {
             {/* Pagination Controls */}
             <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="text-sm text-white/60">Rows per page:</span>
+                <span className="text-sm text-white/60">
+                  Baris per halaman:
+                </span>
                 <select
                   className="rounded-xl border border-white/10 bg-black/30 px-2 py-1.5 text-sm text-white focus:border-white/25 focus:outline-none"
                   value={pageSize}
@@ -241,16 +246,16 @@ export default function DptPage() {
                   <option value="10">10</option>
                   <option value="25">25</option>
                   <option value="50">50</option>
-                  <option value="ALL">Show All</option>
+                  <option value="ALL">Tampilkan Semua</option>
                 </select>
               </div>
 
               {pageSize !== "ALL" && (
                 <div className="flex items-center gap-4">
                   <div className="text-sm text-white/60">
-                    Page{" "}
+                    Halaman{" "}
                     <span className="font-medium text-white">{page + 1}</span>{" "}
-                    of{" "}
+                    dari{" "}
                     <span className="font-medium text-white">{totalPages}</span>
                   </div>
 
@@ -261,7 +266,7 @@ export default function DptPage() {
                       disabled={!canPrev}
                       onClick={() => setPage((p) => Math.max(0, p - 1))}
                     >
-                      Prev
+                      Sebelumnya
                     </button>
                     <button
                       type="button"
@@ -269,7 +274,7 @@ export default function DptPage() {
                       disabled={!canNext}
                       onClick={() => setPage((p) => p + 1)}
                     >
-                      Next
+                      Selanjutnya
                     </button>
                   </div>
                 </div>
