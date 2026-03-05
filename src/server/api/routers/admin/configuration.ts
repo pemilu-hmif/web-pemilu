@@ -17,6 +17,9 @@ const DEFAULT_CONFIG = {
   countdown: false,
   toStart: null,
   toEnd: null,
+  toReveal: null,
+  kahimResult: null,
+  senatResult: null,
   activeElectionId: null as string | null,
 } as const;
 
@@ -77,6 +80,9 @@ const configUpdateInput = z.object({
   countdown: z.boolean().optional(),
   toStart: z.coerce.date().optional().nullable(),
   toEnd: z.coerce.date().optional().nullable(),
+  toReveal: z.coerce.date().optional().nullable(),
+  kahimResult: z.string().trim().max(500).optional().nullable(),
+  senatResult: z.string().trim().max(500).optional().nullable(),
   // activeElectionId is set via a dedicated mutation below
 });
 
@@ -199,6 +205,7 @@ const configSetCountdownInput = z.object({
   countdown: z.boolean().optional(),
   toStart: z.coerce.date().optional().nullable(),
   toEnd: z.coerce.date().optional().nullable(),
+  toReveal: z.coerce.date().optional().nullable(),
 });
 
 /* ============================ Router =============================== */
@@ -244,7 +251,6 @@ export const adminConfigurationRouter = createTRPCRouter({
       .mutation(async ({ ctx, input }) => {
         const electionId = await requireElectionId(ctx, input.electionId);
 
-        // prefer compound unique
         const exists =
           (await ctx.db.eligible
             .findUnique({
@@ -280,7 +286,6 @@ export const adminConfigurationRouter = createTRPCRouter({
           });
         }
 
-        // dup check must be scoped to the SAME election
         if (input.nim && input.nim !== found.nim) {
           const dup =
             (await ctx.db.eligible
@@ -352,12 +357,47 @@ export const adminConfigurationRouter = createTRPCRouter({
   /* ----------------------------- Config ------------------------------ */
   config: createTRPCRouter({
     get: protectedProcedure.query(async ({ ctx }) => {
-      return ctx.db.config.upsert({
+      const config = await ctx.db.config.upsert({
         where: { id: 1 },
         create: { ...DEFAULT_CONFIG },
         update: {},
         include: { activeElection: true },
       });
+
+      // SECURE THE RESULTS: Strip fields from standard fetch if not authorized
+      const isAdmin = ctx.session.user.role === "ADMIN";
+      const now = new Date();
+      const isRevealed = config.toReveal && now >= config.toReveal;
+
+      if (!isAdmin && !isRevealed) {
+        config.kahimResult = null;
+        config.senatResult = null;
+      }
+
+      return config;
+    }),
+
+    // NEW ENDPOINT TO FETCH RESULTS SAFELY
+    getResults: protectedProcedure.query(async ({ ctx }) => {
+      const config = await ctx.db.config.findUnique({ where: { id: 1 } });
+      if (!config) throw new TRPCError({ code: "NOT_FOUND" });
+
+      const isAdmin = ctx.session.user.role === "ADMIN";
+      const now = new Date();
+      const isRevealed = config.toReveal && now >= config.toReveal;
+
+      // Error boundary validating datetime limit to prevent early access
+      if (!isAdmin && !isRevealed) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Belum waktunya pengumuman hasil pemilu! Sabar ya :)",
+        });
+      }
+
+      return {
+        kahimResult: config.kahimResult,
+        senatResult: config.senatResult,
+      };
     }),
 
     update: adminProcedure
@@ -374,7 +414,6 @@ export const adminConfigurationRouter = createTRPCRouter({
     setActiveElection: adminProcedure
       .input(configSetActiveElectionInput)
       .mutation(async ({ ctx, input }) => {
-        // optional validation: election must exist if setting
         if (input.electionId) {
           const exists = await ctx.db.election.findUnique({
             where: { id: input.electionId },
@@ -392,7 +431,6 @@ export const adminConfigurationRouter = createTRPCRouter({
           update: { activeElectionId: input.electionId },
           include: { activeElection: true },
         });
-
       }),
 
     setCountdown: adminProcedure
@@ -405,7 +443,7 @@ export const adminConfigurationRouter = createTRPCRouter({
           include: { activeElection: true },
         });
       }),
-   }),
+  }),
 
   /* -------------------------- Calon Detail --------------------------- */
   calonDetail: createTRPCRouter({
@@ -626,8 +664,6 @@ export const adminConfigurationRouter = createTRPCRouter({
         }
         return ctx.db.timeline.delete({ where: { id: input.id } });
       }),
-
-    // update/delete can stay as-is for minimal diff
   }),
 
   /* ---------------------------- Election ----------------------------- */
@@ -664,10 +700,9 @@ export const adminConfigurationRouter = createTRPCRouter({
       if (!row.activeElectionId) {
         throw new TRPCError({
           code: "PRECONDITION_FAILED",
-
           message: "No active election has been assigned in the global config.",
         });
-      };
+      }
 
       return await ctx.db.election.findFirst({
         where: {
@@ -741,7 +776,6 @@ export const adminConfigurationRouter = createTRPCRouter({
             message: "Election not found.",
           });
 
-        // If this election is currently active in config, clear it first
         const cfg = await ctx.db.config.findUnique({ where: { id: 1 } });
         if (cfg?.activeElectionId === input.id) {
           await ctx.db.config.update({
@@ -753,7 +787,6 @@ export const adminConfigurationRouter = createTRPCRouter({
         return ctx.db.election.delete({ where: { id: input.id } });
       }),
 
-    // Add calon to election
     addCalon: adminProcedure
       .input(electionCalonAddInput)
       .mutation(async ({ ctx, input }) => {
@@ -781,7 +814,6 @@ export const adminConfigurationRouter = createTRPCRouter({
             },
           });
         } catch (e: any) {
-          // unique constraint
           throw new TRPCError({
             code: "CONFLICT",
             message: "Calon already added to this election.",
@@ -789,7 +821,6 @@ export const adminConfigurationRouter = createTRPCRouter({
         }
       }),
 
-    // Remove calon from election
     removeCalon: adminProcedure
       .input(electionCalonRemoveInput)
       .mutation(async ({ ctx, input }) => {

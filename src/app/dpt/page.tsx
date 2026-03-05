@@ -8,6 +8,7 @@ import LoadingSpinner from "~/components/LoadingSpinner";
 
 /* ---------------- Small UI helpers ---------------- */
 
+// Updated to match AdminLaporan card style (White bg, shadow-sm, gray borders)
 function Card(props: {
   title: string;
   subtitle?: string;
@@ -15,12 +16,12 @@ function Card(props: {
   right?: React.ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+    <section className="rounded-2xl border bg-white p-5 shadow-sm">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold text-white">{props.title}</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{props.title}</h2>
           {props.subtitle && (
-            <p className="mt-1 text-sm text-white/70">{props.subtitle}</p>
+            <p className="mt-1 text-sm text-gray-500">{props.subtitle}</p>
           )}
         </div>
         {props.right}
@@ -32,7 +33,7 @@ function Card(props: {
 
 function ErrorBox({ message }: { message: string }) {
   return (
-    <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-sm text-red-200">
+    <div className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
       {message}
     </div>
   );
@@ -44,8 +45,8 @@ function Badge({ ok, text }: { ok: boolean; text: string }) {
       className={[
         "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium",
         ok
-          ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
-          : "border-white/15 bg-white/5 text-white/70",
+          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          : "border-gray-200 bg-gray-100 text-gray-600",
       ].join(" ")}
     >
       {text}
@@ -81,13 +82,11 @@ export default function DptPage() {
   const filteredDpt = useMemo(() => {
     const data = dptQuery.data ?? [];
     return data.filter((item) => {
-      // Search matching (Nim or Name)
       const query = search.toLowerCase().trim();
       const matchSearch =
         item.nim.toLowerCase().includes(query) ||
         item.name?.toLowerCase().includes(query);
 
-      // Status matching
       const matchStatus =
         filterStatus === "ALL"
           ? true
@@ -130,159 +129,177 @@ export default function DptPage() {
   /* ================= RENDER ================= */
 
   return (
-    <div className="mx-auto max-w-6xl space-y-6 p-6 pt-40 text-white">
-      {/* Header */}
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Daftar Pemilih Tetap (DPT)</h1>
-      </div>
-
-      <Card
-        title=""
-        subtitle=""
-        right={
-          dptQuery.isFetching ? (
-            <span className="text-sm text-white/60">Memuat ulang…</span>
-          ) : null
-        }
-      >
-        {/* Controls / Filters */}
-        <div className="mb-5 grid grid-cols-1 gap-3 md:grid-cols-4">
-          <input
-            className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white placeholder:text-white/40 focus:border-white/25 focus:outline-none md:col-span-2"
-            placeholder="Cari NIM atau Nama…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <select
-            className="rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-white/25 focus:outline-none"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value as any)}
-          >
-            <option value="ALL">Semua Status</option>
-            <option value="VOTED">Sudah Memilih</option>
-            <option value="NOT_VOTED">Belum Memilih</option>
-          </select>
-
-          <div className="flex items-center justify-end gap-2">
-            <span className="text-sm text-white/60">
-              Menampilkan: {totalItems}
-            </span>
+    <div className="mb-24 mt-32 flex flex-col items-center pt-[80px]">
+      <div className="container mx-auto flex max-w-6xl flex-col gap-16 p-4">
+        {/* Title updated to use dark text for visibility against light background */}
+        <div className="relative flex w-full flex-col items-center justify-center text-center text-white">
+          <div className="relative flex gap-1">
+            <h1 className="-rotate-12 font-sloop text-7xl text-white sm:text-9xl">
+              D
+            </h1>
+            <h1 className="font-playfair text-6xl sm:text-8xl">aftar</h1>
           </div>
+          <h1 className="mt-2 font-neuething text-5xl font-bold tracking-wide sm:text-7xl">
+            PEMILIH TETAP
+          </h1>
         </div>
 
-        {/* List */}
-        {dptQuery.isLoading && <LoadingSpinner />}
-        {dptQuery.error && <ErrorBox message={dptQuery.error.message} />}
+        <Card
+          title="Rekap Data Pemilih"
+          subtitle="Daftar seluruh mahasiswa yang terdaftar dalam DPT Pemilu HMIF."
+          right={
+            dptQuery.isFetching ? (
+              <span className="animate-pulse text-sm text-gray-400">
+                Memuat ulang…
+              </span>
+            ) : null
+          }
+        >
+          {/* Controls / Filters - Switched to White theme inputs */}
+          <div className="mb-5 grid grid-cols-1 gap-3 md:grid-cols-4">
+            <input
+              className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 md:col-span-2"
+              placeholder="Cari NIM atau Nama…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
 
-        {!dptQuery.isLoading && !dptQuery.error && (
-          <>
-            <div className="overflow-hidden rounded-2xl border border-white/10">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-white/5 text-white/70">
-                  <tr>
-                    <th className="w-16 px-4 py-3">No.</th>
-                    <th className="w-32 px-4 py-3">NIM</th>
-                    <th className="px-4 py-3">Nama</th>
-                    <th className="px-4 py-3 text-right">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {paginatedDpt.map((row) => (
-                    <tr
-                      key={row.nim}
-                      className="bg-black/20 transition-colors hover:bg-white/5"
-                    >
-                      <td className="px-4 py-3 text-white/60">{row.index}</td>
-                      <td className="px-4 py-3 font-medium">{row.nim}</td>
-                      <td className="px-4 py-3">
-                        <span
-                          className={
-                            row.name?.toLowerCase() === "belum registrasi"
-                              ? "italic text-white/40"
-                              : "text-white"
-                          }
-                        >
-                          {row.name}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        {/* Status diterjemahkan langsung di UI agar tidak perlu merubah API response */}
-                        <Badge
-                          ok={row.hasVoted}
-                          text={
-                            row.hasVoted ? "Sudah Memilih" : "Belum Memilih"
-                          }
-                        />
-                      </td>
-                    </tr>
-                  ))}
+            <select
+              className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-gray-900 focus:border-blue-500 focus:outline-none"
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value as any)}
+            >
+              <option value="ALL">Semua Status</option>
+              <option value="VOTED">Sudah Memilih</option>
+              <option value="NOT_VOTED">Belum Memilih</option>
+            </select>
 
-                  {paginatedDpt.length === 0 && (
-                    <tr className="bg-black/20">
-                      <td
-                        className="px-4 py-8 text-center text-white/60"
-                        colSpan={4}
-                      >
-                        Pemilih tidak ditemukan.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+            <div className="flex items-center justify-end gap-2">
+              <span className="text-sm font-medium text-gray-500">
+                Total: {totalItems}
+              </span>
             </div>
+          </div>
 
-            {/* Pagination Controls */}
-            <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="text-sm text-white/60">
-                  Baris per halaman:
-                </span>
-                <select
-                  className="rounded-xl border border-white/10 bg-black/30 px-2 py-1.5 text-sm text-white focus:border-white/25 focus:outline-none"
-                  value={pageSize}
-                  onChange={(e) => setPageSize(e.target.value as any)}
-                >
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="ALL">Tampilkan Semua</option>
-                </select>
+          {/* List */}
+          {dptQuery.isLoading && <LoadingSpinner />}
+          {dptQuery.error && <ErrorBox message={dptQuery.error.message} />}
+
+          {!dptQuery.isLoading && !dptQuery.error && (
+            <>
+              {/* TABLE: Styled exactly like Laporan Page (White theme, horizontal scroll) */}
+              <div className="w-full overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+                <table className="w-full min-w-[600px] text-left text-sm">
+                  <thead className="border-b bg-gray-50 text-gray-600">
+                    <tr>
+                      <th className="w-16 px-4 py-3">No.</th>
+                      <th className="w-32 px-4 py-3">NIM</th>
+                      <th className="px-4 py-3">Nama</th>
+                      <th className="px-4 py-3 text-right">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100 bg-white">
+                    {paginatedDpt.map((row) => (
+                      <tr
+                        key={row.nim}
+                        className="transition-colors hover:bg-gray-50"
+                      >
+                        <td className="px-4 py-3 text-gray-400">{row.index}</td>
+                        <td className="px-4 py-3 font-medium text-gray-900">
+                          {row.nim}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span
+                            className={
+                              row.name?.toLowerCase() === "belum registrasi"
+                                ? "italic text-gray-300"
+                                : "text-gray-700"
+                            }
+                          >
+                            {row.name}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <Badge
+                            ok={row.hasVoted}
+                            text={
+                              row.hasVoted ? "Sudah Memilih" : "Belum Memilih"
+                            }
+                          />
+                        </td>
+                      </tr>
+                    ))}
+
+                    {paginatedDpt.length === 0 && (
+                      <tr>
+                        <td
+                          className="bg-white px-4 py-12 text-center text-gray-400"
+                          colSpan={4}
+                        >
+                          Pemilih tidak ditemukan.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
 
-              {pageSize !== "ALL" && (
-                <div className="flex items-center gap-4">
-                  <div className="text-sm text-white/60">
-                    Halaman{" "}
-                    <span className="font-medium text-white">{page + 1}</span>{" "}
-                    dari{" "}
-                    <span className="font-medium text-white">{totalPages}</span>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
-                      disabled={!canPrev}
-                      onClick={() => setPage((p) => Math.max(0, p - 1))}
-                    >
-                      Sebelumnya
-                    </button>
-                    <button
-                      type="button"
-                      className="rounded-xl border border-white/15 bg-white/5 px-3 py-1.5 text-xs transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
-                      disabled={!canNext}
-                      onClick={() => setPage((p) => p + 1)}
-                    >
-                      Selanjutnya
-                    </button>
-                  </div>
+              {/* Pagination Controls - White Theme */}
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t pt-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-gray-500">
+                    Baris per halaman:
+                  </span>
+                  <select
+                    className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-sm text-gray-700 focus:outline-none"
+                    value={pageSize}
+                    onChange={(e) => setPageSize(e.target.value as any)}
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="ALL">Semua</option>
+                  </select>
                 </div>
-              )}
-            </div>
-          </>
-        )}
-      </Card>
+
+                {pageSize !== "ALL" && (
+                  <div className="flex items-center gap-4">
+                    <div className="text-sm text-gray-500">
+                      Halaman{" "}
+                      <span className="font-semibold text-gray-900">
+                        {page + 1}
+                      </span>{" "}
+                      dari{" "}
+                      <span className="font-semibold text-gray-900">
+                        {totalPages}
+                      </span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={!canPrev}
+                        onClick={() => setPage((p) => Math.max(0, p - 1))}
+                      >
+                        Sebelumnya
+                      </button>
+                      <button
+                        type="button"
+                        className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={!canNext}
+                        onClick={() => setPage((p) => p + 1)}
+                      >
+                        Selanjutnya
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </Card>
+      </div>
     </div>
   );
 }

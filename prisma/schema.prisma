@@ -73,6 +73,9 @@ model Config {
   countdown        Boolean?
   toStart          DateTime?
   toEnd            DateTime?
+  toReveal         DateTime?
+  kahimResult      String?
+  senatResult      String?
   activeElectionId String?
   activeElection   Election? @relation("ActiveElection", fields: [activeElectionId], references: [id])
 }

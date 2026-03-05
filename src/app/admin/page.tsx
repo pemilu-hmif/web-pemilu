@@ -176,9 +176,13 @@ export default function Page() {
     | "CALON"
     | "TIMELINE"
     | "ELECTIONS"
-    | "COUNTDOWN";
+    | "COUNTDOWN"
+    | "RESULTS";
   const [activeTab, setActiveTab] = useState<AdminTab>("FLAGS");
-
+  const [resultsForm, setResultsForm] = useState({
+    kahimResult: "",
+    senatResult: "",
+  });
   const isAuthed = status === "authenticated";
   const isAdmin = isAuthed && session?.user?.role === "ADMIN";
 
@@ -579,9 +583,11 @@ export default function Page() {
   const [countdownForm, setCountdownForm] = useState<{
     toStart: string;
     toEnd: string;
+    toReveal: string;
   }>({
     toStart: "",
     toEnd: "",
+    toReveal: "",
   });
 
   useEffect(() => {
@@ -600,6 +606,12 @@ export default function Page() {
     setCountdownForm({
       toStart: formatToGMT7Local(config.data.toStart),
       toEnd: formatToGMT7Local(config.data.toEnd),
+      toReveal: formatToGMT7Local(config.data.toReveal),
+    });
+
+    setResultsForm({
+      kahimResult: config.data.kahimResult ?? "",
+      senatResult: config.data.senatResult ?? "",
     });
   }, [config.data]);
   /* ================= AUTH UI (render) ================= */
@@ -740,6 +752,10 @@ export default function Page() {
             id: "COUNTDOWN",
             label: "Countdown",
             badge: String(config.data?.countdown ? 1 : 0),
+          },
+          {
+            id: "RESULTS",
+            label: "Results",
           },
         ]}
       />
@@ -2135,6 +2151,22 @@ export default function Page() {
                     }
                   />
                 </div>
+                <div>
+                  <label className="mb-1 block text-xs text-white/60">
+                    toReveal (Pengumuman)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-white/25 focus:outline-none"
+                    value={countdownForm.toReveal}
+                    onChange={(e) =>
+                      setCountdownForm({
+                        ...countdownForm,
+                        toReveal: e.target.value,
+                      })
+                    }
+                  />
+                </div>
               </div>
 
               {/* Save Button */}
@@ -2151,6 +2183,9 @@ export default function Page() {
                       toEnd: countdownForm.toEnd
                         ? new Date(countdownForm.toEnd)
                         : null,
+                      toReveal: countdownForm.toReveal
+                        ? new Date(countdownForm.toReveal)
+                        : null,
                     })
                   }
                 >
@@ -2163,8 +2198,112 @@ export default function Page() {
                 Current:
                 <div>toStart: {String(config.data.toStart ?? "null")}</div>
                 <div>toEnd: {String(config.data.toEnd ?? "null")}</div>
+                <div>toReveal: {String(config.data.toReveal ?? "null")}</div>
               </div>
             </>
+          )}
+        </Card>
+      )}
+      {activeTab === "RESULTS" && (
+        <Card
+          title="Election Results"
+          subtitle="Provide image URLs for the final Kahim and Senat results. These will be visible to users after the toReveal date."
+          right={
+            updateConfig.isPending ? (
+              <span className="text-sm text-white/60">Saving…</span>
+            ) : null
+          }
+        >
+          {config.isLoading && <LoadingSpinner />}
+          {config.error && <ErrorBox message={config.error.message} />}
+
+          {config.data && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Kahim Result */}
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <label className="mb-1 block text-xs text-white/60">
+                  Kahim Result (Image URL)
+                </label>
+                <input
+                  className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-white/25 focus:outline-none"
+                  placeholder="/assets/results/kahim.png or https://..."
+                  value={resultsForm.kahimResult}
+                  onChange={(e) =>
+                    setResultsForm({
+                      ...resultsForm,
+                      kahimResult: e.target.value,
+                    })
+                  }
+                />
+                {resultsForm.kahimResult.trim() && (
+                  <div className="mt-3 overflow-hidden rounded-xl border border-white/10 bg-black/30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={resultsForm.kahimResult}
+                      alt="Kahim Result Preview"
+                      className="h-48 w-full bg-black/50 object-contain"
+                      onError={(e) => {
+                        (e.currentTarget.style.display as any) = "none";
+                      }}
+                    />
+                    <div className="px-3 py-2 text-xs text-white/60">
+                      Kahim Image Preview
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Senat Result */}
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <label className="mb-1 block text-xs text-white/60">
+                  Senat Result (Image URL)
+                </label>
+                <input
+                  className="w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-white focus:border-white/25 focus:outline-none"
+                  placeholder="/assets/results/senat.png or https://..."
+                  value={resultsForm.senatResult}
+                  onChange={(e) =>
+                    setResultsForm({
+                      ...resultsForm,
+                      senatResult: e.target.value,
+                    })
+                  }
+                />
+                {resultsForm.senatResult.trim() && (
+                  <div className="mt-3 overflow-hidden rounded-xl border border-white/10 bg-black/30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={resultsForm.senatResult}
+                      alt="Senat Result Preview"
+                      className="h-48 w-full bg-black/50 object-contain"
+                      onError={(e) => {
+                        (e.currentTarget.style.display as any) = "none";
+                      }}
+                    />
+                    <div className="px-3 py-2 text-xs text-white/60">
+                      Senat Image Preview
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Save Button */}
+              <div className="mt-2 md:col-span-2">
+                <button
+                  type="button"
+                  disabled={updateConfig.isPending}
+                  className="rounded-xl border border-emerald-400/25 bg-emerald-500/10 px-5 py-2 text-sm transition hover:bg-emerald-500/15 disabled:opacity-60"
+                  onClick={() =>
+                    updateConfig.mutate({
+                      kahimResult: resultsForm.kahimResult.trim() || null,
+                      senatResult: resultsForm.senatResult.trim() || null,
+                    })
+                  }
+                >
+                  Save Results
+                </button>
+              </div>
+            </div>
           )}
         </Card>
       )}
