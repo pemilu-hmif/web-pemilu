@@ -39,9 +39,11 @@ below inside the WSL terminal: https://learn.microsoft.com/windows/wsl/install
    cd web-pemilu
    npm install
    ```
-2. Copy `.env.example` to `.env` and fill it in. Ask the PM for the Google OAuth values.
-   Never commit `.env`.
-3. Start the local database, create the tables, and fill them with test data:
+2. Copy `.env.example` to `.env`. The values in it work for local development as they are.
+   Google login only works with the real Google OAuth values; ask the PM for them if you need it.
+   Admin login works without them. Never commit `.env`.
+3. Start the local database, create the tables, and fill them with test data.
+   `start-database.sh` asks whether to generate a random password; answer `y`.
    ```bash
    ./start-database.sh
    npm run db:push
