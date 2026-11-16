@@ -44,8 +44,8 @@ async function main() {
 
   await db.election.upsert({
     where: { id: ELECTION_ID },
-    update: { isActive: true },
-    create: { id: ELECTION_ID, name: "Pemilu HMIF (data uji)", isActive: true },
+    update: { name: "Pemilu HMIF", isActive: true },
+    create: { id: ELECTION_ID, name: "Pemilu HMIF", isActive: true },
   });
 
   for (const c of calons) {
