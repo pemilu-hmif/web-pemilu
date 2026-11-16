@@ -6,7 +6,6 @@ generator client {
   output   = "../generated/prisma"
 }
 
-// The connection URL is in prisma.config.ts.
 datasource db {
   provider = "postgresql"
 }

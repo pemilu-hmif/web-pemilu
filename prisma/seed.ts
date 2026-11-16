@@ -1,6 +1,3 @@
-// Fake data for local development: a dev admin, one active election, candidates and a timeline.
-// Idempotent: running it again resets these rows and leaves every other row alone.
-// Run: npm run db:seed   (local database only)
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import { PrismaPg } from "@prisma/adapter-pg";
@@ -14,12 +11,10 @@ if (!/@(127\.0\.0\.1|localhost)(:\d+)?\//.test(url)) {
 
 const adminId = process.env.SEED_ADMIN_ID ?? "admin";
 const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "admin-dev-only";
-// Optional: your own NIM, so you can vote locally with your ITB Google account.
 const voterNim = process.env.SEED_VOTER_NIM;
 
 const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
 
-// The admin API validates election IDs as cuid, so the fixed ID must look like one.
 const ELECTION_ID = "cseedelection000000000001";
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -44,7 +39,6 @@ async function main() {
 
   await db.election.upsert({
     where: { id: ELECTION_ID },
-    // The home page shows "Pemilu HMIF <name>", so the name is only the year.
     update: { name: "2027", isActive: true },
     create: { id: ELECTION_ID, name: "2027", isActive: true },
   });
@@ -78,7 +72,6 @@ async function main() {
     ],
   });
 
-  // Every page visible and voting open now, results revealed in 5 days.
   const config = {
     timeline: true,
     calon: true,

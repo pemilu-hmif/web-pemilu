@@ -5,8 +5,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Moved from the old tailwind.config.ts. */
-/* inline: utilities read the next/font variables, which are set on <body>, not :root. */
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-playfair: var(--font-playfair-face), serif;
@@ -41,7 +39,6 @@
   }
 }
 
-/* Tailwind 4 changed these defaults; keep the v3 look. */
 @layer base {
   *,
   ::after,

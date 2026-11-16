@@ -51,8 +51,8 @@ yarn-error.log*
 /helperScript/dbConfig.py
 /helperScript/DPT1.xlsx
 /helperScript/DPT2.xlsx
-# Prisma client, made by prisma generate
+# prisma
 /generated/
 
-# devenv state: Postgres data, npm cache, logs
+# devenv
 /.devenv/
