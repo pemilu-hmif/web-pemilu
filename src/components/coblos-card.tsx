@@ -34,7 +34,7 @@ function CoblosCard({ number, name, imageSrc, angkatan }: CoblosCardProps) {
                             objectFit="cover"
                             className="rounded-lg"
                         />
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                        <div className="absolute inset-0 rounded-lg bg-linear-to-t from-black/70 via-transparent to-transparent"></div>
                     </>
                 ) : null}
             </div>

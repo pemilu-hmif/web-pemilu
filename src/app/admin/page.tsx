@@ -3,7 +3,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
-import { CalonType } from "@prisma/client";
+import { CalonType } from "../../../generated/prisma";
 import { FeatureFlagsCard } from "~/components/Flags";
 import DialogBox from "~/components/DialogBox";
 import LoadingSpinner from "~/components/LoadingSpinner";

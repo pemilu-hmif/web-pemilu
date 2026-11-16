@@ -41,11 +41,18 @@ below inside the WSL terminal: https://learn.microsoft.com/windows/wsl/install
    ```
 2. Copy `.env.example` to `.env` and fill it in. Ask the PM for the Google OAuth values.
    Never commit `.env`.
-3. Start the local database and create the tables:
+3. Start the local database, create the tables, and fill them with test data:
    ```bash
    ./start-database.sh
    npm run db:push
+   npm run db:seed
    ```
+   The seed adds fake candidates, a timeline, open voting, and a dev admin account.
+   Voting opens 1 day before the moment you run it, closes 2 days after, and results show
+   5 days after. Run `npm run db:seed` again any time to reset the countdown from that moment.
+   You can also change the times on the admin page.
+   Log in at http://localhost:3000/admin-login with `SEED_ADMIN_ID` and `SEED_ADMIN_PASSWORD`
+   from your `.env`. It only runs against a database on `localhost`.
 4. Start the website:
    ```bash
    npm run dev

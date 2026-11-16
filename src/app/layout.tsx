@@ -8,7 +8,7 @@ import ClientWrapper from "./ClientWrapper";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-playfair-face",
   style: "italic",
 });
 
@@ -40,17 +40,17 @@ const satoshi = localFont({
       style: "normal",
     },
   ],
-  variable: "--font-satoshi",
+  variable: "--font-satoshi-face",
 });
 
 const sloop = localFont({
   src: "../fonts/sloop.ttf",
-  variable: "--font-sloop",
+  variable: "--font-sloop-face",
 });
 
 const neuething = localFont({
   src: "../fonts/neuething.otf",
-  variable: "--font-neuething",
+  variable: "--font-neuething-face",
 });
 
 export const metadata: Metadata = {

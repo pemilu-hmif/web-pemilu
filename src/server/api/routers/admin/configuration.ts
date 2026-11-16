@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { CalonType } from "@prisma/client";
+import { CalonType } from "../../../../../generated/prisma";
 
 const DEFAULT_CONFIG = {
   id: 1,

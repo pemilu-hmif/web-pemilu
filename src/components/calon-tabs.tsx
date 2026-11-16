@@ -80,7 +80,7 @@ export default function CalonTabs({ tabsData, activeId, basePath }: Props) {
           <div className="flex flex-col gap-6 text-white">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-6">
               <h2 className="font-neuething text-2xl sm:text-3xl">Visi</h2>
-              <p className="mt-2 break-words text-base leading-relaxed sm:text-xl">
+              <p className="mt-2 wrap-break-word text-base leading-relaxed sm:text-xl">
                 &quot;{active.visi}&quot;
               </p>
             </div>
@@ -89,7 +89,7 @@ export default function CalonTabs({ tabsData, activeId, basePath }: Props) {
               <h2 className="font-neuething text-2xl sm:text-3xl">Misi</h2>
               <ol className="mt-2 list-inside list-decimal space-y-2 text-base leading-relaxed sm:text-xl">
                 {active.misi.map((m, i) => (
-                  <li key={`${active.id}-misi-${i}`} className="break-words">
+                  <li key={`${active.id}-misi-${i}`} className="wrap-break-word">
                     {m}
                   </li>
                 ))}
