@@ -19,7 +19,8 @@ const voterNim = process.env.SEED_VOTER_NIM;
 
 const db = new PrismaClient({ adapter: new PrismaPg({ connectionString: url }) });
 
-const ELECTION_ID = "seed-election";
+// The admin API validates election IDs as cuid, so the fixed ID must look like one.
+const ELECTION_ID = "cseedelection000000000001";
 const DAY = 24 * 60 * 60 * 1000;
 
 const calons = [
