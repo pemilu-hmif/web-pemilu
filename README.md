@@ -73,3 +73,7 @@ below inside the WSL terminal: https://learn.microsoft.com/windows/wsl/install
 ## Contributing
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before your first branch.
+
+## Team
+
+- Nathanael Rachmat, PM, @nanaatan
