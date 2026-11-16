@@ -48,6 +48,9 @@ below inside the WSL terminal: https://learn.microsoft.com/windows/wsl/install
    npm run db:seed
    ```
    The seed adds fake candidates, a timeline, open voting, and a dev admin account.
+   Voting opens 1 day before the moment you run it, closes 2 days after, and results show
+   5 days after. Run `npm run db:seed` again any time to reset the countdown from that moment.
+   You can also change the times on the admin page.
    Log in at http://localhost:3000/admin-login with `SEED_ADMIN_ID` and `SEED_ADMIN_PASSWORD`
    from your `.env`. It only runs against a database on `localhost`.
 4. Start the website:
