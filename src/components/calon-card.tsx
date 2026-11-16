@@ -39,7 +39,7 @@ function CalonCard({
           className="rounded-lg"
         />
         {/* Overlay for Text */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent p-4 flex flex-col items-center">
+        <div className="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/60 via-black/40 to-transparent p-4 flex flex-col items-center">
           <h2 className="text-center text-2xl font-bold text-white">{name}</h2>
           <p className="text-center text-lg text-gray-300">{angkatan}</p>
           {variant === "home" ? (

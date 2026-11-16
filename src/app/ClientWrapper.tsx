@@ -18,7 +18,7 @@ export default function ClientWrapper({
     <SessionProvider>
       <div className="flex flex-col min-h-screen">
         {!isLoginPage && !isError && <NavBar />}
-        <main className="flex-grow">
+        <main className="grow">
           {children}
         </main>
         {!isLoginPage && !isError && <Footer />}

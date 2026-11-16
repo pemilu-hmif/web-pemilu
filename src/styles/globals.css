@@ -1,6 +1,60 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Moved from the old tailwind.config.ts. */
+/* inline: utilities read the next/font variables, which are set on <body>, not :root. */
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-playfair: var(--font-playfair-face), serif;
+  --font-sloop: var(--font-sloop-face), cursive;
+  --font-satoshi: var(--font-satoshi-face), sans-serif;
+  --font-neuething: var(--font-neuething-face), sans-serif;
+
+  --shadow-custom: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/* Tailwind 4 changed these defaults; keep the v3 look. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @layer components {
   .text-shadow {
@@ -12,33 +66,35 @@
   }
 }
 
-body {
-  background-color: #156e3c;
-  margin: 0;
-  min-height: 100vh;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("/bg-desktop.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center 45%;
-  z-index: -1;
-  pointer-events: none;
-}
-
-@media (max-aspect-ratio: 3/4) and (min-width: 768px) {
-  body::before {
-    background-position: center top;
+@layer utilities {
+  body {
+    background-color: #156e3c;
+    margin: 0;
+    min-height: 100vh;
   }
-}
 
-@media (max-width: 768px) {
   body::before {
-    background-image: url("/bg-mobile.svg");
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('/bg-desktop.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center 45%;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @media (max-aspect-ratio: 3/4) and (min-width: 768px) {
+    body::before {
+      background-position: center top;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body::before {
+      background-image: url('/bg-mobile.svg');
+    }
   }
 }
 
