@@ -17,7 +17,7 @@ import Link from "next/link";
 import CalonCard from "~/components/calon-card";
 
 import { api } from "~/trpc/react";
-import { CalonType } from "@prisma/client";
+import { CalonType } from "../../generated/prisma";
 import Countdown from "react-countdown";
 
 const formatTimelineDate = (from: Date, to: Date | null) => {

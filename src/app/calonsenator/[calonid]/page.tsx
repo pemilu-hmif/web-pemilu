@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { CalonType } from "@prisma/client";
+import { CalonType } from "../../../../generated/prisma";
 import { api } from "~/trpc/react";
 import LoadingSpinner from "~/components/LoadingSpinner";
 import CalonTabs from "~/components/calon-tabs";
