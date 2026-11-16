@@ -44,8 +44,9 @@ async function main() {
 
   await db.election.upsert({
     where: { id: ELECTION_ID },
-    update: { name: "Pemilu HMIF", isActive: true },
-    create: { id: ELECTION_ID, name: "Pemilu HMIF", isActive: true },
+    // The home page shows "Pemilu HMIF <name>", so the name is only the year.
+    update: { name: "2027", isActive: true },
+    create: { id: ELECTION_ID, name: "2027", isActive: true },
   });
 
   for (const c of calons) {
