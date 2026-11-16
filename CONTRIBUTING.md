@@ -14,7 +14,7 @@ Always branch from `main` and open pull requests into `main`, never into `produc
 
 ## Workflow
 
-1. Pick an issue and assign it to yourself. Work only on issues assigned to you.
+1. Work only on issues the PM assigned to you.
    No issue for what you want to do? Ask the PM first.
 2. Update `main` and create a branch from it:
    ```bash
