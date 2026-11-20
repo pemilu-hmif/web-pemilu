@@ -80,3 +80,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before your first branch.
 
 - Nathanael Rachmat, PM, @nanaatan
 - Rionaldo Casey Pandhitha, Frontend and Backend, @aseyy
+- Muhammad Nur Fikri Hariyawan, Frontend and Operator, @hehey304
