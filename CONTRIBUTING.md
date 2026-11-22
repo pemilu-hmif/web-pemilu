@@ -33,6 +33,10 @@ You cannot push to `main` directly. Every change goes through a pull request.
 
 `<type>/<issue number>-<short-description>`, for example `fix/31-navbar-contrast`.
 
+## Issue titles
+
+Say what is wrong in one short line, starting with the thing that is wrong. Fill in the issue template.
+
 ## Commit messages
 
 `<type>: <what changed>`, in English, lower case, for example `fix: navbar text contrast on dark mode`.
