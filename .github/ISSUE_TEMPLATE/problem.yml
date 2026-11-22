@@ -1,0 +1,31 @@
+name: Problem
+description: Something is broken, unclear, or out of date.
+title: ""
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What did you do, and what happened?
+      description: Paste the exact error text.
+      placeholder: "1. Ran npm run dev. 2. Opened /admin-login. 3. Login failed with an error."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where
+      description: The file, page, or command.
+      placeholder: ".env.example / /admin-login / npm run dev"
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: How we know it is fixed.
