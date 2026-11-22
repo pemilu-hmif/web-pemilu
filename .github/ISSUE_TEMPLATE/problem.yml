@@ -1,6 +1,5 @@
 name: Problem
 description: Something is broken, unclear, or out of date.
-title: ""
 body:
   - type: textarea
     id: what
